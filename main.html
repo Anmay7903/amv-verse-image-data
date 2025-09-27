@@ -36,6 +36,46 @@
             color: var(--text-color);
             line-height: 1.6;
         }
+ ::selection {
+    background: rgba(255, 0, 0, 0.452);
+    color: white;
+    /* optional: makes the text readable */
+}
+
+/* Remove all tap highlights on mobile devices */
+button,
+button.filter-btn,
+[role="button"],
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    outline: none !important;
+}
+        /* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--surface-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--secondary-color);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
 
         .no-double-tap {
             touch-action: manipulation;
@@ -323,5 +363,6 @@
         🔄 New version available — Refresh
     </button>
 </div>
+
 
 </html>
