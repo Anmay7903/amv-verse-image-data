@@ -1,4 +1,12 @@
 // Sample image data - replace with your actual data
+const contentCards = [
+
+
+
+
+
+    
+];
 const images = [
     "image1.jpg",
     "image2.jpg",
@@ -18,6 +26,7 @@ const images = [
 
     
 ];
+
 
 
 
