@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Lost in the 𝙰𝙼𝚅 𝚅𝙴𝚁𝚂𝙴</title>
+    <meta name="description"
+        content="AMV VERSE: Stream & download HD Anime, Donghua, Marvel, & blockbuster movies. Watch Solo Leveling, Jujutsu Kaisen, Soul Land, Avengers, and Your Name. Enjoy Hindi DUB, English SUB, and multiple audio options. Your ultimate source for action, fantasy, and romance.">
+    <!-- Tailwind CSS for styling the UI overlay -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://ik.imagekit.io/qoobmximx/1755723758120.png?updatedAt=1755723796692"
+        type="png/image/x-icon">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="icon" href="https://ik.imagekit.io/qoobmximx/1755723758120.png?updatedAt=1755723796692"
+        type="png/image/x-icon">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="script.js"></script>
+    <style>
+        /* Base styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            overflow: hidden;
+            /* Prevent scrollbars from the canvas */
+        }
+   ::selection {
+    background: rgba(255, 0, 0, 0.452);
+    color: white;
+    /* optional: makes the text readable */
+}
+        /* Canvas for the 3D background */
+        #bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            outline: none;
+            z-index: -1;
+            /* Place it behind all other content */
+        }
+
+        /* Container for the 404 text content */
+        .content-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            /* Ensure it's above the canvas */
+        }
+
+        /* Glitch effect for the "404" text, kept from the previous version */
+        .glitch {
+            position: relative;
+            color: white;
+            font-size: 6rem;
+            /* Responsive size is handled by Tailwind */
+            font-weight: 900;
+            text-shadow:
+                0 0 5px rgba(255, 255, 255, 0.5),
+                0 0 10px rgba(220, 38, 38, 0.4),
+                /* red-600 */
+                0 0 20px rgba(239, 68, 68, 0.4);
+            /* red-500 */
+            animation: glitch-skew 1s infinite linear alternate-reverse;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 #dc2626;
+            /* red-600 */
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 #ef4444, 2px 2px #fde047;
+            /* red-500, yellow-300 */
+            clip: rect(85px, 450px, 90px, 0);
+            animation: glitch-anim-2 5s infinite linear alternate-reverse;
+        }
+
+        /* Keyframe animations for the glitch effect */
+        @keyframes glitch-skew {
+            0% {
+                transform: skew(0deg);
+            }
+
+            10% {
+                transform: skew(1deg);
+            }
+
+            20% {
+                transform: skew(-1deg);
+            }
+
+            30% {
+                transform: skew(2deg);
+            }
+
+            40% {
+                transform: skew(-2deg);
+            }
+
+            50% {
+                transform: skew(0deg);
+            }
+
+            100% {
+                transform: skew(0deg);
+            }
+        }
+
+        @keyframes glitch-anim {
+            0% {
+                clip: rect(7px, 9999px, 80px, 0);
+                transform: skew(0.3deg);
+            }
+
+            5% {
+                clip: rect(31px, 9999px, 8px, 0);
+                transform: skew(0.22deg);
+            }
+
+            10% {
+                clip: rect(35px, 9999px, 83px, 0);
+                transform: skew(0.58deg);
+            }
+
+            15% {
+                clip: rect(25px, 9999px, 57px, 0);
+                transform: skew(0.88deg);
+            }
+
+            20% {
+                clip: rect(13px, 9999px, 100px, 0);
+                transform: skew(0.4deg);
+            }
+
+            25% {
+                clip: rect(5px, 9999px, 7px, 0);
+                transform: skew(0.6deg);
+            }
+
+            30% {
+                clip: rect(78px, 9999px, 33px, 0);
+                transform: skew(0.45deg);
+            }
+
+            35% {
+                clip: rect(48px, 9999px, 9px, 0);
+                transform: skew(0.35deg);
+            }
+
+            40% {
+                clip: rect(98px, 9999px, 49px, 0);
+                transform: skew(0.1deg);
+            }
+
+            45% {
+                clip: rect(22px, 9999px, 78px, 0);
+                transform: skew(0.42deg);
+            }
+
+            50% {
+                clip: rect(54px, 9999px, 12px, 0);
+                transform: skew(0.61deg);
+            }
+
+            55% {
+                clip: rect(15px, 9999px, 84px, 0);
+                transform: skew(0.33deg);
+            }
+
+            60% {
+                clip: rect(7px, 9999px, 4px, 0);
+                transform: skew(0.12deg);
+            }
+
+            65% {
+                clip: rect(81px, 9999px, 7px, 0);
+                transform: skew(0.8deg);
+            }
+
+            70% {
+                clip: rect(34px, 9999px, 42px, 0);
+                transform: skew(0.25deg);
+            }
+
+            75% {
+                clip: rect(52px, 9999px, 8px, 0);
+                transform: skew(0.39deg);
+            }
+
+            80% {
+                clip: rect(32px, 9999px, 71px, 0);
+                transform: skew(0.78deg);
+            }
+
+            85% {
+                clip: rect(8px, 9999px, 40px, 0);
+                transform: skew(0.2deg);
+            }
+
+            90% {
+                clip: rect(10px, 9999px, 93px, 0);
+                transform: skew(0.7deg);
+            }
+
+            95% {
+                clip: rect(4px, 9999px, 12px, 0);
+                transform: skew(0.15deg);
+            }
+
+            100% {
+                clip: rect(60px, 9999px, 5px, 0);
+                transform: skew(0.79deg);
+            }
+        }
+
+        @keyframes glitch-anim-2 {
+            0% {
+                clip: rect(82px, 9999px, 94px, 0);
+                transform: skew(0.91deg);
+            }
+
+            5% {
+                clip: rect(3px, 9999px, 20px, 0);
+                transform: skew(0.19deg);
+            }
+
+            10% {
+                clip: rect(10px, 9999px, 94px, 0);
+                transform: skew(0.6deg);
+            }
+
+            15% {
+                clip: rect(58px, 9999px, 20px, 0);
+                transform: skew(0.31deg);
+            }
+
+            20% {
+                clip: rect(3px, 9999px, 28px, 0);
+                transform: skew(0.55deg);
+            }
+
+            25% {
+                clip: rect(67px, 9999px, 8px, 0);
+                transform: skew(0.24deg);
+            }
+
+            30% {
+                clip: rect(4px, 9999px, 60px, 0);
+                transform: skew(0.38deg);
+            }
+
+            35% {
+                clip: rect(20px, 9999px, 63px, 0);
+                transform: skew(0.81deg);
+            }
+
+            40% {
+                clip: rect(50px, 9999px, 9px, 0);
+                transform: skew(0.52deg);
+            }
+
+            45% {
+                clip: rect(81px, 9999px, 43px, 0);
+                transform: skew(0.15deg);
+            }
+
+            50% {
+                clip: rect(19px, 9999px, 79px, 0);
+                transform: skew(0.29deg);
+            }
+
+            55% {
+                clip: rect(2px, 9999px, 39px, 0);
+                transform: skew(0.88deg);
+            }
+
+            60% {
+                clip: rect(69px, 9999px, 54px, 0);
+                transform: skew(0.16deg);
+            }
+
+            65% {
+                clip: rect(98px, 9999px, 2px, 0);
+                transform: skew(0.71deg);
+            }
+
+            70% {
+                clip: rect(10px, 9999px, 73px, 0);
+                transform: skew(0.21deg);
+            }
+
+            75% {
+                clip: rect(63px, 9999px, 38px, 0);
+                transform: skew(0.58deg);
+            }
+
+            80% {
+                clip: rect(12px, 9999px, 5px, 0);
+                transform: skew(0.12deg);
+            }
+
+            85% {
+                clip: rect(49px, 9999px, 39px, 0);
+                transform: skew(0.48deg);
+            }
+
+            90% {
+                clip: rect(29px, 9999px, 99px, 0);
+                transform: skew(0.9deg);
+            }
+
+            95% {
+                clip: rect(91px, 9999px, 14px, 0);
+                transform: skew(0.32deg);
+            }
+
+            100% {
+                clip: rect(1px, 9999px, 19px, 0);
+                transform: skew(0.62deg);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-900">
+
+    <!-- The canvas where the 3D scene will be rendered -->
+    <canvas id="bg"></canvas>
+
+    <!-- The 404 message content, overlaid on top of the canvas -->
+    <div class="content-container text-center w-full max-w-lg p-4">
+        <h1 class="glitch text-7xl md:text-9xl" data-text="404">404</h1>
+        <h2 class="text-2xl md:text-4xl font-bold text-white mt-4">𝙻𝚘𝚜𝚝 𝚒𝚗 𝚝𝚑𝚎 𝙰𝙼𝚅 𝚅𝙴𝚁𝚂𝙴?</h2>
+        <p class="text-gray-300 mt-4 text-base md:text-lg">
+            You've stumbled upon a broken link or a page that has been isekai'd to another dimension. The digital void
+            is vast, but you can always find your way back.
+        </p>
+        <a href="/"
+            class="mt-8 inline-block bg-red-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:bg-red-700 transition-transform transform hover:scale-105 duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">
+           𝙱𝚊𝚌𝚔 𝚝𝚘 𝙷𝚘𝚖𝚎
+        </a>
+    </div>
+
+    <!-- Three.js library and necessary add-ons for post-processing -->
+    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.157.0/examples/jsm/"
+        }
+    }
+    </script>
+
+    <!-- The main script for creating and animating the 3D scene -->
+    <script type="module">
+        // =================================================================
+        // AMVverse 404 - 3D Scene Initialization
+        // Author: Gemini
+        // Version: 1.0.0
+        //
+        // This script creates a dynamic, animated 3D background for the
+        // 404 page using the Three.js library. It includes a starfield,
+        // floating geometric objects, lighting, and post-processing
+        // effects like bloom and glitch to create an immersive experience.
+        // =================================================================
+
+        // -----------------------------------------------------------------
+        // SECTION 1: IMPORTS
+        // -----------------------------------------------------------------
+        // Import necessary components from the Three.js library and its addons.
+
+        import * as THREE from 'three';
+        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+        import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+        import { GlitchPass } from 'three/addons/postprocessing/GlitchPass.js';
+
+        // -----------------------------------------------------------------
+        // SECTION 2: SCENE SETUP
+        // -----------------------------------------------------------------
+        // This section initializes the core components of a Three.js scene:
+        // the scene itself, the camera, the renderer, and the canvas element.
+
+        // Constants for scene configuration
+        const SCENE_CONSTANTS = {
+            CAMERA_FOV: 75,
+            CAMERA_NEAR_PLANE: 0.1,
+            CAMERA_FAR_PLANE: 1000,
+            CAMERA_INITIAL_Z: 50,
+            RENDERER_ANTIALIAS: true,
+            RENDERER_ALPHA: true, // For transparent background
+        };
+
+        // Global variables for core components
+        let scene, camera, renderer, composer, glitchPass;
+        let mouseX = 0, mouseY = 0; // To store mouse position
+        const windowHalfX = window.innerWidth / 2;
+        const windowHalfY = window.innerHeight / 2;
+
+        /**
+         * Initializes the entire 3D scene.
+         * This function serves as the main entry point for the script.
+         */
+        function initializeScene() {
+            // Create the main scene container
+            scene = new THREE.Scene();
+
+            // Setup the camera (the viewer's perspective)
+            setupCamera();
+
+            // Setup the renderer (the engine that draws the scene)
+            setupRenderer();
+
+            // Setup post-processing effects for a stylized look
+            setupPostProcessing();
+
+            // Add lighting to the scene to illuminate objects
+            addSceneLighting();
+
+            // Create and add all 3D objects to the scene
+            createSceneObjects();
+
+            // Add event listeners for interactivity and responsiveness
+            addEventListeners();
+
+            // Start the animation loop
+            animate();
+        }
+
+        /**
+         * Sets up the perspective camera.
+         */
+        function setupCamera() {
+            const aspectRatio = window.innerWidth / window.innerHeight;
+            camera = new THREE.PerspectiveCamera(
+                SCENE_CONSTANTS.CAMERA_FOV,
+                aspectRatio,
+                SCENE_CONSTANTS.CAMERA_NEAR_PLANE,
+                SCENE_CONSTANTS.CAMERA_FAR_PLANE
+            );
+            // Position the camera back along the Z-axis
+            camera.position.z = SCENE_CONSTANTS.CAMERA_INITIAL_Z;
+        }
+
+        /**
+         * Sets up the WebGL renderer and attaches it to the DOM.
+         */
+        function setupRenderer() {
+            const canvas = document.querySelector('#bg');
+            renderer = new THREE.WebGLRenderer({
+                canvas: canvas,
+                antialias: SCENE_CONSTANTS.RENDERER_ANTIALIAS,
+                alpha: SCENE_CONSTANTS.RENDERER_ALPHA
+            });
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        /**
+         * Configures the post-processing pipeline using EffectComposer.
+         * This adds effects like bloom and glitch on top of the rendered scene.
+         */
+        function setupPostProcessing() {
+            // Composer will manage the post-processing passes
+            composer = new EffectComposer(renderer);
+
+            // 1. RenderPass: Renders the base scene
+            const renderPass = new RenderPass(scene, camera);
+            composer.addPass(renderPass);
+
+            // 2. UnrealBloomPass: Creates a bright glow effect on emissive materials
+            const bloomPass = new UnrealBloomPass(
+                new THREE.Vector2(window.innerWidth, window.innerHeight),
+                0.7, // strength
+                0.1, // radius
+                0.85 // threshold
+            );
+            composer.addPass(bloomPass);
+
+            // 3. GlitchPass: Adds a digital glitch effect
+            glitchPass = new GlitchPass();
+            // Start with the glitch effect disabled; we'll trigger it intermittently
+            glitchPass.enabled = false;
+            composer.addPass(glitchPass);
+        }
+
+
+        // -----------------------------------------------------------------
+        // SECTION 3: LIGHTING
+        // -----------------------------------------------------------------
+        // Good lighting is crucial for making a 3D scene look good.
+        // We will add ambient light for general illumination and
+        // point lights for highlights and color.
+
+        /**
+         * Adds various lights to the scene.
+         */
+        function addSceneLighting() {
+            // Ambient light: provides a soft, uniform light from all directions
+            const ambientLight = new THREE.AmbientLight(0x404040, 2);
+            scene.add(ambientLight);
+
+            // Point light 1: A bright, red light source
+            const redPointLight1 = new THREE.PointLight(0xdc2626, 2, 200);
+            redPointLight1.position.set(-50, 30, 30);
+            scene.add(redPointLight1);
+
+            // Point light 2: A bright, slightly different red light source
+            const redPointLight2 = new THREE.PointLight(0xef4444, 2, 200);
+            redPointLight2.position.set(50, -30, 20);
+            scene.add(redPointLight2);
+
+            // Directional light: To simulate a distant light source
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+            directionalLight.position.set(0, 1, 1);
+            scene.add(directionalLight);
+        }
+
+
+        // -----------------------------------------------------------------
+        // SECTION 4: 3D OBJECTS
+        // -----------------------------------------------------------------
+        // This is where we define the geometry (shape) and material (appearance)
+        // of all the objects that will populate our scene.
+
+        // Array to hold objects that need to be animated
+        const animatedObjects = [];
+
+        /**
+         * Main function to create and add all scene objects.
+         */
+        function createSceneObjects() {
+            createStarfield();
+            createFloatingCrystals();
+            createTorusKnot();
+            createWireframeSpheres();
+        }
+
+        /**
+         * Creates a background starfield using a particle system.
+         */
+        function createStarfield() {
+            const starCount = 15000;
+            const starVertices = [];
+
+            // Create random positions for each star
+            for (let i = 0; i < starCount; i++) {
+                const x = THREE.MathUtils.randFloatSpread(2000);
+                const y = THREE.MathUtils.randFloatSpread(2000);
+                const z = THREE.MathUtils.randFloatSpread(2000);
+                starVertices.push(x, y, z);
+            }
+
+            // Geometry for the stars
+            const starsGeometry = new THREE.BufferGeometry();
+            starsGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+
+            // Material for the stars
+            const starsMaterial = new THREE.PointsMaterial({
+                color: 0xffffff,
+                size: 0.7,
+                transparent: true,
+                opacity: 0.8,
+            });
+
+            // The final starfield object
+            const starfield = new THREE.Points(starsGeometry, starsMaterial);
+            scene.add(starfield);
+
+            // Add the starfield to animated objects so it can rotate
+            animatedObjects.push({
+                mesh: starfield,
+                update: (mesh, time) => {
+                    mesh.rotation.x = time * 0.01;
+                    mesh.rotation.y = time * 0.01;
+                }
+            });
+        }
+
+        /**
+         * Creates multiple floating crystalline structures.
+         */
+        function createFloatingCrystals() {
+            const crystalCount = 50;
+            const crystalGeometry = new THREE.IcosahedronGeometry(1.5, 0);
+
+            const crystalMaterial = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                roughness: 0.1,
+                metalness: 0.8,
+                transparent: true,
+                opacity: 0.7,
+            });
+
+            for (let i = 0; i < crystalCount; i++) {
+                const crystal = new THREE.Mesh(crystalGeometry, crystalMaterial);
+
+                // Assign a random position within a large volume
+                crystal.position.set(
+                    THREE.MathUtils.randFloatSpread(200),
+                    THREE.MathUtils.randFloatSpread(200),
+                    THREE.MathUtils.randFloatSpread(100) - 50
+                );
+
+                // Assign random rotation
+                crystal.rotation.set(
+                    Math.random() * Math.PI,
+                    Math.random() * Math.PI,
+                    Math.random() * Math.PI
+                );
+
+                // Assign a random scale
+                const scale = THREE.MathUtils.randFloat(0.2, 1.2);
+                crystal.scale.set(scale, scale, scale);
+
+                scene.add(crystal);
+
+                // Store random rotation speeds for the animation loop
+                const rotationSpeeds = {
+                    x: Math.random() * 0.005,
+                    y: Math.random() * 0.005,
+                    z: Math.random() * 0.005,
+                };
+
+                // Add to the list of objects to animate
+                animatedObjects.push({
+                    mesh: crystal,
+                    update: (mesh) => {
+                        mesh.rotation.x += rotationSpeeds.x;
+                        mesh.rotation.y += rotationSpeeds.y;
+                        mesh.rotation.z += rotationSpeeds.z;
+                    }
+                });
+            }
+        }
+
+        /**
+         * Creates a central, complex torus knot object.
+         */
+        function createTorusKnot() {
+            const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
+
+            // Emissive material that will glow with the bloom effect
+            const material = new THREE.MeshStandardMaterial({
+                color: 0xdc2626, // Red
+                emissive: 0xdc2626, // Glow with the same color
+                emissiveIntensity: 0.5,
+                roughness: 0.3,
+                metalness: 0.5,
+            });
+
+            const torusKnot = new THREE.Mesh(geometry, material);
+            torusKnot.position.z = -10; // Position it behind the text area
+            scene.add(torusKnot);
+
+            // Add to the list of objects to animate
+            animatedObjects.push({
+                mesh: torusKnot,
+                update: (mesh, time) => {
+                    mesh.rotation.x = time * 0.05;
+                    mesh.rotation.y = time * 0.05;
+                }
+            });
+        }
+
+        /**
+         * Creates ephemeral wireframe spheres that float around.
+         */
+        function createWireframeSpheres() {
+            const sphereCount = 20;
+            const sphereGeometry = new THREE.SphereGeometry(4, 12, 12);
+
+            const sphereMaterial = new THREE.MeshBasicMaterial({
+                color: 0xef4444, // Red
+                wireframe: true,
+                transparent: true,
+                opacity: 0.2
+            });
+
+            for (let i = 0; i < sphereCount; i++) {
+                const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+
+                // Assign a random position
+                sphere.position.set(
+                    THREE.MathUtils.randFloatSpread(150),
+                    THREE.MathUtils.randFloatSpread(150),
+                    THREE.MathUtils.randFloatSpread(150)
+                );
+
+                scene.add(sphere);
+
+                // Add to the list of objects to animate
+                animatedObjects.push({
+                    mesh: sphere,
+                    update: (mesh, time) => {
+                        // Gently float up and down
+                        mesh.position.y += Math.sin(time * 0.5 + i) * 0.05;
+                    }
+                });
+            }
+        }
+
+
+        // -----------------------------------------------------------------
+        // SECTION 5: ANIMATION LOOP
+        // -----------------------------------------------------------------
+        // The animate function is called on every frame (typically 60 times
+        // per second) to update object positions and re-render the scene,
+        // creating the illusion of motion.
+
+        const clock = new THREE.Clock(); // Clock to manage time-based animations
+
+        /**
+         * The main animation loop.
+         */
+        function animate() {
+            // Request the next frame
+            requestAnimationFrame(animate);
+
+            const elapsedTime = clock.getElapsedTime();
+
+            // Update all objects in the animatedObjects array
+            animatedObjects.forEach(obj => {
+                obj.update(obj.mesh, elapsedTime);
+            });
+
+            // Update camera position based on mouse movement
+            updateCameraPosition();
+
+            // Trigger the glitch effect intermittently
+            if (Math.random() > 0.995) {
+                triggerGlitch();
+            }
+
+            // Render the scene through the composer to apply post-processing
+            composer.render();
+        }
+
+        /**
+         * Updates camera based on mouse cursor position for a parallax effect.
+         */
+        function updateCameraPosition() {
+            // Gently move the camera based on the normalized mouse position
+            // The easing (0.05) makes the movement smooth
+            camera.position.x += (mouseX - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY - camera.position.y) * 0.05;
+
+            // Ensure the camera always points towards the center of the scene
+            camera.lookAt(scene.position);
+        }
+
+        /**
+         * Triggers the glitch pass for a short duration.
+         */
+        function triggerGlitch() {
+            if (!glitchPass.enabled) {
+                glitchPass.enabled = true;
+                setTimeout(() => {
+                    glitchPass.enabled = false;
+                }, Math.random() * 500 + 100); // Glitch for 100-600ms
+            }
+        }
+
+
+        // -----------------------------------------------------------------
+        // SECTION 6: EVENT LISTENERS
+        // -----------------------------------------------------------------
+        // This section handles user input and window events to make the
+        // scene interactive and responsive.
+
+        /**
+         * Adds all necessary event listeners.
+         */
+        function addEventListeners() {
+            window.addEventListener('resize', onWindowResize, false);
+            document.addEventListener('mousemove', onDocumentMouseMove, false);
+        }
+
+        /**
+         * Handles the window resize event to keep the scene proportional.
+         */
+        function onWindowResize() {
+            // Update camera's aspect ratio
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+
+            // Update renderer and composer size
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            composer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        /**
+         * Handles the mouse move event to update mouse coordinates.
+         */
+        function onDocumentMouseMove(event) {
+            // Convert mouse position to a normalized value from -1 to 1
+            mouseX = (event.clientX - windowHalfX) / 100;
+            mouseY = (event.clientY - windowHalfY) / 100;
+        }
+
+        // -----------------------------------------------------------------
+        // SECTION 7: SCRIPT EXECUTION
+        // -----------------------------------------------------------------
+        // Finally, call the main initialization function to start everything.
+
+        initializeScene();
+
+    </script>
+</body>
+
+</html>
