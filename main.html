@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>𝙵𝚒𝚕𝚎 𝙿𝚛𝚎𝚟𝚒𝚎𝚠 | 𝙰𝙼𝚅 𝚅𝙴𝚁𝚂𝙴</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://amvverse-anime-card.pages.dev/fav-icon.png" type="png/image/x-icon">
+    <script src="script.js"></script>
+    <script src="install.js"></script>
+    <style>
+        :root {
+            --primary-color: #e50914;
+            --secondary-color: #e50914a6;
+            --background-color: #141414;
+            --surface-color: #23252a;
+            --text-color: #ffffff;
+            --text-color-secondary: #a0a0a0;
+            --border-radius: 8px;
+            --transition-speed: 0.3s;
+            --font-family: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .no-double-tap {
+            touch-action: manipulation;
+            -ms-touch-action: manipulation;
+            /* legacy IE/Edge */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Gallery-specific styling */
+        .gallery-page {
+            padding: 2rem 0;
+            min-height: 100vh;
+            background-color: var(--background-color);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+        }
+
+        .gallery-search {
+            max-width: 500px;
+            margin: 1rem auto 2rem auto;
+            display: flex;
+            background: var(--surface-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        .gallery-search input {
+            border: none;
+            background: transparent;
+            padding: 0.8rem 1rem;
+            color: var(--text-color);
+            flex: 1;
+            outline: none;
+        }
+
+        .gallery-search button {
+            background: var(--primary-color);
+            border: none;
+            color: var(--text-color);
+            padding: 0.8rem 1rem;
+            cursor: pointer;
+        }
+
+        .gallery {
+            column-count: 1;
+            column-gap: 15px;
+        }
+
+        @media (min-width: 600px) {
+            .gallery {
+                column-count: 2;
+            }
+        }
+
+        @media (min-width: 900px) {
+            .gallery {
+                column-count: 3;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .gallery {
+                column-count: 4;
+            }
+        }
+
+        .card {
+            display: inline-block;
+            background: var(--surface-color);
+            margin: 0 0 15px;
+            width: 100%;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            vertical-align: top;
+        }
+
+        .card img {
+            width: 100%;
+            display: none;
+            object-fit: cover;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+
+        .skeleton {
+            width: 100%;
+            aspect-ratio: 3/4;
+            background: linear-gradient(90deg, #2d2d2d 25%, #3a3d42 37%, #2d2d2d 63%);
+            background-size: 400% 100%;
+            animation: shimmer 1.4s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -468px 0;
+            }
+
+            100% {
+                background-position: 468px 0;
+            }
+        }
+
+        .name {
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .copied {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            display: none;
+        }
+
+        #notFound {
+            display: none;
+            text-align: center;
+            margin-top: 50px;
+            font-size: 20px;
+            color: var(--text-color-secondary);
+        }
+
+        #notFound a {
+            color: var(--primary-color);
+            text-decoration: none;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Gallery Page -->
+    <main class="gallery-page">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-images"></i> 𝙵𝚒𝚕𝚎 𝙿𝚛𝚎𝚟𝚒𝚎𝚠</h2>
+            <div class="gallery-search">
+                <input type="text" id="search" placeholder="Search images...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+            <div class="gallery" id="gallery"></div>
+            <div id="notFound">No images found. <a href="#" id="goHome">𝙱𝚊𝚌𝚔 𝚝𝚘 𝙷𝚘𝚖𝚎</a></div>
+        </div>
+    </main>
+
+    <script>
+        // Gallery functionality
+        let currentIndex = 0;
+        const perPage = 10;
+        const gallery = document.getElementById("gallery");
+        const searchInput = document.getElementById("search");
+        const notFound = document.getElementById("notFound");
+        const goHome = document.getElementById("goHome");
+
+
+        const prefix = "https://amvverse-image-data.pages.dev/"; // Replace with your image path prefix
+
+        // Store already loaded images for 2-second caching
+        const loadedCache = {};
+
+        function formatName(filename) {
+            return filename.replace(".jpg", "").replace(/[-_]/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+        }
+
+        function createCard(filename) {
+            const url = prefix + filename;
+            const card = document.createElement("div");
+            card.className = "card";
+
+            const skeleton = document.createElement("div");
+            skeleton.className = "skeleton";
+
+            const img = document.createElement("img");
+            img.src = url;
+
+            const nameDiv = document.createElement("div");
+            nameDiv.className = "name";
+            nameDiv.textContent = formatName(filename);
+
+            const copied = document.createElement("div");
+            copied.className = "copied";
+            copied.textContent = "Link Copied!";
+
+            card.appendChild(skeleton);
+            card.appendChild(img);
+            card.appendChild(nameDiv);
+            card.appendChild(copied);
+
+            img.onload = () => {
+                skeleton.style.display = "none";
+                img.style.display = "block";
+                loadedCache[url] = Date.now();
+            };
+
+            img.onerror = () => {
+                skeleton.style.display = "none";
+                img.style.display = "none";
+                nameDiv.textContent = "Image Not Found";
+                card.style.backgroundColor = "#8b0000";
+            };
+
+            card.addEventListener("click", () => {
+                navigator.clipboard.writeText(url);
+                copied.style.display = "block";
+                setTimeout(() => copied.style.display = "none", 1000);
+            });
+
+            return card;
+        }
+
+        function renderImages(reset = false) {
+            if (reset) {
+                gallery.innerHTML = "";
+                currentIndex = 0;
+            }
+            const searchValue = searchInput.value.toLowerCase();
+            const filtered = images.filter(f => formatName(f).toLowerCase().includes(searchValue));
+            if (filtered.length === 0) {
+                notFound.style.display = "block";
+                gallery.style.display = "none";
+                return;
+            } else {
+                notFound.style.display = "none";
+                gallery.style.display = "block";
+            }
+
+            const nextItems = filtered.slice(currentIndex, currentIndex + perPage);
+            nextItems.forEach(f => {
+                const url = prefix + f;
+                if (loadedCache[url] && (Date.now() - loadedCache[url] < 2000)) {
+                    const card = createCard(f);
+                    gallery.appendChild(card);
+                    const img = card.querySelector("img");
+                    img.style.display = "block";
+                    card.querySelector(".skeleton").style.display = "none";
+                } else {
+                    gallery.appendChild(createCard(f));
+                }
+            });
+            currentIndex += perPage;
+        }
+
+        // Event listeners
+        searchInput.addEventListener("input", () => renderImages(true));
+        goHome.addEventListener("click", (e) => {
+            e.preventDefault();
+            searchInput.value = "";
+            renderImages(true);
+        });
+
+        window.addEventListener("scroll", () => {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
+                renderImages();
+            }
+        });
+
+        // Initial render
+        renderImages();
+    </script>
+</body>
+<div id="update-banner"
+    style="display:none; position:fixed; top:56px; right:8px; background:#fffae6; border:1px solid #ffd666; border-radius:6px; padding:8px 12px; box-shadow:0 2px 6px rgba(0,0,0,0.2); z-index:10000;">
+    <button id="refresh-btn"
+        style="background:#ff9800; color:white; border:none; border-radius:4px; padding:6px 10px; cursor:pointer;">
+        🔄 New version available — Refresh
+    </button>
+</div>
+
+</html>
