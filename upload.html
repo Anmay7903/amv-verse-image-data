@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Uploader | AMV VERSE</title>
+    <link rel="stylesheet" href="https://amvverse.pages.dev/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="description"
+        content="AMV VERSE: Stream & download HD Anime, Donghua, Marvel, & blockbuster movies. Watch Solo Leveling, Jujutsu Kaisen, Soul Land, Avengers, and Your Name. Enjoy Hindi DUB, English SUB, and multiple audio options. Your ultimate source for action, fantasy, and romance.">
+    <link rel="manifest" href="https://flask-15v.pages.dev/manifest.json">
+    <link rel="icon" href="https://amvverse-anime-card.pages.dev/fav-icon.png">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google-site-verification" content="IOkmWrKeS1jEXqTK4E5BRwN2XRA3DsySmfthhqlJGzk" />
+    <link rel="icon" href="https://ik.imagekit.io/qoobmximx/1755723758120.png?updatedAt=1755723796692"
+        type="png/image/x-icon">
+    <script src="https://flask-15v.pages.dev/sw.js"></script>
+    <style>
+        /* apply only to interactive controls (recommended), or * for whole page */
+        html,
+        body,
+        button,
+        a,
+        input,
+        .no-double-tap {
+            touch-action: manipulation;
+            -ms-touch-action: manipulation;
+            /* legacy IE/Edge */
+        }
+
+        /* Mobile-first responsive design */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .main-container {
+            position: relative;
+            overflow: hidden;
+            min-height: 500px;
+        }
+
+        .upload-page,
+        .delete-page {
+            transition: transform 0.4s ease-in-out;
+            width: 100%;
+        }
+
+        .upload-page {
+            transform: translateX(0%);
+        }
+
+        .delete-page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: translateX(100%);
+        }
+
+        .upload-page.slide-left {
+            transform: translateX(-100%);
+        }
+
+        .delete-page.slide-in {
+            transform: translateX(0%);
+        }
+
+        .page-toggle {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            background: var(--surface-color);
+            border-radius: var(--border-radius);
+            padding: 0.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            background: transparent;
+            color: var(--text-color-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: var(--border-radius);
+            transition: all 0.3s;
+        }
+
+        .toggle-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .upload-container,
+        .delete-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--surface-color);
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .upload-form,
+        .delete-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.8rem;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--background-color);
+            color: var(--text-color);
+            font-family: var(--font-family);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .filename-builder {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .filename-step {
+            margin-bottom: 1.5rem;
+        }
+
+        .filename-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .searchable-select {
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--background-color);
+            color: var(--text-color);
+            font-family: var(--font-family);
+        }
+
+        .options-container {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--surface-color);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .option-item {
+            padding: 0.8rem;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .option-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .option-item:last-child {
+            border-bottom: none;
+        }
+
+        .option-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .option-content {
+            flex: 1;
+        }
+
+        .option-id {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .option-title {
+            font-size: 0.8rem;
+            color: var(--text-color-secondary);
+            margin-top: 2px;
+        }
+
+        .type-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+
+        .type-option {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid transparent;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .type-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .type-option.selected {
+            border-color: var(--primary-color);
+            background: rgba(229, 9, 20, 0.1);
+        }
+
+        .filename-preview {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin-top: 1rem;
+            text-align: center;
+            font-family: monospace;
+            font-size: 1.1rem;
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+        }
+
+        .auth-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .auth-note {
+            font-size: 0.8rem;
+            color: var(--text-color-secondary);
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        .upload-btn,
+        .delete-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-family: var(--font-family);
+        }
+
+        .upload-btn:hover,
+        .delete-btn:hover {
+            background: #c40811;
+        }
+
+        .upload-btn:disabled,
+        .delete-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+
+        .status-message {
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .status-success {
+            background: rgba(0, 128, 0, 0.2);
+            border: 1px solid rgba(0, 128, 0, 0.5);
+            color: #4CAF50;
+        }
+
+        .status-error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid rgba(244, 67, 54, 0.5);
+            color: #F44336;
+        }
+
+        .file-preview {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            display: none;
+        }
+
+        .file-preview img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: var(--border-radius);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .progress-container {
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-color);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-color-secondary);
+        }
+
+        .file-options-container {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--surface-color);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+
+            .upload-container,
+            .delete-container {
+                padding: 1rem;
+            }
+
+            .type-options {
+                grid-template-columns: 1fr;
+            }
+
+            .page-toggle {
+                flex-direction: column;
+            }
+
+            .toggle-btn {
+                margin-bottom: 0.5rem;
+            }
+
+            .toggle-btn:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .filename-builder {
+                padding: 1rem;
+            }
+
+            .auth-section {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <a href="#" class="logo">𝙰𝙼𝚅 𝚅𝙴𝚁𝚂𝙴</a>
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="https://amvverse.pages.dev/index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="https://amvverse.pages.dev/1-all-content.html"><i class="fas fa-list"></i> All
+                            Contents</a></li>
+                    <li><a href="https://amvverse.pages.dev/help.html"><i class="fas fa-question-circle"></i> How to
+                            Watch</a></li>
+                    <li><a href="https://amvverse.pages.dev/DMCA.html"><i class="fas fa-gavel"></i> DMCA</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <div class="search-box" id="Search">
+                    <input type="text" id="search" placeholder="𝚂𝚎𝚊𝚛𝚌𝚑 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <button id="mobile-menu-toggle" class="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="gallery-page">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-cloud-upload-alt"></i> 𝙵𝚒𝚕𝚎 𝙼𝚊𝚗𝚊𝚐𝚎𝚛</h2>
+
+            <div class="page-toggle">
+                <button class="toggle-btn active" id="uploadToggle">𝚄𝚙𝚕𝚘𝚊𝚍 𝙵𝚒𝚕𝚎</button>
+                <button class="toggle-btn" id="deleteToggle">𝙳𝚎𝚕𝚎𝚝𝚎 𝙵𝚒𝚕𝚎</button>
+            </div>
+
+            <div class="main-container">
+                <!-- Upload Page -->
+                <div class="upload-page" id="uploadPage">
+                    <div class="upload-container">
+                        <form class="upload-form" id="uploadForm" method="POST" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="file">𝙲𝚑𝚘𝚘𝚜𝚎 𝙵𝚒𝚕𝚎 𝚝𝚘 𝚄𝚙𝚕𝚘𝚊𝚍:</label>
+                                <input type="file" id="file" name="file" accept="*" required>
+                            </div>
+
+                            <!-- Filename Builder -->
+                            <div class="filename-builder">
+                                <h3>𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎 𝙱𝚞𝚒𝚕𝚍𝚎𝚛</h3>
+
+                                <!-- Step 1: Content ID -->
+                                <div class="filename-step">
+                                    <div class="step-title">
+                                        <span class="step-number">1</span>
+                                        𝚂𝚎𝚕𝚎𝚌𝚝 𝙲𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳:
+                                    </div>
+                                    <div class="searchable-select">
+                                        <input type="text" id="contentSearch" class="search-input"
+                                            placeholder="𝚂𝚎𝚊𝚛𝚌𝚑 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳...">
+                                        <div class="options-container" id="contentOptions"></div>
+                                    </div>
+                                    <input type="hidden" id="contentId" name="content_id">
+                                </div>
+
+                                <!-- Step 2: File Type -->
+                                <div class="filename-step">
+                                    <div class="step-title">
+                                        <span class="step-number">2</span>
+                                        𝚂𝚎𝚕𝚎𝚌𝚝 𝙵𝚒𝚕𝚎 𝚃𝚢𝚙𝚎:
+                                    </div>
+                                    <div class="type-options">
+                                        <div class="type-option" data-type="card">𝙲𝚊𝚛𝚍</div>
+                                        <div class="type-option" data-type="poster">𝙿𝚘𝚜𝚝𝚎𝚛</div>
+                                        <div class="type-option" data-type="character">𝙲𝚑𝚊𝚛𝚊𝚌𝚝𝚎𝚛</div>
+                                        <div class="type-option" data-type="screenshot">𝚂𝚌𝚛𝚎𝚎𝚗𝚜𝚑𝚘𝚝</div>
+                                    </div>
+                                    <input type="hidden" id="fileType" name="file_type">
+                                </div>
+
+                                <!-- Step 3: Custom Text -->
+                                <div class="filename-step">
+                                    <div class="step-title">
+                                        <span class="step-number">3</span>
+                                        𝙰𝚍𝚍 𝙲𝚞𝚜𝚝𝚘𝚖 𝚃𝚎𝚡𝚝 (𝚘𝚙𝚝𝚒𝚘𝚗𝚊𝚕):
+                                    </div>
+                                    <input type="text" id="customText" name="custom_text"
+                                        placeholder="𝚎.𝚐., 𝟷, 𝟸, 𝚜𝚙𝚎𝚌𝚒𝚊𝚕..." class="search-input">
+                                </div>
+
+                                <!-- Filename Preview -->
+                                <div class="filename-preview" id="filenamePreview">
+                                    𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...
+                                </div>
+                            </div>
+
+                            <!-- Authentication -->
+                            <div class="auth-section">
+                                <div class="form-group">
+                                    <label for="authCode">𝚂𝚎𝚌𝚛𝚎𝚝 𝙲𝚘𝚍𝚎:</label>
+                                    <input type="password" id="authCode" name="auth_code"
+                                        placeholder="𝙴𝚗𝚝𝚎𝚛 𝚜𝚎𝚌𝚛𝚎𝚝 𝚌𝚘𝚍𝚎" required>
+                                </div>
+                            </div>
+
+                            <div class="file-preview" id="filePreview">
+                                <p><strong>𝙵𝚒𝚕𝚎 𝙿𝚛𝚎𝚟𝚒𝚎𝚠:</strong></p>
+                                <div id="previewContent"></div>
+                            </div>
+
+                            <!-- Progress Bar -->
+                            <div class="progress-container" id="progressContainer">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="progressFill"></div>
+                                </div>
+                                <div class="progress-text" id="progressText">𝙿𝚛𝚎𝚙𝚊𝚛𝚒𝚗𝚐 𝚞𝚙𝚕𝚘𝚊𝚍...</div>
+                            </div>
+
+                            <button type="submit" class="upload-btn" id="uploadBtn">
+                                <i class="fas fa-upload"></i> 𝚄𝚙𝚕𝚘𝚊𝚍 𝙵𝚒𝚕𝚎
+                            </button>
+                        </form>
+
+                        <div class="status-message" id="statusMessage"></div>
+                    </div>
+                </div>
+
+                <!-- Delete Page -->
+                <div class="delete-page" id="deletePage">
+                    <div class="delete-container">
+                        <form class="delete-form" id="deleteForm" method="POST">
+                            <div class="form-group">
+                                <label for="deleteContentSearch">𝚂𝚎𝚕𝚎𝚌𝚝 𝙲𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳:</label>
+                                <div class="searchable-select">
+                                    <input type="text" id="deleteContentSearch" class="search-input"
+                                        placeholder="𝚂𝚎𝚊𝚛𝚌𝚑 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳...">
+                                    <div class="options-container" id="deleteContentOptions"></div>
+                                </div>
+                                <input type="hidden" id="deleteContentId" name="content_id">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="deleteFileSearch">𝚂𝚎𝚊𝚛𝚌𝚑 𝙵𝚒𝚕𝚎𝚜:</label>
+                                <div class="searchable-select">
+                                    <input type="text" id="deleteFileSearch" class="search-input"
+                                        placeholder="𝚂𝚎𝚊𝚛𝚌𝚑 𝚏𝚒𝚕𝚎𝚜...">
+                                    <div class="file-options-container" id="fileOptions"></div>
+                                </div>
+                                <input type="hidden" id="deleteFilename" name="filename">
+                            </div>
+
+                            <!-- Authentication -->
+                            <div class="auth-section">
+                                <div class="form-group">
+                                    <label for="deleteAuthCode">𝚂𝚎𝚌𝚛𝚎𝚝 𝙲𝚘𝚍𝚎:</label>
+                                    <input type="password" id="deleteAuthCode" name="auth_code"
+                                        placeholder="𝙴𝚗𝚝𝚎𝚛 𝚜𝚎𝚌𝚛𝚎𝚝 𝚌𝚘𝚍𝚎" required>
+                                </div>
+                                <p class="auth-note">
+                                    <i class="fas fa-info-circle"></i>
+                                    𝚂𝚎𝚌𝚛𝚎𝚝 𝚌𝚘𝚍𝚎𝚜: 𝟿𝟼𝟼𝟷, 𝟽𝟿𝟶𝟹𝟹, 𝟾𝟹𝟿𝟿.
+                                    𝙸𝚏 𝚏𝚘𝚛𝚐𝚘𝚝, 𝚌𝚘𝚗𝚝𝚊𝚌𝚝: 𝚔𝚞𝚖𝚊𝚛𝚊𝚗𝚖𝚊𝚢𝟽𝟿𝟶𝟹𝟹@𝚐𝚖𝚊𝚒𝚕.𝚌𝚘𝚖
+                                    𝚘𝚛 𝚊𝚖𝚟𝚟𝚒𝚟𝚎𝚡@𝚐𝚖𝚊𝚒𝚕.𝚌𝚘𝚖
+                                </p>
+                            </div>
+
+                            <button type="submit" class="delete-btn" id="deleteBtn">
+                                <i class="fas fa-trash"></i> 𝙳𝚎𝚕𝚎𝚝𝚎 𝙵𝚒𝚕𝚎
+                            </button>
+                        </form>
+
+                        <div class="status-message" id="deleteStatusMessage"></div>
+
+                        <a href="https://amvverse.pages.dev/index.html" class="back-link">
+                            <i class="fas fa-arrow-left"></i> 𝙱𝚊𝚌𝚔 𝚝𝚘 𝙷𝚘𝚖𝚎
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Backend API URL - Update this with your Render URL after deployment
+        const API_BASE_URL = 'https://file-uploader-a6uv.onrender.com';
+
+        // Page Toggle Functionality
+        const uploadToggle = document.getElementById('uploadToggle');
+        const deleteToggle = document.getElementById('deleteToggle');
+        const uploadPage = document.getElementById('uploadPage');
+        const deletePage = document.getElementById('deletePage');
+
+        uploadToggle.addEventListener('click', () => {
+            uploadToggle.classList.add('active');
+            deleteToggle.classList.remove('active');
+            uploadPage.classList.remove('slide-left');
+            deletePage.classList.remove('slide-in');
+        });
+
+        deleteToggle.addEventListener('click', () => {
+            deleteToggle.classList.add('active');
+            uploadToggle.classList.remove('active');
+            uploadPage.classList.add('slide-left');
+            deletePage.classList.add('slide-in');
+        });
+
+        // Content IDs and images from external data source
+        let animeData = [];
+
+        // Fetch content data from data.js
+        fetch('https://amvverse.pages.dev/data.js')
+            .then(response => response.text())
+            .then(data => {
+                // Extract animeData array from the data.js file
+                const animeDataMatch = data.match(/const animeData\s*=\s*(\[.*?\]);/s);
+                if (animeDataMatch) {
+                    try {
+                        // Extract the array content and parse it
+                        const arrayContent = animeDataMatch[1];
+                        animeData = eval(arrayContent);
+
+                        // Process the data
+                        animeData = animeData.map(item => ({
+                            id: item.id.toLowerCase(),
+                            title: item.title || item.id,
+                            image: item.img || ''
+                        }));
+
+                        populateContentOptions();
+                        populateDeleteContentOptions();
+                    } catch (e) {
+                        console.error('Error parsing animeData:', e);
+                        loadFallbackData();
+                    }
+                } else {
+                    loadFallbackData();
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching content data:', error);
+                loadFallbackData();
+            });
+
+        function loadFallbackData() {
+            // Try to get content from backend API
+            fetch(`${API_BASE_URL}/content`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.content_ids) {
+                        animeData = data.content_ids.map(id => ({
+                            id: id,
+                            title: id,
+                            image: ''
+                        }));
+                    } else {
+                        // Fallback data
+                        animeData = [
+                            { id: 'maha-narsimha', title: 'Maha Narsimha', image: '' },
+                            { id: 'solo-leveling', title: 'Solo Leveling', image: '' },
+                            { id: 'jujutsu-kaisen', title: 'Jujutsu Kaisen', image: '' },
+                            { id: 'soul-land', title: 'Soul Land', image: '' },
+                            { id: 'your-name', title: 'Your Name', image: '' }
+                        ];
+                    }
+                    populateContentOptions();
+                    populateDeleteContentOptions();
+                })
+                .catch(error => {
+                    console.error('Error fetching content from backend:', error);
+                    animeData = [
+                        { id: 'maha-narsimha', title: 'Maha Narsimha', image: '' },
+                        { id: 'solo-leveling', title: 'Solo Leveling', image: '' },
+                        { id: 'jujutsu-kaisen', title: 'Jujutsu Kaisen', image: '' },
+                        { id: 'soul-land', title: 'Soul Land', image: '' },
+                        { id: 'your-name', title: 'Your Name', image: '' }
+                    ];
+                    populateContentOptions();
+                    populateDeleteContentOptions();
+                });
+        }
+
+        function populateContentOptions() {
+            const optionsContainer = document.getElementById('contentOptions');
+            optionsContainer.innerHTML = '';
+
+            animeData.forEach(item => {
+                const option = document.createElement('div');
+                option.className = 'option-item';
+                option.innerHTML = `
+                ${item.image ? `<img src="${item.image}" alt="${item.id}" class="option-image" onerror="this.style.display='none'">` : ''}
+                <div class="option-content">
+                    <div class="option-id">${item.id}</div>
+                    ${item.title !== item.id ? `<div class="option-title">${item.title}</div>` : ''}
+                </div>
+            `;
+                option.addEventListener('click', () => {
+                    document.getElementById('contentSearch').value = item.id;
+                    document.getElementById('contentId').value = item.id;
+                    optionsContainer.style.display = 'none';
+                    updateFilenamePreview();
+                });
+                optionsContainer.appendChild(option);
+            });
+        }
+
+        function populateDeleteContentOptions() {
+            const optionsContainer = document.getElementById('deleteContentOptions');
+            optionsContainer.innerHTML = '';
+
+            animeData.forEach(item => {
+                const option = document.createElement('div');
+                option.className = 'option-item';
+                option.innerHTML = `
+                ${item.image ? `<img src="${item.image}" alt="${item.id}" class="option-image" onerror="this.style.display='none'">` : ''}
+                <div class="option-content">
+                    <div class="option-id">${item.id}</div>
+                    ${item.title !== item.id ? `<div class="option-title">${item.title}</div>` : ''}
+                </div>
+            `;
+                option.addEventListener('click', () => {
+                    document.getElementById('deleteContentSearch').value = item.id;
+                    document.getElementById('deleteContentId').value = item.id;
+                    optionsContainer.style.display = 'none';
+                    loadFilesForContent(item.id);
+                });
+                optionsContainer.appendChild(option);
+            });
+        }
+
+        // Search functionality for content IDs (Upload page)
+        document.getElementById('contentSearch').addEventListener('input', function (e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const optionsContainer = document.getElementById('contentOptions');
+            const options = optionsContainer.getElementsByClassName('option-item');
+
+            let hasVisibleOptions = false;
+
+            for (let option of options) {
+                const id = option.querySelector('.option-id').textContent.toLowerCase();
+                const title = option.querySelector('.option-title') ? option.querySelector('.option-title').textContent.toLowerCase() : '';
+
+                if (id.includes(searchTerm) || title.includes(searchTerm)) {
+                    option.style.display = 'flex';
+                    hasVisibleOptions = true;
+                } else {
+                    option.style.display = 'none';
+                }
+            }
+
+            optionsContainer.style.display = hasVisibleOptions ? 'block' : 'none';
+        });
+
+        // Search functionality for content IDs (Delete page)
+        document.getElementById('deleteContentSearch').addEventListener('input', function (e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const optionsContainer = document.getElementById('deleteContentOptions');
+            const options = optionsContainer.getElementsByClassName('option-item');
+
+            let hasVisibleOptions = false;
+
+            for (let option of options) {
+                const id = option.querySelector('.option-id').textContent.toLowerCase();
+                const title = option.querySelector('.option-title') ? option.querySelector('.option-title').textContent.toLowerCase() : '';
+
+                if (id.includes(searchTerm) || title.includes(searchTerm)) {
+                    option.style.display = 'flex';
+                    hasVisibleOptions = true;
+                } else {
+                    option.style.display = 'none';
+                }
+            }
+
+            optionsContainer.style.display = hasVisibleOptions ? 'block' : 'none';
+        });
+
+        // Search functionality for files (Delete page)
+        document.getElementById('deleteFileSearch').addEventListener('input', function (e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const optionsContainer = document.getElementById('fileOptions');
+            const options = optionsContainer.getElementsByClassName('option-item');
+
+            let hasVisibleOptions = false;
+
+            for (let option of options) {
+                const filename = option.querySelector('.option-id').textContent.toLowerCase();
+
+                if (filename.includes(searchTerm)) {
+                    option.style.display = 'flex';
+                    hasVisibleOptions = true;
+                } else {
+                    option.style.display = 'none';
+                }
+            }
+
+            optionsContainer.style.display = hasVisibleOptions ? 'block' : 'none';
+        });
+
+        // File type selection
+        const typeOptions = document.querySelectorAll('.type-option');
+        typeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                typeOptions.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                document.getElementById('fileType').value = option.dataset.type;
+                updateFilenamePreview();
+            });
+        });
+
+        // Custom text input
+        document.getElementById('customText').addEventListener('input', updateFilenamePreview);
+
+        // File input change handler
+        document.getElementById('file').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            const preview = document.getElementById('filePreview');
+            const previewContent = document.getElementById('previewContent');
+
+            if (file) {
+                // Show preview
+                preview.style.display = 'block';
+
+                // Check if file is an image
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        previewContent.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    previewContent.innerHTML = `<p><strong>File Name:</strong> ${file.name}</p>
+                                          <p><strong>File Type:</strong> ${file.type || 'Unknown'}</p>
+                                          <p><strong>File Size:</strong> ${formatFileSize(file.size)}</p>`;
+                }
+
+                updateFilenamePreview();
+            } else {
+                preview.style.display = 'none';
+            }
+        });
+
+        // Load files for selected content (Delete page)
+        function loadFilesForContent(contentId) {
+            const fileSearch = document.getElementById('deleteFileSearch');
+            const fileOptions = document.getElementById('fileOptions');
+
+            fileSearch.value = '';
+            fileOptions.innerHTML = '';
+            document.getElementById('deleteFilename').value = '';
+
+            // Fetch actual files from backend
+            fetch(`${API_BASE_URL}/files/${contentId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.files && data.files.length > 0) {
+                        data.files.forEach(filename => {
+                            const option = document.createElement('div');
+                            option.className = 'option-item';
+                            option.innerHTML = `
+                            <div class="option-content">
+                                <div class="option-id">${filename}</div>
+                            </div>
+                        `;
+                            option.addEventListener('click', () => {
+                                fileSearch.value = filename;
+                                document.getElementById('deleteFilename').value = filename;
+                                fileOptions.style.display = 'none';
+                            });
+                            fileOptions.appendChild(option);
+                        });
+                    } else {
+                        // Show message if no files found
+                        const option = document.createElement('div');
+                        option.className = 'option-item';
+                        option.innerHTML = `
+                        <div class="option-content">
+                            <div class="option-id">No files found for this content</div>
+                        </div>
+                    `;
+                        fileOptions.appendChild(option);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching files:', error);
+                    const option = document.createElement('div');
+                    option.className = 'option-item';
+                    option.innerHTML = `
+                    <div class="option-content">
+                        <div class="option-id">Error loading files</div>
+                    </div>
+                `;
+                    fileOptions.appendChild(option);
+                });
+        }
+
+        // Update filename preview
+        function updateFilenamePreview() {
+            const contentId = document.getElementById('contentId').value;
+            const fileType = document.getElementById('fileType').value;
+            const customText = document.getElementById('customText').value;
+            const fileInput = document.getElementById('file');
+            const file = fileInput.files[0];
+
+            let filename = '';
+
+            if (contentId && fileType) {
+                filename = contentId + '-' + fileType;
+                if (customText) {
+                    filename += '-' + cleanFilename(customText);
+                }
+
+                if (file) {
+                    const extension = getFileExtension(file.name);
+                    filename += '.' + extension;
+                }
+            }
+
+            document.getElementById('filenamePreview').textContent = filename || '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...';
+        }
+
+        // Utility functions
+        function cleanFilename(text) {
+            return text.replace(/[^a-zA-Z0-9\-_]/g, '-').toLowerCase();
+        }
+
+        function getFileExtension(filename) {
+            return filename.slice((filename.lastIndexOf(".") + 1));
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function (e) {
+            if (!e.target.closest('.searchable-select')) {
+                document.querySelectorAll('.options-container, .file-options-container').forEach(container => {
+                    container.style.display = 'none';
+                });
+            }
+        });
+
+        // Show dropdowns when clicking on search inputs
+        document.querySelectorAll('.search-input').forEach(input => {
+            input.addEventListener('click', function (e) {
+                const container = this.nextElementSibling;
+                if (container && container.classList.contains('options-container')) {
+                    container.style.display = 'block';
+                }
+            });
+        });
+
+        // Form submission handlers
+        document.getElementById('uploadForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const contentId = document.getElementById('contentId').value;
+            const fileType = document.getElementById('fileType').value;
+            const authCode = document.getElementById('authCode').value;
+            const fileInput = document.getElementById('file');
+            const file = fileInput.files[0];
+
+            if (!contentId) {
+                showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳', 'error');
+                return;
+            }
+
+            if (!fileType) {
+                showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚏𝚒𝚕𝚎 𝚝𝚢𝚙𝚎', 'error');
+                return;
+            }
+
+            if (!file) {
+                showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚏𝚒𝚕𝚎', 'error');
+                return;
+            }
+
+            // Create FormData for file upload
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('content_id', contentId);
+            formData.append('file_type', fileType);
+            formData.append('auth_code', authCode);
+
+            const customText = document.getElementById('customText').value;
+            if (customText) {
+                formData.append('custom_text', customText);
+            }
+
+            // Upload file
+            uploadFile(formData);
+        });
+
+        document.getElementById('deleteForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const contentId = document.getElementById('deleteContentId').value;
+            const filename = document.getElementById('deleteFilename').value;
+            const authCode = document.getElementById('deleteAuthCode').value;
+
+            if (!contentId) {
+                showDeleteStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳', 'error');
+                return;
+            }
+
+            if (!filename) {
+                showDeleteStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚏𝚒𝚕𝚎', 'error');
+                return;
+            }
+
+            // Delete file
+            deleteFile(filename, authCode);
+        });
+
+        // Upload file to backend
+        function uploadFile(formData) {
+            const progressContainer = document.getElementById('progressContainer');
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            const uploadBtn = document.getElementById('uploadBtn');
+
+            // Show progress bar
+            progressContainer.style.display = 'block';
+            uploadBtn.disabled = true;
+            uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 𝚄𝚙𝚕𝚘𝚊𝚍𝚒𝚗𝚐...';
+
+            fetch(`${API_BASE_URL}/upload`, {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        showStatus(data.error, 'error');
+                    } else {
+                        showStatus(`𝙵𝚒𝚕𝚎 "${data.filename}" 𝚞𝚙𝚕𝚘𝚊𝚍𝚎𝚍 𝚜𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢!`, 'success');
+
+                        // Reset form
+                        document.getElementById('uploadForm').reset();
+                        document.getElementById('filePreview').style.display = 'none';
+                        document.getElementById('filenamePreview').textContent = '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...';
+                        document.getElementById('contentId').value = '';
+                        document.getElementById('fileType').value = '';
+                        typeOptions.forEach(opt => opt.classList.remove('selected'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Upload error:', error);
+                    showStatus('𝙵𝚊𝚒𝚕𝚎𝚍 𝚝𝚘 𝚞𝚙𝚕𝚘𝚊𝚍 𝚏𝚒𝚕𝚎', 'error');
+                })
+                .finally(() => {
+                    progressContainer.style.display = 'none';
+                    uploadBtn.disabled = false;
+                    uploadBtn.innerHTML = '<i class="fas fa-upload"></i> 𝚄𝚙𝚕𝚘𝚊𝚍 𝙵𝚒𝚕𝚎';
+                });
+        }
+
+        // Delete file via backend
+        function deleteFile(filename, authCode) {
+            const deleteBtn = document.getElementById('deleteBtn');
+
+            deleteBtn.disabled = true;
+            deleteBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 𝙳𝚎𝚕𝚎𝚝𝚒𝚗𝚐...';
+
+            fetch(`${API_BASE_URL}/delete`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `filename=${encodeURIComponent(filename)}&auth_code=${encodeURIComponent(authCode)}`
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        showDeleteStatus(data.error, 'error');
+                    } else {
+                        showDeleteStatus(`𝙵𝚒𝚕𝚎 "${data.filename}" 𝚍𝚎𝚕𝚎𝚝𝚎𝚍 𝚜𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢!`, 'success');
+
+                        // Reset form
+                        document.getElementById('deleteForm').reset();
+                        document.getElementById('deleteContentId').value = '';
+                        document.getElementById('deleteFilename').value = '';
+                        document.getElementById('fileOptions').innerHTML = '';
+                    }
+                })
+                .catch(error => {
+                    console.error('Delete error:', error);
+                    showDeleteStatus('𝙵𝚊𝚒𝚕𝚎𝚍 𝚝𝚘 𝚍𝚎𝚕𝚎𝚝𝚎 𝚏𝚒𝚕𝚎', 'error');
+                })
+                .finally(() => {
+                    deleteBtn.disabled = false;
+                    deleteBtn.innerHTML = '<i class="fas fa-trash"></i> 𝙳𝚎𝚕𝚎𝚝𝚎 𝙵𝚒𝚕𝚎';
+                });
+        }
+
+        // Status message functions
+        function showStatus(message, type) {
+            const statusMessage = document.getElementById('statusMessage');
+            statusMessage.textContent = message;
+            statusMessage.className = 'status-message';
+            statusMessage.classList.add(`status-${type}`);
+            statusMessage.style.display = 'block';
+
+            setTimeout(() => {
+                statusMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        function showDeleteStatus(message, type) {
+            const statusMessage = document.getElementById('deleteStatusMessage');
+            statusMessage.textContent = message;
+            statusMessage.className = 'status-message';
+            statusMessage.classList.add(`status-${type}`);
+            statusMessage.style.display = 'block';
+
+            setTimeout(() => {
+                statusMessage.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+
+</html>
