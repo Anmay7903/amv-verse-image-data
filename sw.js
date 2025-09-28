@@ -3,7 +3,7 @@ const ASSETS = [
     '/',
     '/index.html',
     '/main.html',
-    'https://app-with-backend.onrender.com/',
+    '/upload.html',
     '/offline.html',
     '/install.js',
     '/manifest.json',
@@ -71,4 +71,5 @@ self.addEventListener('push', event => {
     );
 
 });
+
 
