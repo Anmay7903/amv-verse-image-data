@@ -1,6 +1,7 @@
 const CACHE_NAME = 'amvverse-cache-v1';
 const ASSETS = [
     '/',
+    'https://amvverse-image-data.pages.dev/#',
     '/index.html',
     '/main.html',
     '/upload.html',
@@ -71,5 +72,6 @@ self.addEventListener('push', event => {
     );
 
 });
+
 
 
