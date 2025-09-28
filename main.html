@@ -36,51 +36,52 @@
             color: var(--text-color);
             line-height: 1.6;
         }
- ::selection {
-    background: rgba(255, 0, 0, 0.452);
-    color: white;
-    /* optional: makes the text readable */
-}
+        
+        ::selection {
+            background: rgba(255, 0, 0, 0.452);
+            color: white;
+        }
 
-/* Remove all tap highlights on mobile devices */
-button,
-button.filter-btn,
-[role="button"],
-input[type="button"],
-input[type="submit"],
-input[type="reset"] {
-    -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    user-select: none;
-    outline: none !important;
-}
+        /* Remove all tap highlights on mobile devices */
+        button,
+        button.filter-btn,
+        [role="button"],
+        input[type="button"],
+        input[type="submit"],
+        input[type="reset"] {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+            outline: none !important;
+        }
+        
         /* Custom Scrollbar */
-::-webkit-scrollbar {
-    width: 10px;
-}
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
 
-::-webkit-scrollbar-track {
-    background: var(--surface-color);
-}
+        ::-webkit-scrollbar-track {
+            background: var(--surface-color);
+        }
 
-::-webkit-scrollbar-thumb {
-    background: var(--secondary-color);
-    border-radius: 5px;
-}
+        ::-webkit-scrollbar-thumb {
+            background: var(--secondary-color);
+            border-radius: 5px;
+        }
 
-::-webkit-scrollbar-thumb:hover {
-    background: var(--primary-color);
-}
-/* Smooth scrolling */
-html {
-    scroll-behavior: smooth;
-}
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color);
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
 
         .no-double-tap {
             touch-action: manipulation;
             -ms-touch-action: manipulation;
-            /* legacy IE/Edge */
         }
 
         .container {
@@ -130,40 +131,38 @@ html {
             cursor: pointer;
         }
 
+        /* Updated Gallery Layout */
         .gallery {
-            column-count: 1;
-            column-gap: 15px;
-        }
-
-        @media (min-width: 600px) {
-            .gallery {
-                column-count: 2;
-            }
-        }
-
-        @media (min-width: 900px) {
-            .gallery {
-                column-count: 3;
-            }
-        }
-
-        @media (min-width: 1200px) {
-            .gallery {
-                column-count: 4;
-            }
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: flex-start;
         }
 
         .card {
-            display: inline-block;
+            flex: 1 1 calc(50% - 15px); /* 2 images per row on mobile */
             background: var(--surface-color);
-            margin: 0 0 15px;
-            width: 100%;
             border-radius: var(--border-radius);
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
             cursor: pointer;
             position: relative;
             overflow: hidden;
-            vertical-align: top;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Desktop - 5 images per row */
+        @media (min-width: 900px) {
+            .card {
+                flex: 1 1 calc(20% - 15px); /* 5 images per row */
+            }
+        }
+
+        /* Tablet - 3 images per row */
+        @media (min-width: 600px) and (max-width: 899px) {
+            .card {
+                flex: 1 1 calc(33.333% - 15px); /* 3 images per row */
+            }
         }
 
         .card img {
@@ -171,6 +170,39 @@ html {
             display: none;
             object-fit: cover;
             border-radius: var(--border-radius) var(--border-radius) 0 0;
+            flex-grow: 1;
+        }
+
+        /* Create zigzag effect with varying heights */
+        .card:nth-child(odd) {
+            min-height: 280px;
+        }
+
+        .card:nth-child(even) {
+            min-height: 320px;
+        }
+
+        /* More variation for desktop */
+        @media (min-width: 900px) {
+            .card:nth-child(5n+1) {
+                min-height: 300px;
+            }
+            
+            .card:nth-child(5n+2) {
+                min-height: 270px;
+            }
+            
+            .card:nth-child(5n+3) {
+                min-height: 320px;
+            }
+            
+            .card:nth-child(5n+4) {
+                min-height: 290px;
+            }
+            
+            .card:nth-child(5n+5) {
+                min-height: 310px;
+            }
         }
 
         .skeleton {
@@ -179,6 +211,7 @@ html {
             background: linear-gradient(90deg, #2d2d2d 25%, #3a3d42 37%, #2d2d2d 63%);
             background-size: 400% 100%;
             animation: shimmer 1.4s infinite;
+            flex-grow: 1;
         }
 
         @keyframes shimmer {
@@ -250,7 +283,6 @@ html {
         const notFound = document.getElementById("notFound");
         const goHome = document.getElementById("goHome");
 
-
         const prefix = "https://amvverse-image-data.pages.dev/images/"; // Replace with your image path prefix
 
         // Store already loaded images for 2-second caching
@@ -319,7 +351,7 @@ html {
                 return;
             } else {
                 notFound.style.display = "none";
-                gallery.style.display = "block";
+                gallery.style.display = "flex";
             }
 
             const nextItems = filtered.slice(currentIndex, currentIndex + perPage);
@@ -364,7 +396,4 @@ html {
     </button>
 </div>
 
-
 </html>
-
-
