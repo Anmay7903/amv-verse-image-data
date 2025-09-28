@@ -21,11 +21,19 @@
     <script src="https://flask-15v.pages.dev/sw.js"></script>
     <style>
         /* apply only to interactive controls (recommended), or * for whole page */
-        html,
-        body,
-        button,
-        a,
-        input,
+         * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
         .no-double-tap {
             touch-action: manipulation;
             -ms-touch-action: manipulation;
