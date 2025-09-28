@@ -1,15 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>𝙵𝚒𝚕𝚎 𝚄𝚙𝚕𝚘𝚊𝚍𝚎𝚛 | 𝙰𝙼𝚅 𝚅𝙴𝚁𝚂𝙴</title>
-    <script src="install.js"></script>
-    <link rel="manifest" href="https://flask-15v.pages.dev/manifest.json">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="https://amvverse-anime-card.pages.dev/fav-icon.png" type="png/image/x-icon">
+    <title>Slide Toggle Header | AMV VERSE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -25,52 +19,6 @@
             color: #fff;
             overflow: hidden;
             height: 100vh;
-        }
-        ::selection {
-    background: rgba(255, 0, 0, 0.452);
-    color: white;
-    /* optional: makes the text readable */
-}
-
-/* Remove all tap highlights on mobile devices */
-button,
-button.filter-btn,
-[role="button"],
-input[type="button"],
-input[type="submit"],
-input[type="reset"] {
-    -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    user-select: none;
-    outline: none !important;
-}
-        /* Custom Scrollbar */
-::-webkit-scrollbar {
-    width: 10px;
-}
-
-::-webkit-scrollbar-track {
-    background: var(--surface-color);
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--secondary-color);
-    border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: var(--primary-color);
-}
-/* Smooth scrolling */
-html {
-    scroll-behavior: smooth;
-}
-
-        .no-double-tap {
-            touch-action: manipulation;
-            -ms-touch-action: manipulation;
-            /* legacy IE/Edge */
         }
 
         /* Header Styles */
@@ -139,22 +87,22 @@ html {
             transition: transform 0.4s ease-in-out;
         }
 
-        .google-frame {
+        .main-frame {
             transform: translateX(0%);
         }
 
-        .youtube-frame {
+        .upload-frame {
             position: absolute;
             top: 0;
             left: 0;
             transform: translateX(100%);
         }
 
-        .google-frame.slide-left {
+        .main-frame.slide-left {
             transform: translateX(-100%);
         }
 
-        .youtube-frame.slide-in {
+        .upload-frame.slide-in {
             transform: translateX(0%);
         }
 
@@ -176,17 +124,16 @@ html {
         }
     </style>
 </head>
-
 <body>
     <!-- Header -->
     <header class="main-header">
         <div class="header-container">
             <a href="#" class="logo">𝙰𝙼𝚅 𝚅𝙴𝚁𝚂𝙴</a>
             <div class="toggle-container">
-                <button class="toggle-btn active" id="googleToggle">
+                <button class="toggle-btn active" id="mainToggle">
                     <i class="fas fa-home"></i> 𝙷𝚘𝚖𝚎
                 </button>
-                <button class="toggle-btn" id="youtubeToggle">
+                <button class="toggle-btn" id="uploadToggle">
                     <i class="fas fa-cloud-upload"></i> 𝚄𝚙𝚕𝚘𝚊𝚍
                 </button>
             </div>
@@ -195,46 +142,34 @@ html {
 
     <!-- Main Content -->
     <div class="main-container">
-        <iframe src="main.html" class="website-frame google-frame" id="googleFrame"></iframe>
-        <iframe src="upload.html" class="website-frame youtube-frame"
-            id="youtubeFrame"></iframe>
+        <iframe src="main.html" class="website-frame main-frame" id="mainFrame"></iframe>
+        <iframe src="upload.html" class="website-frame upload-frame" id="uploadFrame"></iframe>
     </div>
 
     <script>
         // Page Toggle Functionality
-        const googleToggle = document.getElementById('googleToggle');
-        const youtubeToggle = document.getElementById('youtubeToggle');
-        const googleFrame = document.getElementById('googleFrame');
-        const youtubeFrame = document.getElementById('youtubeFrame');
+        const mainToggle = document.getElementById('mainToggle');
+        const uploadToggle = document.getElementById('uploadToggle');
+        const mainFrame = document.getElementById('mainFrame');
+        const uploadFrame = document.getElementById('uploadFrame');
 
-        googleToggle.addEventListener('click', () => {
-            if (!googleToggle.classList.contains('active')) {
-                googleToggle.classList.add('active');
-                youtubeToggle.classList.remove('active');
-                googleFrame.classList.remove('slide-left');
-                youtubeFrame.classList.remove('slide-in');
+        mainToggle.addEventListener('click', () => {
+            if (!mainToggle.classList.contains('active')) {
+                mainToggle.classList.add('active');
+                uploadToggle.classList.remove('active');
+                mainFrame.classList.remove('slide-left');
+                uploadFrame.classList.remove('slide-in');
             }
         });
 
-        youtubeToggle.addEventListener('click', () => {
-            if (!youtubeToggle.classList.contains('active')) {
-                youtubeToggle.classList.add('active');
-                googleToggle.classList.remove('active');
-                googleFrame.classList.add('slide-left');
-                youtubeFrame.classList.add('slide-in');
+        uploadToggle.addEventListener('click', () => {
+            if (!uploadToggle.classList.contains('active')) {
+                uploadToggle.classList.add('active');
+                mainToggle.classList.remove('active');
+                mainFrame.classList.add('slide-left');
+                uploadFrame.classList.add('slide-in');
             }
         });
     </script>
 </body>
-<div id="update-banner"
-    style="display:none; position:fixed; top:56px; right:8px; background:#fffae6; border:1px solid #ffd666; border-radius:6px; padding:8px 12px; box-shadow:0 2px 6px rgba(0,0,0,0.2); z-index:10000;">
-    <button id="refresh-btn"
-        style="background:#ff9800; color:white; border:none; border-radius:4px; padding:6px 10px; cursor:pointer;">
-        🔄 New version available — Refresh
-    </button>
-</div>
-
-
 </html>
-
-
