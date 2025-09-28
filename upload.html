@@ -9,13 +9,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>𝙵𝚒𝚕𝚎 𝙿𝚛𝚎𝚟𝚒𝚎𝚠 | 𝙰𝙼𝚅 𝚅𝙴𝚁𝚂𝙴</title>
     <link rel="manifest" href="manifest.json">
-        <link rel="stylesheet" href="https://amvverse.pages.dev/style.css"> 
     <script src="install.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="https://amvverse-anime-card.pages.dev/fav-icon.png" type="png/image/x-icon">
     <style>
-        
+          /* CSS Variables from the external style.css */
+        :root {
+            --primary-color: #e50914;
+            --background-color: #0f0f0f;
+            --surface-color: #1a1a1a;
+            --text-color: #ffffff;
+            --text-color-secondary: #b3b3b3;
+            --border-radius: 8px;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        /* Base styles from external CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Gallery page styles */
+        .gallery-page {
+            min-height: 100vh;
+            padding: 2rem 0;
+        }
+
+        /* Additional base styles that might be in the external CSS */
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #ff1e2d;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
         /* apply only to interactive controls (recommended), or * for whole page */
         html,
         body,
