@@ -1,15 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>𝙵𝚒𝚕𝚎 𝙿𝚛𝚎𝚟𝚒𝚎𝚠 | 𝙰𝙼𝚅 𝚅𝙴𝚁𝚂𝙴</title>
     <link rel="manifest" href="manifest.json">
-    <script src="install.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="https://amvverse-anime-card.pages.dev/fav-icon.png" type="png/image/x-icon">
+    <script src="data.js"></script>
+    <script src="install.js"></script>
     <style>
+        :root {
+            --primary-color: #e50914;
+            --secondary-color: #e50914a6;
+            --background-color: #141414;
+            --surface-color: #23252a;
+            --text-color: #ffffff;
+            --text-color-secondary: #a0a0a0;
+            --border-radius: 8px;
+            --transition-speed: 0.3s;
+            --font-family: 'Inter', sans-serif;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -18,12 +32,11 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #0f0f0f;
-            color: #fff;
-            overflow: hidden;
-            height: 100vh;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
         }
-                
+        
         ::selection {
             background: rgba(255, 0, 0, 0.452);
             color: white;
@@ -71,159 +84,320 @@
             -ms-touch-action: manipulation;
         }
 
-        /* Header Styles */
-        .main-header {
-            background: #1a1a1a;
-            padding: 1rem 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            position: relative;
-            z-index: 10;
-        }
-
-        .header-container {
+        .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 15px;
+        }
+
+        /* Gallery-specific styling */
+        .gallery-page {
+            padding: 2rem 0;
+            min-height: 100vh;
+            background-color: var(--background-color);
+        }
+
+.section-title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+    border-left: 4px solid var(--primary-color);
+    padding-left: 1rem;
+    padding-top: 0.5rem;    /* Add this line */
+    padding-bottom: 0.5rem; /* Add this line */
+}
+        .gallery-search {
+            max-width: 500px;
+            margin: 1rem auto 2rem auto;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #e50914;
-            text-decoration: none;
-        }
-
-        .toggle-container {
-            display: flex;
-            background: #2a2a2a;
-            border-radius: 8px;
-            padding: 4px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .toggle-btn {
-            padding: 10px 20px;
-            border: none;
-            background: transparent;
-            color: #aaa;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 6px;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .toggle-btn.active {
-            background: #e50914;
-            color: white;
-        }
-
-        /* Main Content Area */
-        .main-container {
-            position: relative;
-            height: calc(100vh - 80px);
+            background: var(--surface-color);
+            border-radius: var(--border-radius);
             overflow: hidden;
         }
 
-        .website-frame {
-            width: 100%;
-            height: 100%;
+        .gallery-search input {
             border: none;
-            transition: transform 0.4s ease-in-out;
+            background: transparent;
+            padding: 0.8rem 1rem;
+            color: var(--text-color);
+            flex: 1;
+            outline: none;
         }
 
-        .main-frame {
-            transform: translateX(0%);
+        .gallery-search button {
+            background: var(--primary-color);
+            border: none;
+            color: var(--text-color);
+            padding: 0.8rem 1rem;
+            cursor: pointer;
         }
 
-        .upload-frame {
+        /* Updated Gallery Layout */
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: flex-start;
+        }
+
+        .card {
+            flex: 1 1 calc(50% - 15px); /* 2 images per row on mobile */
+            background: var(--surface-color);
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Desktop - 5 images per row */
+        @media (min-width: 900px) {
+            .card {
+                flex: 1 1 calc(20% - 15px); /* 5 images per row */
+            }
+        }
+
+        /* Tablet - 3 images per row */
+        @media (min-width: 600px) and (max-width: 899px) {
+            .card {
+                flex: 1 1 calc(33.333% - 15px); /* 3 images per row */
+            }
+        }
+
+        .card img {
+            width: 100%;
+            display: none;
+            object-fit: cover;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            flex-grow: 1;
+        }
+
+        /* Create zigzag effect with varying heights */
+        .card:nth-child(odd) {
+            min-height: 280px;
+        }
+
+        .card:nth-child(even) {
+            min-height: 320px;
+        }
+
+        /* More variation for desktop */
+        @media (min-width: 900px) {
+            .card:nth-child(5n+1) {
+                min-height: 300px;
+            }
+            
+            .card:nth-child(5n+2) {
+                min-height: 270px;
+            }
+            
+            .card:nth-child(5n+3) {
+                min-height: 320px;
+            }
+            
+            .card:nth-child(5n+4) {
+                min-height: 290px;
+            }
+            
+            .card:nth-child(5n+5) {
+                min-height: 310px;
+            }
+        }
+
+        .skeleton {
+            width: 100%;
+            aspect-ratio: 3/4;
+            background: linear-gradient(90deg, #2d2d2d 25%, #3a3d42 37%, #2d2d2d 63%);
+            background-size: 400% 100%;
+            animation: shimmer 1.4s infinite;
+            flex-grow: 1;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -468px 0;
+            }
+
+            100% {
+                background-position: 468px 0;
+            }
+        }
+
+        .name {
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .copied {
             position: absolute;
-            top: 0;
-            left: 0;
-            transform: translateX(100%);
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            display: none;
         }
 
-        .main-frame.slide-left {
-            transform: translateX(-100%);
+        #notFound {
+            display: none;
+            text-align: center;
+            margin-top: 50px;
+            font-size: 20px;
+            color: var(--text-color-secondary);
         }
 
-        .upload-frame.slide-in {
-            transform: translateX(0%);
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .header-container {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .toggle-container {
-                width: 100%;
-            }
-
-            .toggle-btn {
-                flex: 1;
-                justify-content: center;
-            }
+        #notFound a {
+            color: var(--primary-color);
+            text-decoration: none;
+            margin-left: 5px;
         }
     </style>
 </head>
-<body>
-    <!-- Header -->
-    <header class="main-header">
-        <div class="header-container">
-            <a href="/" class="logo">𝙰𝙼𝚅 𝚅𝙴𝚁𝚂𝙴</a>
-            <div class="toggle-container">
-                <button class="toggle-btn active" id="mainToggle">
-                    <i class="fas fa-home"></i> 𝙷𝚘𝚖𝚎
-                </button>
-                <button class="toggle-btn" id="uploadToggle">
-                    <i class="fas fa-cloud-upload"></i> 𝚄𝚙𝚕𝚘𝚊𝚍
-                </button>
-            </div>
-        </div>
-    </header>
 
-    <!-- Main Content -->
-    <div class="main-container">
-        <iframe src="main.html" class="website-frame main-frame" id="mainFrame"></iframe>
-        <iframe src="upload.html" class="website-frame upload-frame" id="uploadFrame"></iframe>
-    </div>
+<body>
+    <!-- Gallery Page -->
+    <main class="gallery-page">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-images"></i> 𝙵𝚒𝚕𝚎 𝙿𝚛𝚎𝚟𝚒𝚎𝚠</h2>
+            <div class="gallery-search">
+                <input type="text" id="search" placeholder="Search images...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+            <div class="gallery" id="gallery"></div>
+            <div id="notFound">No images found. <a href="#" id="goHome">𝙱𝚊𝚌𝚔 𝚝𝚘 𝙷𝚘𝚖𝚎</a></div>
+        </div>
+    </main>
 
     <script>
-        // Page Toggle Functionality
-        const mainToggle = document.getElementById('mainToggle');
-        const uploadToggle = document.getElementById('uploadToggle');
-        const mainFrame = document.getElementById('mainFrame');
-        const uploadFrame = document.getElementById('uploadFrame');
+        // Gallery functionality
+        let currentIndex = 0;
+        const perPage = 10;
+        const gallery = document.getElementById("gallery");
+        const searchInput = document.getElementById("search");
+        const notFound = document.getElementById("notFound");
+        const goHome = document.getElementById("goHome");
 
-        mainToggle.addEventListener('click', () => {
-            if (!mainToggle.classList.contains('active')) {
-                mainToggle.classList.add('active');
-                uploadToggle.classList.remove('active');
-                mainFrame.classList.remove('slide-left');
-                uploadFrame.classList.remove('slide-in');
+        const prefix = "https://amvverse-image-data.pages.dev/images/"; // Replace with your image path prefix
+
+        // Store already loaded images for 2-second caching
+        const loadedCache = {};
+
+        function formatName(filename) {
+            return filename.replace(".jpg", "").replace(/[-_]/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+        }
+
+        function createCard(filename) {
+            const url = prefix + filename;
+            const card = document.createElement("div");
+            card.className = "card";
+
+            const skeleton = document.createElement("div");
+            skeleton.className = "skeleton";
+
+            const img = document.createElement("img");
+            img.src = url;
+
+            const nameDiv = document.createElement("div");
+            nameDiv.className = "name";
+            nameDiv.textContent = formatName(filename);
+
+            const copied = document.createElement("div");
+            copied.className = "copied";
+            copied.textContent = "Link Copied!";
+
+            card.appendChild(skeleton);
+            card.appendChild(img);
+            card.appendChild(nameDiv);
+            card.appendChild(copied);
+
+            img.onload = () => {
+                skeleton.style.display = "none";
+                img.style.display = "block";
+                loadedCache[url] = Date.now();
+            };
+
+            img.onerror = () => {
+                skeleton.style.display = "none";
+                img.style.display = "none";
+                nameDiv.textContent = "Image Not Found";
+                card.style.backgroundColor = "#8b0000";
+            };
+
+            card.addEventListener("click", () => {
+                navigator.clipboard.writeText(url);
+                copied.style.display = "block";
+                setTimeout(() => copied.style.display = "none", 1000);
+            });
+
+            return card;
+        }
+
+        function renderImages(reset = false) {
+            if (reset) {
+                gallery.innerHTML = "";
+                currentIndex = 0;
+            }
+            const searchValue = searchInput.value.toLowerCase();
+            const filtered = images.filter(f => formatName(f).toLowerCase().includes(searchValue));
+            if (filtered.length === 0) {
+                notFound.style.display = "block";
+                gallery.style.display = "none";
+                return;
+            } else {
+                notFound.style.display = "none";
+                gallery.style.display = "flex";
+            }
+
+            const nextItems = filtered.slice(currentIndex, currentIndex + perPage);
+            nextItems.forEach(f => {
+                const url = prefix + f;
+                if (loadedCache[url] && (Date.now() - loadedCache[url] < 2000)) {
+                    const card = createCard(f);
+                    gallery.appendChild(card);
+                    const img = card.querySelector("img");
+                    img.style.display = "block";
+                    card.querySelector(".skeleton").style.display = "none";
+                } else {
+                    gallery.appendChild(createCard(f));
+                }
+            });
+            currentIndex += perPage;
+        }
+
+        // Event listeners
+        searchInput.addEventListener("input", () => renderImages(true));
+        goHome.addEventListener("click", (e) => {
+            e.preventDefault();
+            searchInput.value = "";
+            renderImages(true);
+        });
+
+        window.addEventListener("scroll", () => {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
+                renderImages();
             }
         });
 
-        uploadToggle.addEventListener('click', () => {
-            if (!uploadToggle.classList.contains('active')) {
-                uploadToggle.classList.add('active');
-                mainToggle.classList.remove('active');
-                mainFrame.classList.add('slide-left');
-                uploadFrame.classList.add('slide-in');
-            }
-        });
+        // Initial render
+        renderImages();
     </script>
 </body>
-</html>
+<div id="update-banner"
+    style="display:none; position:fixed; top:56px; right:8px; background:#fffae6; border:1px solid #ffd666; border-radius:6px; padding:8px 12px; box-shadow:0 2px 6px rgba(0,0,0,0.2); z-index:10000;">
+    <button id="refresh-btn"
+        style="background:#ff9800; color:white; border:none; border-radius:4px; padding:6px 10px; cursor:pointer;">
+        🔄 New version available — Refresh
+    </button>
+</div>
 
+</html>
 
 
 
