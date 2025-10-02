@@ -15,5 +15,6 @@ const images = [
   "eclipse-of-illusion-card.jpg",
   "fragrant-flower-blooms-with-dignity-card.jpg",
   "garden-of-words-card.jpg",
-  "hello-world-card.jpg"
+  "hello-world-card.jpg",
+  "honey-lemon-soda-card.jpg"
 ];
