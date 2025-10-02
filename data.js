@@ -38,5 +38,6 @@ const images = [
   "the-angel-next-door-spoils-me-rotten-card.jpg",
   "throne-of-seal-movie-the-crownless-god-card.jpg",
   "vtuber-legend-how-i-went-viral-card.jpg",
-  "weathering-with-you-card.jpg"
+  "weathering-with-you-card.jpg",
+  "white-snake-card.jpg"
 ];
