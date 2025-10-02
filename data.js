@@ -37,5 +37,6 @@ const images = [
   "suzume-no-tojimari-card.jpg",
   "the-angel-next-door-spoils-me-rotten-card.jpg",
   "throne-of-seal-movie-the-crownless-god-card.jpg",
-  "vtuber-legend-how-i-went-viral-card.jpg"
+  "vtuber-legend-how-i-went-viral-card.jpg",
+  "weathering-with-you-card.jpg"
 ];
