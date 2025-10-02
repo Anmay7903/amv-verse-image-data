@@ -25,5 +25,6 @@ const images = [
   "jujutsu-kaisen-card.jpg",
   "lord-of-the-mysteries-card.jpg",
   "maha-narsimha-card.jpg",
-  "makeine-too-many-losing-heroines-card.jpg"
+  "makeine-too-many-losing-heroines-card.jpg",
+  "ne-zha-2-card.jpg"
 ];
