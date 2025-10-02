@@ -33,5 +33,6 @@ const images = [
   "solo-leveling 2-card.jpg",
   "solo-leveling-card.jpg",
   "soul-land-2-card.jpg",
-  "soul-land-card.jpg"
+  "soul-land-card.jpg",
+  "suzume-no-tojimari-card.jpg"
 ];
