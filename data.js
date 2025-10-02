@@ -39,5 +39,6 @@ const images = [
   "throne-of-seal-movie-the-crownless-god-card.jpg",
   "vtuber-legend-how-i-went-viral-card.jpg",
   "weathering-with-you-card.jpg",
-  "white-snake-card.jpg"
+  "white-snake-card.jpg",
+  "your-name-card.jpg"
 ];
