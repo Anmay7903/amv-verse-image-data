@@ -14,5 +14,6 @@ const images = [
   "demon-slayer-mugen-train-card.jpg",
   "eclipse-of-illusion-card.jpg",
   "fragrant-flower-blooms-with-dignity-card.jpg",
-  "garden-of-words-card.jpg"
+  "garden-of-words-card.jpg",
+  "hello-world-card.jpg"
 ];
