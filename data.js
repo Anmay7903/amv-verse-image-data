@@ -2,5 +2,6 @@
 const images = [
   "a-couple-of-cuckoos-season-2-card.jpg",
   "a-couple-of-cuckoos-card.jpg",
-  "a-silent-voice-card.jpg"
+  "a-silent-voice-card.jpg",
+  "alya-sometimes-hides-her-feelings-in-russian-card.jpg"
 ];
