@@ -32,5 +32,6 @@ const images = [
   "sakamoto-days-card.jpg",
   "solo-leveling 2-card.jpg",
   "solo-leveling-card.jpg",
-  "soul-land-2-card.jpg"
+  "soul-land-2-card.jpg",
+  "soul-land-card.jpg"
 ];
