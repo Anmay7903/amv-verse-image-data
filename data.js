@@ -12,5 +12,6 @@ const images = [
   "dan-da-dan-season-2-card.jpg",
   "dan-da-dan-card.jpg",
   "demon-slayer-mugen-train-card.jpg",
-  "eclipse-of-illusion-card.jpg"
+  "eclipse-of-illusion-card.jpg",
+  "fragrant-flower-blooms-with-dignity-card.jpg"
 ];
