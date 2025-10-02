@@ -21,5 +21,6 @@ const images = [
   "horimiya-the-missing-piece-season-2-card.jpg",
   "im-getting-married-to-a-girl-i-hate-card.jpg",
   "jujutsu-kaisen-0-card.jpg",
-  "jujutsu-kaisen-2-card.jpg"
+  "jujutsu-kaisen-2-card.jpg",
+  "jujutsu-kaisen-card.jpg"
 ];
