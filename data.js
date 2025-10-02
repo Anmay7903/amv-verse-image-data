@@ -35,5 +35,6 @@ const images = [
   "soul-land-2-card.jpg",
   "soul-land-card.jpg",
   "suzume-no-tojimari-card.jpg",
-  "the-angel-next-door-spoils-me-rotten-card.jpg"
+  "the-angel-next-door-spoils-me-rotten-card.jpg",
+  "throne-of-seal-movie-the-crownless-god-card.jpg"
 ];
