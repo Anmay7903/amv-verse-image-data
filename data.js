@@ -28,5 +28,6 @@ const images = [
   "makeine-too-many-losing-heroines-card.jpg",
   "ne-zha-2-card.jpg",
   "ne-zha-card.jpg",
-  "over-the-divine-realms-card.jpg"
+  "over-the-divine-realms-card.jpg",
+  "sakamoto-days-card.jpg"
 ];
