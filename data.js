@@ -6,5 +6,6 @@ const images = [
   "alya-sometimes-hides-her-feelings-in-russian-card.jpg",
   "ameku-md-doctor-detective-card.jpg",
   "attack-on-titan-season-2-card.jpg",
-  "attack-on-titan-card.jpg"
+  "attack-on-titan-card.jpg",
+  "battle-through-the-heavens-card.jpg"
 ];
