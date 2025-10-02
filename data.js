@@ -9,5 +9,6 @@ const images = [
   "attack-on-titan-card.jpg",
   "battle-through-the-heavens-card.jpg",
   "blue-lock-movie-episode-nagi-card.jpg",
-  "dan-da-dan-season-2-card.jpg"
+  "dan-da-dan-season-2-card.jpg",
+  "dan-da-dan-card.jpg"
 ];
