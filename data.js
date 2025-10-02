@@ -18,5 +18,6 @@ const images = [
   "hello-world-card.jpg",
   "honey-lemon-soda-card.jpg",
   "horimiya-the-missing-piece-card.jpg",
-  "horimiya-the-missing-piece-season-2-card.jpg"
+  "horimiya-the-missing-piece-season-2-card.jpg",
+  "im-getting-married-to-a-girl-i-hate-card.jpg"
 ];
