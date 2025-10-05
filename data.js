@@ -43,5 +43,6 @@ const images = [
   "vtuber-legend-how-i-went-viral-card.jpg",
   "weathering-with-you-card.jpg",
   "white-snake-card.jpg",
-  "your-name-card.jpg"
+  "your-name-card.jpg",
+  "eclipse-of-illusion-poster-1.jpg"
 ];
