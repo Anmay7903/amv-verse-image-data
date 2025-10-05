@@ -1,8 +1,8 @@
 // Image data for AMV VERSE
 const images = [
-  "amv-icon.png"
-  "fav-icon.png"
-  "amv-verse.png"
+  "amv-icon.png",
+  "fav-icon.png",
+  "amv-verse.png",
   "a-couple-of-cuckoos-season-2-card.jpg",
   "a-couple-of-cuckoos-card.jpg",
   "a-silent-voice-card.jpg",
