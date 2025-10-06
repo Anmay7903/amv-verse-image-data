@@ -46,5 +46,6 @@ const images = [
   "your-name-card.jpg",
   "eclipse-of-illusion-poster-1.jpg",
   "battle-through-the-heavens-poster-1.jpg",
-  "battle-through-the-heavens-poster-2.jpg"
+  "battle-through-the-heavens-poster-2.jpg",
+  "soul-land-2-poster-1.jpg"
 ];
