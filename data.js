@@ -68,5 +68,6 @@ const images = [
   "soul-land-2-screenshot-1.jpg",
   "soul-land-2-screenshot-2.jpg",
   "soul-land-2-screenshot-3.jpg",
-  "soul-land-2-screenshot-4.jpg"
+  "soul-land-2-screenshot-4.jpg",
+  "soul-land-character-Tang_San.jpg"
 ];
