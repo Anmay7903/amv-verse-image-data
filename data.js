@@ -73,5 +73,6 @@ const images = [
   "soul-land-character-Xiao_Wu.jpg",
   "soul-land-character-Dai_Mubai.jpg",
   "soul-land-character-Zhu_Zhuqing.jpg",
-  "soul-land-character-Ning_Rongrong.jpg"
+  "soul-land-character-Ning_Rongrong.jpg",
+  "soul-land-character-Oscar.jpg"
 ];
