@@ -1,4 +1,5 @@
 const images = [
+  "may-i-ask-for-one-final-thing-card",
   "a-couple-of-cuckoos-card.jpg",
   "a-couple-of-cuckoos-season-2-card.jpg",
   "a-silent-voice-card.jpg",
