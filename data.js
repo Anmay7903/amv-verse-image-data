@@ -3,6 +3,7 @@ const images = [
   "amv-icon.png",
   "fav-icon.png",
   "amv-verse.png",
+  "may-i-ask-for-one-final-thing-card.jpg",
   "a-couple-of-cuckoos-season-2-card.jpg",
   "a-couple-of-cuckoos-card.jpg",
   "a-silent-voice-card.jpg",
