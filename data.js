@@ -84,5 +84,6 @@ const images = [
   "eclipse-of-illusion-poster-1.jpg",
   "eclipse-of-illusion-character-Yan_Che.jpg",
   "eclipse-of-illusion-character-Lu_Qichao.jpg",
-  "eclipse-of-illusion-character-Yue_Wangshu.jpg"
+  "eclipse-of-illusion-character-Yue_Wangshu.jpg",
+  "eclipse-of-illusion-screenshot-1.jpg"
 ];
