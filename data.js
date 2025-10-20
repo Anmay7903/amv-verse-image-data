@@ -1,9 +1,10 @@
+// Image data for AMV VERSE
 const images = [
   "may-i-ask-for-one-final-thing-card.jpg",
   "a-couple-of-cuckoos-card.jpg",
   "a-couple-of-cuckoos-season-2-card.jpg",
-  "amv-icon.png",  
-  "fav-icon.png",  
+  "amv-icon.png",
+  "fav-icon.png",
   "amv-verse.png",
   "a-silent-voice-card.jpg",
   "alya-sometimes-hides-her-feelings-in-russian-card.jpg",
@@ -50,5 +51,6 @@ const images = [
   "vtuber-legend-how-i-went-viral-card.jpg",
   "weathering-with-you-card.jpg",
   "white-snake-card.jpg",
-  "your-name-card.jpg"
+  "your-name-card.jpg",
+  "battle-through-the-heavens-character-Xiao_Yan.jpg"
 ];
