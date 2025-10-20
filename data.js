@@ -78,5 +78,6 @@ const images = [
   "soul-land-character-Ma_Hongjun.jpg",
   "soul-land-character-Bai_Chenxiang.jpg",
   "soul-land-screenshot-1.jpg",
-  "soul-land-screenshot-2.jpg"
+  "soul-land-screenshot-2.jpg",
+  "soul-land-screenshot-3.jpg"
 ];
