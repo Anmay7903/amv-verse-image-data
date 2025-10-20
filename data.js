@@ -64,5 +64,6 @@ const images = [
   "soul-land-2-character-Skydream_Iceworm.jpg",
   "soul-land-2-character-Ice_Empress.jpg",
   "soul-land-2-character-Snow_Emperor.jpg",
-  "soul-land-2-character-Bei_Bei.jpg"
+  "soul-land-2-character-Bei_Bei.jpg",
+  "soul-land-2-screenshot-1.jpg"
 ];
