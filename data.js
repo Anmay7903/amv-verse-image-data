@@ -60,5 +60,6 @@ const images = [
   "battle-through-the-heavens-character-Zi_Yan.jpg",
   "battle-through-the-heavens-poster-1.jpg",
   "soul-land-2-character-Huo_Yuhao.jpg",
-  "soul-land-2-character-Tang_Wutong.jpg"
+  "soul-land-2-character-Tang_Wutong.jpg",
+  "soul-land-2-character-Skydream_Iceworm.jpg"
 ];
