@@ -55,5 +55,6 @@ const images = [
   "battle-through-the-heavens-character-Xiao_Yan.jpg",
   "battle-through-the-heavens-character-Xiao_Yi_Xian.jpg",
   "battle-through-the-heavens-character-Yao_Lao.jpg",
-  "battle-through-the-heavens-character-Xun_Er.jpg"
+  "battle-through-the-heavens-character-Xun_Er.jpg",
+  "battle-through-the-heavens-character-Medusa.jpg"
 ];
