@@ -53,5 +53,6 @@ const images = [
   "white-snake-card.jpg",
   "your-name-card.jpg",
   "battle-through-the-heavens-character-Xiao_Yan.jpg",
-  "battle-through-the-heavens-character-Xiao_Yi_Xian.jpg"
+  "battle-through-the-heavens-character-Xiao_Yi_Xian.jpg",
+  "battle-through-the-heavens-character-Yao_Lao.jpg"
 ];
