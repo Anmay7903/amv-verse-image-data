@@ -80,5 +80,6 @@ const images = [
   "soul-land-screenshot-1.jpg",
   "soul-land-screenshot-2.jpg",
   "soul-land-screenshot-3.jpg",
-  "soul-land-screenshot-4.jpg"
+  "soul-land-screenshot-4.jpg",
+  "eclipse-of-illusion-poster-1.jpg"
 ];
