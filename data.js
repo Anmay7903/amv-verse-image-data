@@ -97,5 +97,6 @@ const images = [
   "soul-land-2-poster.jpg",
   "eclipse-of-illusion-poster.jpg",
   "soul-land-2-screenshot-7.jpg",
-  "true-beauty-card.jpg"
+  "true-beauty-card.jpg",
+  "my-status-as-an-assassin-obviously-exceeds-the-hero-card.jpg"
 ];
