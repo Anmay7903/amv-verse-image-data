@@ -101,5 +101,6 @@ const images = [
   "my-status-as-an-assassin-obviously-exceeds-the-hero-card.jpg",
   "no-longer-allowed-in-another-world-card.jpg",
   "the-glassworker-card.jpg",
-  "berserk-of-gluttony-card.jpg"
+  "berserk-of-gluttony-card.jpg",
+  "new-saga-card.jpg"
 ];
