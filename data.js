@@ -104,5 +104,6 @@ const images = [
   "berserk-of-gluttony-card.jpg",
   "new-saga-card.jpg",
   "true-beauty-poster.jpg",
-  "soul-land-2-poster-2.jpg"
+  "soul-land-2-poster-2.jpg",
+  "soul-land-2-poster-1.jpg"
 ];
