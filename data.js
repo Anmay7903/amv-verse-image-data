@@ -99,5 +99,6 @@ const images = [
   "soul-land-2-screenshot-7.jpg",
   "true-beauty-card.jpg",
   "my-status-as-an-assassin-obviously-exceeds-the-hero-card.jpg",
-  "no-longer-allowed-in-another-world-card.jpg"
+  "no-longer-allowed-in-another-world-card.jpg",
+  "the-glassworker-card.jpg"
 ];
