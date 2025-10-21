@@ -18,7 +18,7 @@ const images = [
   "blue-lock-movie-episode-nagi-card.jpg",
   "dan-da-dan-card.jpg",
   "dan-da-dan-season-2-card.jpg",
-  "demon-slayer-infinity-castle.jpg",
+  "demon-slayer-infinity-castle-card.jpg",
   "demon-slayer-kimetsu-no-yaiba-season-2-card.jpg",
   "demon-slayer-mugen-train-card.jpg",
   "eclipse-of-illusion-card.jpg",
