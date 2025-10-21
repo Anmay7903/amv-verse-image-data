@@ -100,5 +100,6 @@ const images = [
   "true-beauty-card.jpg",
   "my-status-as-an-assassin-obviously-exceeds-the-hero-card.jpg",
   "no-longer-allowed-in-another-world-card.jpg",
-  "the-glassworker-card.jpg"
+  "the-glassworker-card.jpg",
+  "berserk-of-gluttony-card.jpg"
 ];
