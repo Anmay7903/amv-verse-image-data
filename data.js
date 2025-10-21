@@ -95,5 +95,6 @@ const images = [
   "demon-slayer-kimetsu-no-yaiba-season-1-card.jpg",
   "battle-through-the-heavens-poster.jpg",
   "soul-land-2-poster.jpg",
-  "eclipse-of-illusion-poster.jpg"
+  "eclipse-of-illusion-poster.jpg",
+  "soul-land-2-screenshot-7.jpg"
 ];
