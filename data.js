@@ -107,5 +107,6 @@ const images = [
   "soul-land-2-poster-2.jpg",
   "soul-land-2-poster-1.jpg",
   "battle-through-the-heavens-screenshot-1.jpg",
-  "battle-through-the-heavens-screenshot-2.jpg"
+  "battle-through-the-heavens-screenshot-2.jpg",
+  "battle-through-the-heavens-screenshot-3.jpg"
 ];
