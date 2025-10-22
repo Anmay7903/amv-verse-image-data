@@ -109,5 +109,6 @@ const images = [
   "battle-through-the-heavens-screenshot-1.jpg",
   "battle-through-the-heavens-screenshot-2.jpg",
   "battle-through-the-heavens-screenshot-3.jpg",
-  "battle-through-the-heavens-screenshot-4.jpg"
+  "battle-through-the-heavens-screenshot-4.jpg",
+  "battle-through-the-heavens-screenshot-5.jpg"
 ];
