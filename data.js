@@ -111,5 +111,6 @@ const images = [
   "battle-through-the-heavens-screenshot-3.jpg",
   "battle-through-the-heavens-screenshot-4.jpg",
   "battle-through-the-heavens-screenshot-5.jpg",
-  "jujutsu-kaisen-2-card.jpg"
+  "jujutsu-kaisen-2-card.jpg",
+  "my-status-as-an-assassin-obviously-exceeds-the-hero-poster.jpg"
 ];
