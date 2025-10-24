@@ -116,5 +116,6 @@ const images = [
   "soul-land-2-poster-3.jpg",
   "lord-of-the-mysteries-screenshot-1.jpg",
   "lord-of-the-mysteries-screenshot-2.jpg",
-  "lord-of-the-mysteries-screenshot-3.jpg"
+  "lord-of-the-mysteries-screenshot-3.jpg",
+  "lord-of-the-mysteries-screenshot-4.jpg"
 ];
