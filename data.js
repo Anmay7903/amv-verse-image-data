@@ -114,5 +114,6 @@ const images = [
   "jujutsu-kaisen-2-card.jpg",
   "my-status-as-an-assassin-obviously-exceeds-the-hero-poster.jpg",
   "soul-land-2-poster-3.jpg",
-  "lord-of-the-mysteries-screenshot-1.jpg"
+  "lord-of-the-mysteries-screenshot-1.jpg",
+  "lord-of-the-mysteries-screenshot-2.jpg"
 ];
