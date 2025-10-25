@@ -428,14 +428,50 @@
             transition: opacity 0.3s ease;
         }
 
-        .dummy-placeholder {
-            background: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #333;
-            font-size: 12px;
+        /* Skeleton Loader */
+        .skeleton-loader {
+            width: 100%;
+            background: linear-gradient(90deg, #2a2a2a 25%, #333 50%, #2a2a2a 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
             border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .skeleton-content {
+            padding: 12px;
+        }
+
+        .skeleton-title {
+            height: 16px;
+            background: linear-gradient(90deg, #2a2a2a 25%, #333 50%, #2a2a2a 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .skeleton-meta {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .skeleton-meta-item {
+            height: 12px;
+            width: 30%;
+            background: linear-gradient(90deg, #2a2a2a 25%, #333 50%, #2a2a2a 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 3px;
         }
 
         .image-info {
@@ -716,6 +752,7 @@
         let currentPath = [];
         let currentSeries = '';
         let currentSeriesName = '';
+        let lazyLoadTimeout = null;
 
         // Extract ID from filename
         function getIdFromFilename(filename) {
@@ -782,8 +819,6 @@
 
         // Get image metadata (scale, quality, size)
         function getImageMetadata(filename, containerWidth) {
-            // In a real implementation, you would get this from image metadata
-            // For now, we'll generate realistic mock data
             const id = getIdFromFilename(filename);
             const type = getImageType(filename);
 
@@ -810,16 +845,15 @@
             };
         }
 
-        // Create dummy placeholder with same dimensions as image
-        function createDummyPlaceholder(filename, containerWidth) {
+        // Create responsive skeleton loader
+        function createSkeletonLoader(filename) {
             const container = document.createElement('div');
             container.className = 'image-container';
 
-            // Create dummy placeholder
-            const dummy = document.createElement('div');
-            dummy.className = 'dummy-placeholder';
+            const skeleton = document.createElement('div');
+            skeleton.className = 'skeleton-loader';
 
-            // Set realistic dimensions based on image type
+            // Set responsive dimensions based on image type
             const type = getImageType(filename);
             let aspectRatio = 3 / 4; // Default portrait
 
@@ -840,12 +874,42 @@
                     aspectRatio = 3 / 4;
             }
 
+            // Calculate height based on container width and aspect ratio
+            const containerWidth = gallery.offsetWidth / (window.innerWidth >= 1200 ? 4 :
+                window.innerWidth >= 900 ? 3 :
+                    window.innerWidth >= 600 ? 2 : 1);
             const height = containerWidth / aspectRatio;
-            dummy.style.width = '100%';
-            dummy.style.height = height + 'px';
-            dummy.style.backgroundColor = '#000';
+            skeleton.style.height = height + 'px';
 
-            container.appendChild(dummy);
+            // Create skeleton content
+            const skeletonContent = document.createElement('div');
+            skeletonContent.className = 'skeleton-content';
+
+            const skeletonTitle = document.createElement('div');
+            skeletonTitle.className = 'skeleton-title';
+
+            const skeletonMeta = document.createElement('div');
+            skeletonMeta.className = 'skeleton-meta';
+
+            const meta1 = document.createElement('div');
+            meta1.className = 'skeleton-meta-item';
+
+            const meta2 = document.createElement('div');
+            meta2.className = 'skeleton-meta-item';
+
+            const meta3 = document.createElement('div');
+            meta3.className = 'skeleton-meta-item';
+
+            skeletonMeta.appendChild(meta1);
+            skeletonMeta.appendChild(meta2);
+            skeletonMeta.appendChild(meta3);
+
+            skeletonContent.appendChild(skeletonTitle);
+            skeletonContent.appendChild(skeletonMeta);
+
+            container.appendChild(skeleton);
+            container.appendChild(skeletonContent);
+
             return container;
         }
 
@@ -996,14 +1060,14 @@
             // Set gallery title
             galleryTitle.innerHTML = `<i class="fas fa-${getTypeIcon(type)}"></i> ${title} - ${type}`;
 
-            // Render images
-            renderGallery(images);
+            // Render images with lazy loading
+            renderGallery(images, true); // true = use lazy loading for folder view
 
             updateBreadcrumb();
         }
 
         // Render gallery images
-        function renderGallery(imageList) {
+        function renderGallery(imageList, useLazyLoading = false) {
             gallery.innerHTML = '';
 
             if (imageList.length === 0) {
@@ -1020,22 +1084,85 @@
                 window.innerWidth >= 900 ? 3 :
                     window.innerWidth >= 600 ? 2 : 1);
 
-            imageList.forEach(filename => {
-                gallery.appendChild(createCard(filename, containerWidth));
+            if (useLazyLoading) {
+                // For folder view: only load visible images with 50ms delay
+                imageList.forEach((filename, index) => {
+                    const card = createCard(filename, containerWidth, true); // true = lazy load
+                    gallery.appendChild(card);
+                });
+
+                // Start lazy loading after a short delay
+                clearTimeout(lazyLoadTimeout);
+                lazyLoadTimeout = setTimeout(() => {
+                    lazyLoadImages();
+                }, 50);
+            } else {
+                // For search results: load all images immediately
+                imageList.forEach(filename => {
+                    const card = createCard(filename, containerWidth, false); // false = load immediately
+                    gallery.appendChild(card);
+                });
+            }
+        }
+
+        // Lazy load images that are in viewport
+        function lazyLoadImages() {
+            const cards = gallery.querySelectorAll('.card');
+            const viewportHeight = window.innerHeight;
+
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const img = card.querySelector('img');
+                const skeleton = card.querySelector('.skeleton-loader');
+
+                // If image is in viewport or near viewport, load it
+                if (rect.top < viewportHeight + 500 && img && !img.src) {
+                    const filename = img.alt;
+                    const url = prefix + filename;
+
+                    if (!loadedCache[url]) {
+                        img.src = url;
+                        img.onload = () => {
+                            if (skeleton) {
+                                skeleton.style.display = 'none';
+                            }
+                            img.style.display = 'block';
+                            loadedCache[url] = Date.now();
+
+                            // Store image dimensions for future use
+                            imageDimensions[filename] = {
+                                width: img.naturalWidth,
+                                height: img.naturalHeight
+                            };
+                        };
+
+                        img.onerror = () => {
+                            if (skeleton) {
+                                skeleton.style.display = 'none';
+                            }
+                            img.style.display = 'none';
+                            const titleDiv = card.querySelector('.image-title');
+                            if (titleDiv) {
+                                titleDiv.textContent = "Image Not Found";
+                            }
+                            card.style.backgroundColor = "#8b0000";
+                        };
+                    }
+                }
             });
         }
 
         // Create image card
-        function createCard(filename, containerWidth) {
+        function createCard(filename, containerWidth, lazyLoad = false) {
             const url = prefix + filename;
             const card = document.createElement("div");
             card.className = "card";
 
-            const imageContainer = createDummyPlaceholder(filename, containerWidth);
-            const dummy = imageContainer.querySelector('.dummy-placeholder');
+            const skeletonContainer = createSkeletonLoader(filename);
+            const skeleton = skeletonContainer.querySelector('.skeleton-loader');
+            const skeletonContent = skeletonContainer.querySelector('.skeleton-content');
 
             const img = document.createElement("img");
-            img.src = url;
             img.alt = getImageDisplayName(filename);
             img.loading = "lazy";
             img.style.display = "none";
@@ -1075,16 +1202,18 @@
             copied.className = "copied";
             copied.textContent = "Link Copied!";
 
-            card.appendChild(imageContainer);
-            imageContainer.appendChild(img);
+            card.appendChild(skeletonContainer);
+            skeletonContainer.appendChild(img);
             card.appendChild(imageInfo);
             card.appendChild(copied);
 
-            // Lazy loading with delay
-            setTimeout(() => {
+            if (!lazyLoad || !loadedCache[url]) {
+                // For search results or non-lazy loading: load immediately
+                img.src = url;
                 img.onload = () => {
-                    dummy.style.display = "none";
-                    img.style.display = "block";
+                    skeleton.style.display = 'none';
+                    skeletonContent.style.display = 'none';
+                    img.style.display = 'block';
                     loadedCache[url] = Date.now();
 
                     // Store image dimensions for future use
@@ -1095,12 +1224,19 @@
                 };
 
                 img.onerror = () => {
-                    dummy.style.display = "none";
-                    img.style.display = "none";
+                    skeleton.style.display = 'none';
+                    skeletonContent.style.display = 'none';
+                    img.style.display = 'none';
                     titleDiv.textContent = "Image Not Found";
                     card.style.backgroundColor = "#8b0000";
                 };
-            }, 100);
+            } else if (loadedCache[url]) {
+                // If already cached, show immediately
+                img.src = url;
+                skeleton.style.display = 'none';
+                skeletonContent.style.display = 'none';
+                img.style.display = 'block';
+            }
 
             card.addEventListener("click", () => {
                 navigator.clipboard.writeText(url).then(() => {
@@ -1197,12 +1333,12 @@
                 gallery.innerHTML = '';
                 notFound.style.display = 'block';
             } else {
-                // Show search results
+                // Show search results (load all images immediately)
                 foldersView.style.display = 'none';
                 subfoldersView.style.display = 'none';
                 galleryView.style.display = 'block';
                 galleryTitle.innerHTML = `<i class="fas fa-search"></i> Search Results (${filtered.length})`;
-                renderGallery(filtered);
+                renderGallery(filtered, false); // false = load all immediately for search
                 notFound.style.display = 'none';
             }
 
@@ -1234,9 +1370,24 @@
         window.addEventListener('resize', () => {
             if (galleryView.style.display === 'block') {
                 const currentImages = Array.from(gallery.children).map(card => {
-                    return card.querySelector('img').src.replace(prefix, '');
-                });
-                renderGallery(currentImages);
+                    const img = card.querySelector('img');
+                    return img ? img.alt : '';
+                }).filter(filename => filename);
+                renderGallery(currentImages, true);
+            }
+        });
+
+        // Lazy load on scroll
+        window.addEventListener('scroll', () => {
+            if (galleryView.style.display === 'block') {
+                lazyLoadImages();
+            }
+        });
+
+        // Initial lazy load
+        window.addEventListener('load', () => {
+            if (galleryView.style.display === 'block') {
+                lazyLoadImages();
             }
         });
     </script>
