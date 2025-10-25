@@ -406,7 +406,6 @@
             overflow: hidden;
             vertical-align: top;
             transition: transform 0.3s, box-shadow 0.3s;
-            break-inside: avoid;
         }
 
         .card:hover {
@@ -414,124 +413,49 @@
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
         }
 
-        .image-container {
-            position: relative;
-            width: 100%;
-            overflow: hidden;
-        }
-
-        .image-container img {
+        .card img {
             width: 100%;
             display: block;
             object-fit: cover;
             border-radius: var(--border-radius) var(--border-radius) 0 0;
-            transition: opacity 0.3s ease;
         }
 
-        /* Skeleton Loader */
-        .skeleton-loader {
+        .skeleton {
             width: 100%;
-            background: linear-gradient(90deg, #2a2a2a 25%, #333 50%, #2a2a2a 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            aspect-ratio: 3/4;
+            background: linear-gradient(90deg, #2d2d2d 25%, #3a3d42 37%, #2d2d2d 63%);
+            background-size: 400% 100%;
+            animation: shimmer 1.4s infinite;
         }
 
-        @keyframes loading {
+        @keyframes shimmer {
             0% {
-                background-position: 200% 0;
+                background-position: -468px 0;
             }
 
             100% {
-                background-position: -200% 0;
+                background-position: 468px 0;
             }
         }
 
-        .skeleton-content {
-            padding: 12px;
-        }
-
-        .skeleton-title {
-            height: 16px;
-            background: linear-gradient(90deg, #2a2a2a 25%, #333 50%, #2a2a2a 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-            border-radius: 4px;
-            margin-bottom: 8px;
-        }
-
-        .skeleton-meta {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .skeleton-meta-item {
-            height: 12px;
-            width: 30%;
-            background: linear-gradient(90deg, #2a2a2a 25%, #333 50%, #2a2a2a 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-            border-radius: 3px;
-        }
-
-        .image-info {
-            padding: 12px;
-            background: var(--surface-color);
-        }
-
-        .image-title {
-            font-weight: 600;
+        .name {
+            padding: 10px;
+            text-align: center;
             font-size: 14px;
-            margin-bottom: 8px;
+            font-weight: 600;
             color: var(--text-color);
-            line-height: 1.3;
-        }
-
-        .image-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 11px;
-            color: var(--text-color-secondary);
-        }
-
-        .image-scale,
-        .image-quality,
-        .image-size {
-            display: flex;
-            align-items: center;
-            gap: 4px;
         }
 
         .copied {
             position: absolute;
-            top: 8px;
+            bottom: 8px;
             right: 8px;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.7);
             color: white;
             padding: 5px 10px;
             border-radius: 6px;
             font-size: 12px;
             display: none;
-            z-index: 10;
-        }
-
-        .loading-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--surface-color);
-            z-index: 1000;
-            display: none;
-        }
-
-        .loading-progress-bar {
-            height: 100%;
-            background: var(--primary-color);
-            width: 0%;
-            transition: width 0.3s ease;
         }
 
         #notFound {
@@ -568,14 +492,6 @@
             background: rgba(255, 255, 255, 0.1);
         }
 
-        /* Subfolder grid */
-        .subfolders-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 15px;
-            margin-bottom: 2rem;
-        }
-
         /* Media Queries for Responsive Header */
         @media (max-width: 768px) {
             .main-header .container {
@@ -596,14 +512,6 @@
 
             .folders-grid {
                 grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            }
-
-            .subfolders-grid {
-                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            }
-
-            .gallery {
-                column-count: 2;
             }
         }
 
@@ -632,24 +540,11 @@
             .folders-grid {
                 grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
             }
-
-            .subfolders-grid {
-                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            }
-
-            .gallery {
-                column-count: 1;
-            }
         }
     </style>
 </head>
 
 <body>
-    <!-- Loading Progress Bar -->
-    <div class="loading-progress" id="loadingProgress">
-        <div class="loading-progress-bar" id="loadingProgressBar"></div>
-    </div>
-
     <!-- Header -->
     <header class="main-header">
         <div class="container">
@@ -695,27 +590,20 @@
             </div>
 
             <div id="foldersView">
-                <h2 class="section-title"><i class="fas fa-folder"></i> 𝚂𝚎𝚛𝚒𝚎𝚜</h2>
+                <h2 class="section-title"><i class="fas fa-folder"></i> 𝙵𝚒𝚕𝚎 𝙼𝚊𝚗𝚊𝚐𝚎𝚛</h2>
                 <div class="folders-grid" id="foldersGrid">
                     <!-- Folders will be generated dynamically -->
                 </div>
             </div>
 
-            <div id="subfoldersView" style="display: none;">
-                <a href="#" class="back-button" id="backButton">
-                    <i class="fas fa-arrow-left"></i> Back to Series
-                </a>
-                <h2 class="section-title" id="subfoldersTitle"></h2>
-                <div class="subfolders-grid" id="subfoldersGrid">
-                    <!-- Subfolders will be generated dynamically -->
-                </div>
-            </div>
-
             <div id="galleryView" style="display: none;">
-                <a href="#" class="back-button" id="backToSubfoldersButton">
+                <a href="#" class="back-button" id="backButton">
                     <i class="fas fa-arrow-left"></i> Back
                 </a>
                 <h2 class="section-title" id="galleryTitle"></h2>
+                <div id="subcategories">
+                    <!-- Subcategories will be generated dynamically -->
+                </div>
                 <div class="gallery" id="gallery"></div>
                 <div id="notFound">No images found. <a href="#" id="goHome">𝙶𝚘 𝙱𝚊𝚌𝚔</a></div>
             </div>
@@ -755,220 +643,93 @@
         // File Manager functionality
         const prefix = "https://amvverse-image-data.pages.dev/images/";
         const foldersView = document.getElementById('foldersView');
-        const subfoldersView = document.getElementById('subfoldersView');
         const galleryView = document.getElementById('galleryView');
         const foldersGrid = document.getElementById('foldersGrid');
-        const subfoldersGrid = document.getElementById('subfoldersGrid');
         const gallery = document.getElementById('gallery');
         const breadcrumb = document.getElementById('breadcrumb');
-        const subfoldersTitle = document.getElementById('subfoldersTitle');
         const galleryTitle = document.getElementById('galleryTitle');
+        const subcategories = document.getElementById('subcategories');
         const backButton = document.getElementById('backButton');
-        const backToSubfoldersButton = document.getElementById('backToSubfoldersButton');
         const searchInput = document.getElementById('search');
         const notFound = document.getElementById('notFound');
         const goHome = document.getElementById('goHome');
-        const loadingProgress = document.getElementById('loadingProgress');
-        const loadingProgressBar = document.getElementById('loadingProgressBar');
 
         // Store already loaded images for caching
         const loadedCache = {};
-        const imageDimensions = {};
         let currentPath = [];
-        let currentSeries = '';
-        let currentSeriesName = '';
-        let currentImageList = [];
-        let currentLoadingIndex = 0;
-        let isLoadingSequentially = false;
-        let sequentialLoadTimeout = null;
+        let currentIndex = 0;
+        const perPage = 10;
 
-        // Extract ID from filename
-        function getIdFromFilename(filename) {
-            let nameWithoutExt = filename.replace('.jpg', '');
-            const typePatterns = [
-                /-card-.*$/,
-                /-poster-.*$/,
-                /-character-.*$/,
-                /-screenshot-.*$/
-            ];
-
-            for (const pattern of typePatterns) {
-                if (pattern.test(nameWithoutExt)) {
-                    nameWithoutExt = nameWithoutExt.replace(pattern, '');
-                    break;
-                }
-            }
-
-            return nameWithoutExt;
-        }
-
-        // Get image type from filename
-        function getImageType(filename) {
-            if (filename.includes('-card-')) return 'Cards';
-            if (filename.includes('-poster-')) return 'Posters';
-            if (filename.includes('-character-')) return 'Characters';
-            if (filename.includes('-screenshot-')) return 'Screenshots';
-            return 'Other';
-        }
-
-        // Get title from ID (format the ID for display)
-        function getTitleFromId(id) {
-            return id.split('-')
-                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(' ');
-        }
-
-        // Get display name for image
-        function getImageDisplayName(filename) {
-            const id = getIdFromFilename(filename);
-            const type = getImageType(filename);
-
-            let descriptivePart = '';
-            const typeSuffixes = ['-card-', '-poster-', '-character-', '-screenshot-'];
-
-            for (const suffix of typeSuffixes) {
-                if (filename.includes(suffix)) {
-                    descriptivePart = filename.split(suffix)[1].replace('.jpg', '');
-                    break;
-                }
-            }
-
-            const formattedDescriptive = descriptivePart.split('-')
-                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(' ');
-
-            return `${getTitleFromId(id)} - ${formattedDescriptive}`;
-        }
-
-        // Get image metadata (scale, quality, size)
-        function getImageMetadata(filename, containerWidth) {
-            const id = getIdFromFilename(filename);
-            const type = getImageType(filename);
-
-            const scales = {
-                'Cards': ['1:1', '3:4', '2:3'],
-                'Posters': ['2:3', '3:4', '16:9'],
-                'Characters': ['3:4', '2:3', '1:1'],
-                'Screenshots': ['16:9', '4:3', '1.85:1'],
-                'Other': ['3:4', '1:1', '16:9']
-            };
-
-            const qualities = ['High', 'Medium', 'Low', 'Ultra HD'];
-            const sizes = ['2.4 MB', '1.8 MB', '3.2 MB', '4.1 MB', '1.2 MB', '5.6 MB'];
-
-            const randomScale = scales[type][Math.floor(Math.random() * scales[type].length)];
-            const randomQuality = qualities[Math.floor(Math.random() * qualities.length)];
-            const randomSize = sizes[Math.floor(Math.random() * sizes.length)];
-
-            return {
-                scale: randomScale,
-                quality: randomQuality,
-                size: randomSize
-            };
-        }
-
-        // Create responsive skeleton loader
-        function createSkeletonLoader(filename) {
-            const container = document.createElement('div');
-            container.className = 'image-container';
-
-            const skeleton = document.createElement('div');
-            skeleton.className = 'skeleton-loader';
-
-            const type = getImageType(filename);
-            let aspectRatio = 3 / 4;
-
-            switch (type) {
-                case 'Cards': aspectRatio = 2 / 3; break;
-                case 'Posters': aspectRatio = 2 / 3; break;
-                case 'Characters': aspectRatio = 3 / 4; break;
-                case 'Screenshots': aspectRatio = 16 / 9; break;
-                default: aspectRatio = 3 / 4;
-            }
-
-            const containerWidth = gallery.offsetWidth / (window.innerWidth >= 1200 ? 4 :
-                window.innerWidth >= 900 ? 3 :
-                    window.innerWidth >= 600 ? 2 : 1);
-            const height = containerWidth / aspectRatio;
-            skeleton.style.height = height + 'px';
-
-            const skeletonContent = document.createElement('div');
-            skeletonContent.className = 'skeleton-content';
-
-            const skeletonTitle = document.createElement('div');
-            skeletonTitle.className = 'skeleton-title';
-
-            const skeletonMeta = document.createElement('div');
-            skeletonMeta.className = 'skeleton-meta';
-
-            const meta1 = document.createElement('div');
-            meta1.className = 'skeleton-meta-item';
-
-            const meta2 = document.createElement('div');
-            meta2.className = 'skeleton-meta-item';
-
-            const meta3 = document.createElement('div');
-            meta3.className = 'skeleton-meta-item';
-
-            skeletonMeta.appendChild(meta1);
-            skeletonMeta.appendChild(meta2);
-            skeletonMeta.appendChild(meta3);
-
-            skeletonContent.appendChild(skeletonTitle);
-            skeletonContent.appendChild(skeletonMeta);
-
-            container.appendChild(skeleton);
-            container.appendChild(skeletonContent);
-
-            return container;
-        }
-
-        // Categorize images by ID and type
+        // Categorize images by series and type
         function categorizeImages() {
             const categories = {};
 
             images.forEach(filename => {
-                const id = getIdFromFilename(filename);
-                const type = getImageType(filename);
+                // Extract series name and type from filename
+                const parts = filename.split('-');
+                let seriesName = '';
+                let type = 'Other';
 
-                if (!categories[id]) {
-                    categories[id] = {
-                        title: getTitleFromId(id),
+                // Determine type based on filename
+                if (filename.includes('-card')) {
+                    type = 'Card';
+                } else if (filename.includes('-poster')) {
+                    type = 'Poster';
+                } else if (filename.includes('-character')) {
+                    type = 'Character';
+                } else if (filename.includes('-screenshot')) {
+                    type = 'Screenshot';
+                }
+
+                // Extract series name by removing the type suffix and formatting
+                let seriesKey = filename.replace(`-${type.toLowerCase()}`, '');
+                seriesKey = seriesKey.split('-').slice(0, -1).join('-');
+
+                // Format series name for display
+                seriesName = formatName(seriesKey);
+
+                if (!categories[seriesName]) {
+                    categories[seriesName] = {
+                        key: seriesKey,
                         types: {}
                     };
                 }
 
-                if (!categories[id].types[type]) {
-                    categories[id].types[type] = [];
+                if (!categories[seriesName].types[type]) {
+                    categories[seriesName].types[type] = [];
                 }
 
-                categories[id].types[type].push(filename);
+                categories[seriesName].types[type].push(filename);
             });
 
             return categories;
         }
 
-        // Render main series folders
+        function formatName(filename) {
+            return filename.replace(".jpg", "").replace(/[-_]/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+        }
+
+        // Render folder view
         function renderFolders() {
             foldersGrid.innerHTML = '';
             const categories = categorizeImages();
 
-            Object.keys(categories).sort().forEach(id => {
-                const series = categories[id];
+            Object.keys(categories).sort().forEach(seriesName => {
+                const series = categories[seriesName];
                 const totalImages = Object.values(series.types).reduce((sum, arr) => sum + arr.length, 0);
 
                 const folderItem = document.createElement('div');
                 folderItem.className = 'folder-item';
-                folderItem.setAttribute('data-series', id);
+                folderItem.setAttribute('data-series', series.key);
 
                 folderItem.innerHTML = `
                     <i class="fas fa-folder folder-icon"></i>
-                    <div class="folder-name">${series.title}</div>
+                    <div class="folder-name">${seriesName}</div>
                     <div class="folder-count">${totalImages} images</div>
                 `;
 
                 folderItem.addEventListener('click', () => {
-                    openSeries(id, series.title);
+                    openSeries(series.key, seriesName);
                 });
 
                 foldersGrid.appendChild(folderItem);
@@ -978,181 +739,115 @@
         }
 
         // Open a series folder
-        function openSeries(id, title) {
-            currentSeries = id;
-            currentSeriesName = title;
+        function openSeries(seriesKey, seriesName) {
             currentPath = [{
                 name: 'Home',
                 action: () => {
                     showFoldersView();
                 }
             }, {
-                name: title,
+                name: seriesName,
                 action: null
             }];
 
             const categories = categorizeImages();
-            const series = categories[id];
+            const series = categories[seriesName];
 
+            // Hide folders view and show gallery view
             foldersView.style.display = 'none';
-            subfoldersView.style.display = 'block';
-            galleryView.style.display = 'none';
+            galleryView.style.display = 'block';
 
-            subfoldersTitle.innerHTML = `<i class="fas fa-folder-open"></i> ${title}`;
-            renderSubfolders(series.types, id, title);
+            // Set gallery title
+            galleryTitle.innerHTML = `<i class="fas fa-folder-open"></i> ${seriesName}`;
+
+            // Render subcategories
+            renderSubcategories(series.types, seriesName);
+
             updateBreadcrumb();
         }
 
-        // Render subfolders (Cards, Posters, Characters, Screenshots)
-        function renderSubfolders(types, id, title) {
-            subfoldersGrid.innerHTML = '';
+        // Render subcategories (Card, Poster, Character, Screenshot)
+        function renderSubcategories(types, seriesName) {
+            subcategories.innerHTML = '';
 
-            const typeOrder = ['Cards', 'Posters', 'Characters', 'Screenshots', 'Other'];
+            const typeOrder = ['Card', 'Poster', 'Character', 'Screenshot', 'Other'];
 
             typeOrder.forEach(type => {
                 if (types[type] && types[type].length > 0) {
-                    const subfolderItem = document.createElement('div');
-                    subfolderItem.className = 'folder-item';
-                    subfolderItem.setAttribute('data-type', type);
+                    const typeSection = document.createElement('div');
 
-                    subfolderItem.innerHTML = `
-                        <i class="fas fa-${getTypeIcon(type)} folder-icon"></i>
-                        <div class="folder-name">${type}</div>
-                        <div class="folder-count">${types[type].length} images</div>
-                    `;
+                    const typeTitle = document.createElement('h3');
+                    typeTitle.className = 'subcategory-title';
+                    typeTitle.innerHTML = `<i class="fas fa-${getTypeIcon(type)}"></i> ${type}s (${types[type].length})`;
 
-                    subfolderItem.addEventListener('click', () => {
-                        openSubfolder(type, types[type], id, title);
+                    typeSection.appendChild(typeTitle);
+
+                    const typeGallery = document.createElement('div');
+                    typeGallery.className = 'gallery';
+                    typeGallery.id = `gallery-${type}`;
+
+                    types[type].forEach(filename => {
+                        typeGallery.appendChild(createCard(filename));
                     });
 
-                    subfoldersGrid.appendChild(subfolderItem);
+                    typeSection.appendChild(typeGallery);
+                    subcategories.appendChild(typeSection);
                 }
             });
         }
 
         function getTypeIcon(type) {
             switch (type) {
-                case 'Cards': return 'id-card';
-                case 'Posters': return 'image';
-                case 'Characters': return 'user';
-                case 'Screenshots': return 'camera';
+                case 'Card': return 'id-card';
+                case 'Poster': return 'image';
+                case 'Character': return 'user';
+                case 'Screenshot': return 'camera';
                 default: return 'file-image';
             }
         }
 
-        // Open a subfolder (type)
-        function openSubfolder(type, images, id, title) {
-            currentPath = [{
-                name: 'Home',
-                action: () => {
-                    showFoldersView();
-                }
-            }, {
-                name: title,
-                action: () => {
-                    openSeries(id, title);
-                }
-            }, {
-                name: type,
-                action: null
-            }];
-
-            foldersView.style.display = 'none';
-            subfoldersView.style.display = 'none';
-            galleryView.style.display = 'block';
-
-            galleryTitle.innerHTML = `<i class="fas fa-${getTypeIcon(type)}"></i> ${title} - ${type}`;
-
-            // Store current image list and start sequential loading
-            currentImageList = images;
-            renderGalleryWithSequentialLoading(images);
-
-            updateBreadcrumb();
-        }
-
-        // Render gallery with sequential loading
-        function renderGalleryWithSequentialLoading(imageList) {
-            gallery.innerHTML = '';
-
-            if (imageList.length === 0) {
-                notFound.style.display = 'block';
-                gallery.style.display = 'none';
-                return;
-            }
-
-            notFound.style.display = 'none';
-            gallery.style.display = 'block';
-
-            const containerWidth = gallery.offsetWidth / (window.innerWidth >= 1200 ? 4 :
-                window.innerWidth >= 900 ? 3 :
-                    window.innerWidth >= 600 ? 2 : 1);
-
-            // Create all cards with skeletons first
-            imageList.forEach((filename, index) => {
-                const card = createCardWithSkeleton(filename, containerWidth);
-                gallery.appendChild(card);
-            });
-
-            // Start sequential loading
-            startSequentialLoading();
-        }
-
-        // Create card with skeleton (no image loaded yet)
-        function createCardWithSkeleton(filename, containerWidth) {
+        // Create image card
+        function createCard(filename) {
             const url = prefix + filename;
             const card = document.createElement("div");
             card.className = "card";
-            card.setAttribute('data-filename', filename);
 
-            const skeletonContainer = createSkeletonLoader(filename);
-            const skeleton = skeletonContainer.querySelector('.skeleton-loader');
-            const skeletonContent = skeletonContainer.querySelector('.skeleton-content');
+            const skeleton = document.createElement("div");
+            skeleton.className = "skeleton";
 
             const img = document.createElement("img");
-            img.alt = getImageDisplayName(filename);
+            img.src = url;
+            img.alt = formatName(filename);
             img.loading = "lazy";
-            img.style.display = "none";
-            img.setAttribute('data-src', url); // Store URL in data attribute
 
-            const imageInfo = document.createElement("div");
-            imageInfo.className = "image-info";
-
-            const titleDiv = document.createElement("div");
-            titleDiv.className = "image-title";
-            titleDiv.textContent = getImageDisplayName(filename);
-
-            const metaDiv = document.createElement("div");
-            metaDiv.className = "image-meta";
-
-            const metadata = getImageMetadata(filename, containerWidth);
-
-            const scaleSpan = document.createElement("span");
-            scaleSpan.className = "image-scale";
-            scaleSpan.innerHTML = `<i class="fas fa-expand-alt"></i> ${metadata.scale}`;
-
-            const qualitySpan = document.createElement("span");
-            qualitySpan.className = "image-quality";
-            qualitySpan.innerHTML = `<i class="fas fa-star"></i> ${metadata.quality}`;
-
-            const sizeSpan = document.createElement("span");
-            sizeSpan.className = "image-size";
-            sizeSpan.innerHTML = `<i class="fas fa-weight-hanging"></i> ${metadata.size}`;
-
-            metaDiv.appendChild(scaleSpan);
-            metaDiv.appendChild(qualitySpan);
-            metaDiv.appendChild(sizeSpan);
-
-            imageInfo.appendChild(titleDiv);
-            imageInfo.appendChild(metaDiv);
+            const nameDiv = document.createElement("div");
+            nameDiv.className = "name";
+            nameDiv.textContent = formatName(filename);
 
             const copied = document.createElement("div");
             copied.className = "copied";
             copied.textContent = "Link Copied!";
 
-            card.appendChild(skeletonContainer);
-            skeletonContainer.appendChild(img);
-            card.appendChild(imageInfo);
+            card.appendChild(skeleton);
+            card.appendChild(img);
+            card.appendChild(nameDiv);
             card.appendChild(copied);
+
+            // Lazy loading with 50ms delay
+            setTimeout(() => {
+                img.onload = () => {
+                    skeleton.style.display = "none";
+                    img.style.display = "block";
+                    loadedCache[url] = Date.now();
+                };
+
+                img.onerror = () => {
+                    skeleton.style.display = "none";
+                    img.style.display = "none";
+                    nameDiv.textContent = "Image Not Found";
+                    card.style.backgroundColor = "#8b0000";
+                };
+            }, 50);
 
             card.addEventListener("click", () => {
                 navigator.clipboard.writeText(url).then(() => {
@@ -1166,111 +861,14 @@
             return card;
         }
 
-        // Start sequential loading of images
-        function startSequentialLoading() {
-            if (isLoadingSequentially) return;
-
-            isLoadingSequentially = true;
-            currentLoadingIndex = 0;
-
-            // Show loading progress
-            loadingProgress.style.display = 'block';
-            loadingProgressBar.style.width = '0%';
-
-            loadNextImageSequentially();
-        }
-
-        // Load next image in sequence
-        function loadNextImageSequentially() {
-            if (currentLoadingIndex >= currentImageList.length) {
-                // All images loaded
-                isLoadingSequentially = false;
-                loadingProgress.style.display = 'none';
-                return;
-            }
-
-            const filename = currentImageList[currentLoadingIndex];
-            const url = prefix + filename;
-
-            // Update progress
-            const progress = ((currentLoadingIndex + 1) / currentImageList.length) * 100;
-            loadingProgressBar.style.width = progress + '%';
-
-            if (!loadedCache[url]) {
-                // Load this image
-                const card = gallery.querySelector(`[data-filename="${filename}"]`);
-                if (card) {
-                    const img = card.querySelector('img');
-                    const skeleton = card.querySelector('.skeleton-loader');
-                    const skeletonContent = card.querySelector('.skeleton-content');
-
-                    if (img && skeleton) {
-                        img.src = url;
-                        img.onload = () => {
-                            skeleton.style.display = 'none';
-                            skeletonContent.style.display = 'none';
-                            img.style.display = 'block';
-                            loadedCache[url] = Date.now();
-
-                            imageDimensions[filename] = {
-                                width: img.naturalWidth,
-                                height: img.naturalHeight
-                            };
-
-                            // Load next image after 50ms delay
-                            currentLoadingIndex++;
-                            sequentialLoadTimeout = setTimeout(loadNextImageSequentially, 50);
-                        };
-
-                        img.onerror = () => {
-                            skeleton.style.display = 'none';
-                            skeletonContent.style.display = 'none';
-                            img.style.display = 'none';
-                            const titleDiv = card.querySelector('.image-title');
-                            if (titleDiv) {
-                                titleDiv.textContent = "Image Not Found";
-                            }
-                            card.style.backgroundColor = "#8b0000";
-
-                            // Continue with next image even if this one fails
-                            currentLoadingIndex++;
-                            sequentialLoadTimeout = setTimeout(loadNextImageSequentially, 50);
-                        };
-                    } else {
-                        // Skip this image and continue
-                        currentLoadingIndex++;
-                        sequentialLoadTimeout = setTimeout(loadNextImageSequentially, 50);
-                    }
-                } else {
-                    // Skip this image and continue
-                    currentLoadingIndex++;
-                    sequentialLoadTimeout = setTimeout(loadNextImageSequentially, 50);
-                }
-            } else {
-                // Image already cached, skip to next
-                currentLoadingIndex++;
-                sequentialLoadTimeout = setTimeout(loadNextImageSequentially, 10); // Faster for cached images
-            }
-        }
-
-        // Stop sequential loading (when changing folders)
-        function stopSequentialLoading() {
-            isLoadingSequentially = false;
-            currentLoadingIndex = 0;
-            clearTimeout(sequentialLoadTimeout);
-            loadingProgress.style.display = 'none';
-        }
-
         // Show folders view
         function showFoldersView() {
-            stopSequentialLoading();
             currentPath = [{
                 name: 'Home',
                 action: null
             }];
 
             foldersView.style.display = 'block';
-            subfoldersView.style.display = 'none';
             galleryView.style.display = 'none';
             updateBreadcrumb();
         }
@@ -1311,47 +909,74 @@
             showFoldersView();
         });
 
-        backToSubfoldersButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (currentSeries) {
-                const categories = categorizeImages();
-                const series = categories[currentSeries];
-                openSeries(currentSeries, series.title);
-            }
-        });
-
-        // Search functionality - load all images immediately for search
+        // Search functionality
         searchInput.addEventListener("input", () => {
             const searchValue = searchInput.value.toLowerCase().trim();
 
             if (searchValue === '') {
+                // If search is empty, show folders view
                 showFoldersView();
                 return;
             }
 
+            // Filter images based on search
             const filtered = images.filter(f =>
-                getImageDisplayName(f).toLowerCase().includes(searchValue) ||
-                getIdFromFilename(f).toLowerCase().includes(searchValue)
+                formatName(f).toLowerCase().includes(searchValue)
             );
 
             if (filtered.length === 0) {
+                // Show not found message
                 foldersView.style.display = 'none';
-                subfoldersView.style.display = 'none';
                 galleryView.style.display = 'block';
                 galleryTitle.innerHTML = `<i class="fas fa-search"></i> Search Results`;
+                subcategories.innerHTML = '';
                 gallery.innerHTML = '';
                 notFound.style.display = 'block';
             } else {
+                // Show search results
                 foldersView.style.display = 'none';
-                subfoldersView.style.display = 'none';
                 galleryView.style.display = 'block';
                 galleryTitle.innerHTML = `<i class="fas fa-search"></i> Search Results (${filtered.length})`;
+                subcategories.innerHTML = '';
 
-                // For search results, load all images immediately
-                renderSearchResults(filtered);
+                // Group by series for better organization
+                const searchCategories = {};
+
+                filtered.forEach(filename => {
+                    const seriesName = getSeriesName(filename);
+
+                    if (!searchCategories[seriesName]) {
+                        searchCategories[seriesName] = [];
+                    }
+
+                    searchCategories[seriesName].push(filename);
+                });
+
+                // Render search results by series
+                Object.keys(searchCategories).sort().forEach(seriesName => {
+                    const seriesSection = document.createElement('div');
+
+                    const seriesTitle = document.createElement('h3');
+                    seriesTitle.className = 'subcategory-title';
+                    seriesTitle.innerHTML = `<i class="fas fa-folder"></i> ${seriesName} (${searchCategories[seriesName].length})`;
+
+                    seriesSection.appendChild(seriesTitle);
+
+                    const seriesGallery = document.createElement('div');
+                    seriesGallery.className = 'gallery';
+
+                    searchCategories[seriesName].forEach(filename => {
+                        seriesGallery.appendChild(createCard(filename));
+                    });
+
+                    seriesSection.appendChild(seriesGallery);
+                    subcategories.appendChild(seriesSection);
+                });
+
                 notFound.style.display = 'none';
             }
 
+            // Update breadcrumb for search
             currentPath = [{
                 name: 'Home',
                 action: () => {
@@ -1365,62 +990,21 @@
             updateBreadcrumb();
         });
 
-        // Render search results with immediate loading
-        function renderSearchResults(imageList) {
-            gallery.innerHTML = '';
-            stopSequentialLoading();
-
-            if (imageList.length === 0) {
-                notFound.style.display = 'block';
-                gallery.style.display = 'none';
-                return;
+        function getSeriesName(filename) {
+            // Extract series name from filename
+            let seriesKey = filename;
+            if (filename.includes('-card')) {
+                seriesKey = filename.replace('-card', '');
+            } else if (filename.includes('-poster')) {
+                seriesKey = filename.replace('-poster', '');
+            } else if (filename.includes('-character')) {
+                seriesKey = filename.replace('-character', '');
+            } else if (filename.includes('-screenshot')) {
+                seriesKey = filename.replace('-screenshot', '');
             }
 
-            notFound.style.display = 'none';
-            gallery.style.display = 'block';
-
-            const containerWidth = gallery.offsetWidth / (window.innerWidth >= 1200 ? 4 :
-                window.innerWidth >= 900 ? 3 :
-                    window.innerWidth >= 600 ? 2 : 1);
-
-            // Load all search results immediately
-            imageList.forEach(filename => {
-                const card = createCardWithSkeleton(filename, containerWidth);
-                gallery.appendChild(card);
-
-                // Load image immediately for search results
-                const url = prefix + filename;
-                const img = card.querySelector('img');
-                const skeleton = card.querySelector('.skeleton-loader');
-                const skeletonContent = card.querySelector('.skeleton-content');
-
-                if (!loadedCache[url]) {
-                    img.src = url;
-                    img.onload = () => {
-                        skeleton.style.display = 'none';
-                        skeletonContent.style.display = 'none';
-                        img.style.display = 'block';
-                        loadedCache[url] = Date.now();
-                    };
-
-                    img.onerror = () => {
-                        skeleton.style.display = 'none';
-                        skeletonContent.style.display = 'none';
-                        img.style.display = 'none';
-                        const titleDiv = card.querySelector('.image-title');
-                        if (titleDiv) {
-                            titleDiv.textContent = "Image Not Found";
-                        }
-                        card.style.backgroundColor = "#8b0000";
-                    };
-                } else {
-                    // Already cached, show immediately
-                    img.src = url;
-                    skeleton.style.display = 'none';
-                    skeletonContent.style.display = 'none';
-                    img.style.display = 'block';
-                }
-            });
+            seriesKey = seriesKey.split('-').slice(0, -1).join('-');
+            return formatName(seriesKey);
         }
 
         // Go home functionality
@@ -1432,17 +1016,6 @@
 
         // Initialize the file manager
         renderFolders();
-
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            if (galleryView.style.display === 'block' && !isLoadingSequentially) {
-                // Re-render gallery on resize when not actively loading
-                const currentImages = Array.from(gallery.children).map(card => {
-                    return card.getAttribute('data-filename');
-                }).filter(filename => filename);
-                renderGalleryWithSequentialLoading(currentImages);
-            }
-        });
     </script>
 </body>
 
