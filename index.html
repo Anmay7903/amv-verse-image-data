@@ -8,23 +8,18 @@
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://animesaga.pages.dev/dxh2jf6f8shlldyq6lpo4exgdq/d2hs6ea0ct0of8shlanv6lpo4eygdq.js"></script>
-    <script src="data.js"></script>
     <link rel="icon" href="icons/icon.png" type="png/image/x-icon">
     <link rel="apple-touch-icon" href="icons/icon.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <style>
         :root {
-            --primary-color: #e50914;
-            --secondary-color: #e50914a6;
-            --background-color: #141414;
-            --surface-color: #23252a;
+            --background-color: #0f0f0f;
+            --surface-color: #1a1a1a;
             --text-color: #ffffff;
-            --text-color-secondary: #a0a0a0;
+            --text-color-secondary: #b0b0b0;
+            --primary-color: #e50914;
             --border-radius: 8px;
-            --transition-speed: 0.3s;
-            --font-family: 'Inter', sans-serif;
         }
 
         * {
@@ -35,7 +30,7 @@
         }
 
         body {
-            font-family: var(--font-family);
+            font-family: 'Inter', sans-serif;
             background-color: var(--background-color);
             color: var(--text-color);
             line-height: 1.6;
@@ -91,74 +86,91 @@
         }
 
         .container {
-            width: 90%;
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 15px;
         }
 
         /* Header Styles */
         .main-header {
-            background: rgba(20, 20, 20, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 1rem 0;
+            background-color: var(--surface-color);
+            padding: 0.8rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             position: sticky;
             top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 100;
         }
 
         .main-header .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 15px;
         }
 
         .logo {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            color: var(--primary-color);
-            letter-spacing: 1px;
+            color: var(--text-color);
             text-decoration: none;
+            white-space: nowrap;
         }
 
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 15px;
+            flex: 1;
+            justify-content: flex-end;
+            max-width: 600px;
         }
 
         .search-box {
             display: flex;
-            background: var(--surface-color);
+            background: var(--background-color);
             border-radius: var(--border-radius);
             overflow: hidden;
+            flex: 1;
+            max-width: 500px;
+            min-width: 150px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus-within {
+            box-shadow: 0 0 0 2px var(--primary-color);
         }
 
         .search-box input {
             border: none;
             background: transparent;
-            padding: 0.6rem;
+            padding: 0.8rem 1rem;
             color: var(--text-color);
+            flex: 1;
             outline: none;
-            width: 200px;
+            width: 100%;
+            min-width: 0;
         }
 
         .search-box button {
             background: var(--primary-color);
             border: none;
             color: var(--text-color);
-            padding: 0.6rem 1rem;
+            padding: 0.8rem 1rem;
             cursor: pointer;
+            flex-shrink: 0;
         }
 
         .mobile-menu-toggle {
-            display: none;
             background: none;
             border: none;
             color: var(--text-color);
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
         }
 
         /* Side Menu */
@@ -353,190 +365,128 @@
             padding-bottom: 0.5rem;
         }
 
-        /* Anime Grid Styles */
-        .anime-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+        /* Gallery-specific styling */
+        .gallery {
+            column-count: 1;
+            column-gap: 15px;
         }
 
-        .anime-card {
-            position: relative;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            transition: transform var(--transition-speed);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        @media (min-width: 600px) {
+            .gallery {
+                column-count: 2;
+            }
+        }
+
+        @media (min-width: 900px) {
+            .gallery {
+                column-count: 3;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .gallery {
+                column-count: 4;
+            }
+        }
+
+        .card {
+            display: inline-block;
             background: var(--surface-color);
-        }
-
-        .anime-card:hover {
-            transform: scale(1.05);
-        }
-
-        .anime-card img {
+            margin: 0 0 15px;
             width: 100%;
-            aspect-ratio: 2/3;
-            object-fit: cover;
-            display: block;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            vertical-align: top;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
-        .card-image {
-            opacity: 0;
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .image-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .image-container img {
+            width: 100%;
+            display: block;
+            object-fit: cover;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
             transition: opacity 0.3s ease;
         }
 
-        .card-image.loaded {
+        .image-container img.loading {
+            opacity: 0;
+        }
+
+        .image-container img.loaded {
             opacity: 1;
         }
 
-        .anime-card-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .dummy-placeholder {
             width: 100%;
-            height: 100%;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 20%, transparent);
+            background: #000;
             display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 1rem;
-            opacity: 0;
-            transition: opacity var(--transition-speed);
-        }
-
-        .anime-card:hover .anime-card-overlay {
-            opacity: 1;
-        }
-
-        .anime-card-overlay .play-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(1.5);
-            font-size: 3rem;
-            opacity: 0;
-            transition: transform 0.3s, opacity 0.3s;
-        }
-
-        .anime-card:hover .play-icon {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 1;
-        }
-
-        .anime-card-overlay h3 {
-            font-size: clamp(1rem, 2.5vw, 1.3rem);
-            color: var(--text-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .anime-card-overlay p {
-            font-size: clamp(0.8rem, 1.5vw, 0.95rem);
-            color: var(--text-color-secondary);
-        }
-
-        .card-title {
-            font-weight: 600;
+            align-items: center;
+            justify-content: center;
+            color: #666;
             font-size: 14px;
-            text-align: center;
-            padding: 10px;
-            color: var(--text-color);
-            background: var(--surface-color);
         }
 
-        .card-meta {
+        .image-info {
+            padding: 12px;
+            text-align: center;
             font-size: 12px;
             color: var(--text-color-secondary);
-            text-align: center;
-            padding: 0 10px 10px;
+            line-height: 1.4;
         }
 
-        /* Skeleton Loading Animation */
-        .skeleton-card {
-            position: relative;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            aspect-ratio: 2/3;
-            background: var(--surface-color);
+        .image-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-color);
+            margin-bottom: 4px;
+        }
+
+        .image-meta {
             display: flex;
-            flex-direction: column;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
-        .skeleton-image {
-            width: 100%;
-            height: 70%;
-            background: linear-gradient(90deg, #2a2a2a 25%, #333 50%, #2a2a2a 75%);
-            background-size: 200% 100%;
-            animation: skeleton-loading 1.5s infinite;
-        }
-
-        .skeleton-content {
-            padding: 1rem;
-            height: 30%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .skeleton-title {
-            height: 20px;
-            background: linear-gradient(90deg, #2a2a2a 25%, #333 50%, #2a2a2a 75%);
-            background-size: 200% 100%;
-            animation: skeleton-loading 1.5s infinite;
-            border-radius: 4px;
-            margin-bottom: 10px;
-        }
-
-        .skeleton-meta {
-            height: 16px;
-            background: linear-gradient(90deg, #2a2a2a 25%, #333 50%, #2a2a2a 75%);
-            background-size: 200% 100%;
-            animation: skeleton-loading 1.5s infinite;
-            border-radius: 4px;
-            width: 60%;
-        }
-
-        @keyframes skeleton-loading {
-            0% {
-                background-position: 200% 0;
-            }
-
-            100% {
-                background-position: -200% 0;
-            }
-        }
-
-        /* Loading indicator */
-        .loading-indicator {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-color-secondary);
+        .copied {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 12px;
             display: none;
+            z-index: 10;
         }
 
-        .loading-indicator.active {
-            display: block;
+        #notFound {
+            display: none;
+            text-align: center;
+            margin-top: 50px;
+            font-size: 20px;
+            color: var(--text-color-secondary);
         }
 
-        .loading-indicator .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(229, 9, 20, 0.3);
-            border-radius: 50%;
-            border-top-color: var(--primary-color);
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
+        #notFound a {
+            color: var(--primary-color);
+            text-decoration: none;
+            margin-left: 5px;
         }
 
         /* Back button */
@@ -567,18 +517,35 @@
             margin-bottom: 2rem;
         }
 
+        /* Loading indicator */
+        .loading-indicator {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-color-secondary);
+        }
+
+        .loading-indicator i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
         /* Media Queries for Responsive Header */
         @media (max-width: 768px) {
-            .main-nav {
-                display: none;
-            }
-
-            .mobile-menu-toggle {
-                display: block;
-            }
-
             .main-header .container {
-                position: relative;
+                gap: 10px;
+            }
+
+            .logo {
+                font-size: 1.3rem;
+            }
+
+            .header-actions {
+                gap: 10px;
+            }
+
+            .search-box {
+                min-width: 120px;
             }
 
             .folders-grid {
@@ -588,11 +555,6 @@
             .subfolders-grid {
                 grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
             }
-
-            .anime-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-                gap: 1rem;
-            }
         }
 
         @media (max-width: 480px) {
@@ -601,11 +563,10 @@
             }
 
             .logo {
-                font-size: 1.5rem;
+                font-size: 1.1rem;
             }
 
             .search-box input {
-                width: 120px;
                 padding: 0.6rem 0.8rem;
             }
 
@@ -625,62 +586,6 @@
             .subfolders-grid {
                 grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
             }
-
-            .anime-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
-            }
-        }
-
-        /* Watermark Styles */
-        .watermark {
-            position: absolute;
-            opacity: 0.5;
-            pointer-events: none;
-            z-index: 10;
-        }
-
-        .card-watermark {
-            top: 8px;
-            left: 8px;
-            width: 30px;
-            height: 30px;
-        }
-
-        .watermark-logo {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            filter: brightness(0) invert(1);
-        }
-
-        .premium-tag {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: rgba(0, 0, 0, 0.603);
-            color: #fffdfd;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            z-index: 2;
-        }
-
-        #notFound {
-            display: none;
-            text-align: center;
-            margin-top: 50px;
-            font-size: 20px;
-            color: var(--text-color-secondary);
-        }
-
-        #notFound a {
-            color: var(--primary-color);
-            text-decoration: none;
-            margin-left: 5px;
         }
     </style>
 </head>
@@ -730,7 +635,12 @@
                 <!-- Breadcrumb will be generated dynamically -->
             </div>
 
-            <div id="foldersView">
+            <div id="loadingIndicator" class="loading-indicator">
+                <i class="fas fa-spinner fa-spin"></i>
+                <div>Loading data...</div>
+            </div>
+
+            <div id="foldersView" style="display: none;">
                 <h2 class="section-title"><i class="fas fa-folder"></i> 𝚂𝚎𝚛𝚒𝚎𝚜</h2>
                 <div class="folders-grid" id="foldersGrid">
                     <!-- Folders will be generated dynamically -->
@@ -752,24 +662,13 @@
                     <i class="fas fa-arrow-left"></i> Back
                 </a>
                 <h2 class="section-title" id="galleryTitle"></h2>
-                <div class="anime-grid" id="gallery"></div>
+                <div class="gallery" id="gallery"></div>
                 <div id="notFound">No images found. <a href="#" id="goHome">𝙶𝚘 𝙱𝚊𝚌𝚔</a></div>
-
-                <!-- Loading Indicator -->
-                <div class="loading-indicator" id="loadingIndicator">
-                    <div class="spinner"></div>
-                    <p>Loading more content...</p>
-                </div>
             </div>
         </div>
     </main>
 
     <script>
-        // Configuration
-        const CARDS_PER_PAGE = 20;
-        const SCROLL_THRESHOLD = 100;
-        const IMAGE_LOAD_DELAY = 50;
-
         // Menu toggle functionality
         const menuToggle = document.getElementById('mobile-menu-toggle');
         const sideMenu = document.getElementById('sideMenu');
@@ -817,57 +716,82 @@
         const goHome = document.getElementById('goHome');
         const loadingIndicator = document.getElementById('loadingIndicator');
 
-        // State variables for gallery
-        let currentPage = 0;
-        let isLoading = false;
-        let imageLoadQueue = [];
-        let isProcessingQueue = false;
-        let currentGalleryImages = [];
-
-        // Store already loaded images for caching
-        const loadedCache = {};
+        // Store data and cache
+        let seriesData = [];
+        let categorizedImages = {};
+        let loadedCache = {};
         let currentPath = [];
         let currentSeries = '';
         let currentSeriesName = '';
-        let currentType = '';
+        let currentSeriesId = '';
 
-        // Get anime title from ID
-        function getAnimeTitleFromId(animeId) {
-            if (typeof animeData !== 'undefined') {
-                const anime = animeData.find(a => a.id === animeId);
-                return anime ? anime.title : animeId;
+        // Load external data
+        async function loadExternalData() {
+            try {
+                const response = await fetch('https://animesaga.pages.dev/dxh2jf6f8shlldyq6lpo4exgdq/d2hs6ea0ct0of8shlanv6lpo4eygdq.js');
+                const scriptText = await response.text();
+
+                // Extract the data array from the script
+                const dataMatch = scriptText.match(/var\s+data\s*=\s*(\[.*?\]);/s);
+                if (dataMatch) {
+                    seriesData = JSON.parse(dataMatch[1]);
+                    processSeriesData();
+                } else {
+                    throw new Error('Could not find data array in external script');
+                }
+            } catch (error) {
+                console.error('Error loading external data:', error);
+                loadingIndicator.innerHTML = '<div>Error loading data. Please try again later.</div>';
             }
-            return animeId;
         }
 
-        // Extract main folder name from filename
-        function getMainFolderName(filename) {
-            // Remove file extension
-            let nameWithoutExt = filename.replace('.jpg', '');
+        // Process series data and create image structure
+        function processSeriesData() {
+            categorizedImages = {};
 
-            // Remove type suffixes and everything after them
-            const typeSuffixes = ['-card', '-poster', '-character', '-screenshot'];
-            for (const suffix of typeSuffixes) {
-                if (nameWithoutExt.includes(suffix)) {
-                    // Extract the anime ID part (everything before the suffix)
-                    const animeId = nameWithoutExt.split(suffix)[0];
-                    return getAnimeTitleFromId(animeId);
+            seriesData.forEach(series => {
+                const seriesId = series.id;
+                const seriesTitle = series.title;
+
+                if (!categorizedImages[seriesId]) {
+                    categorizedImages[seriesId] = {
+                        title: seriesTitle,
+                        types: {
+                            'Cards': [],
+                            'Posters': [],
+                            'Characters': [],
+                            'Screenshots': []
+                        }
+                    };
                 }
-            }
 
-            // If no type suffix found, try to extract anime ID
-            const parts = nameWithoutExt.split('-');
-            // Look for common patterns to extract anime ID
-            let animeId = nameWithoutExt;
-            for (let i = parts.length - 1; i >= 0; i--) {
-                if (parts[i].match(/^\d+$/) || parts[i].length <= 2) {
-                    // This might be a number or short identifier, try without it
-                    animeId = parts.slice(0, i).join('-');
-                    break;
-                }
-            }
+                // Generate image filenames based on series ID and types
+                const imageTypes = [
+                    { type: 'Cards', pattern: `${seriesId}-card-{variant}.jpg` },
+                    { type: 'Posters', pattern: `${seriesId}-poster-{variant}.jpg` },
+                    { type: 'Characters', pattern: `${seriesId}-character-{variant}.jpg` },
+                    { type: 'Screenshots', pattern: `${seriesId}-screenshot-{variant}.jpg` }
+                ];
 
-            return getAnimeTitleFromId(animeId);
+                // For demo purposes, create some sample images
+                // In real implementation, these would come from your actual image files
+                imageTypes.forEach(imageType => {
+                    for (let i = 1; i <= 3; i++) {
+                        const filename = imageType.pattern.replace('{variant}', `variant${i}`);
+                        categorizedImages[seriesId].types[imageType.type].push({
+                            filename: filename,
+                            title: seriesTitle,
+                            type: imageType.type,
+                            variant: i
+                        });
+                    }
+                });
+            });
+
+            // Hide loading indicator and show folders
+            loadingIndicator.style.display = 'none';
+            foldersView.style.display = 'block';
+            renderFolders();
         }
 
         // Get image type from filename
@@ -880,105 +804,36 @@
         }
 
         // Get clean image name for display
-        function getImageDisplayName(filename) {
-            const nameWithoutExt = filename.replace('.jpg', '');
-            const type = getImageType(filename);
+        function getImageDisplayName(imageData) {
+            const type = imageData.type;
+            const variant = imageData.variant;
+            const title = imageData.title;
 
-            // Remove the anime ID and type to get the descriptive part
-            let displayName = nameWithoutExt;
-            const typeSuffixes = ['-card', '-poster', '-character', '-screenshot'];
-
-            for (const suffix of typeSuffixes) {
-                if (displayName.includes(suffix)) {
-                    displayName = displayName.replace(suffix, '');
-                    break;
-                }
-            }
-
-            // Remove the anime ID part (we already have the series name)
-            const animeIdMatch = displayName.match(/^([^-]+-?)+/);
-            if (animeIdMatch) {
-                displayName = displayName.replace(animeIdMatch[0], '').replace(/^-/, '');
-            }
-
-            // Format for display
-            if (!displayName || displayName === '') {
-                return type.slice(0, -1); // Remove 's' from type
-            }
-
-            return displayName.split('-')
-                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(' ');
-        }
-
-        // Get image quality info for display
-        function getImageQualityInfo(filename) {
-            // Extract resolution/quality from filename if available
-            const resolutionMatch = filename.match(/(\d+)x(\d+)/);
-            if (resolutionMatch) {
-                return `${resolutionMatch[1]}p`;
-            }
-
-            // Default quality based on type
-            const type = getImageType(filename);
-            switch (type) {
-                case 'Cards':
-                case 'Posters':
-                    return 'HD 1080p';
-                case 'Characters':
-                    return 'HD 720p';
-                case 'Screenshots':
-                    return 'SD 480p';
-                default:
-                    return 'HD';
-            }
-        }
-
-        // Categorize images by series and type
-        function categorizeImages() {
-            const categories = {};
-
-            images.forEach(filename => {
-                const seriesName = getMainFolderName(filename);
-                const type = getImageType(filename);
-
-                if (!categories[seriesName]) {
-                    categories[seriesName] = {
-                        types: {}
-                    };
-                }
-
-                if (!categories[seriesName].types[type]) {
-                    categories[seriesName].types[type] = [];
-                }
-
-                categories[seriesName].types[type].push(filename);
-            });
-
-            return categories;
+            return `${title} - ${type} ${variant}`;
         }
 
         // Render main series folders
         function renderFolders() {
             foldersGrid.innerHTML = '';
-            const categories = categorizeImages();
 
-            Object.keys(categories).sort().forEach(seriesName => {
-                const series = categories[seriesName];
+            Object.keys(categorizedImages).sort((a, b) => {
+                return categorizedImages[a].title.localeCompare(categorizedImages[b].title);
+            }).forEach(seriesId => {
+                const series = categorizedImages[seriesId];
                 const totalImages = Object.values(series.types).reduce((sum, arr) => sum + arr.length, 0);
 
                 const folderItem = document.createElement('div');
                 folderItem.className = 'folder-item';
-                folderItem.setAttribute('data-series', seriesName);
+                folderItem.setAttribute('data-series', seriesId);
 
                 folderItem.innerHTML = `
                     <i class="fas fa-folder folder-icon"></i>
-                    <div class="folder-name">${seriesName}</div>
+                    <div class="folder-name">${series.title}</div>
                     <div class="folder-count">${totalImages} images</div>
                 `;
 
                 folderItem.addEventListener('click', () => {
-                    openSeries(seriesName);
+                    openSeries(seriesId);
                 });
 
                 foldersGrid.appendChild(folderItem);
@@ -988,21 +843,20 @@
         }
 
         // Open a series folder
-        function openSeries(seriesName) {
-            currentSeries = seriesName;
-            currentSeriesName = seriesName;
+        function openSeries(seriesId) {
+            currentSeries = seriesId;
+            currentSeriesName = categorizedImages[seriesId].title;
             currentPath = [{
                 name: 'Home',
                 action: () => {
                     showFoldersView();
                 }
             }, {
-                name: seriesName,
+                name: currentSeriesName,
                 action: null
             }];
 
-            const categories = categorizeImages();
-            const series = categories[seriesName];
+            const series = categorizedImages[seriesId];
 
             // Hide folders view and show subfolders view
             foldersView.style.display = 'none';
@@ -1010,19 +864,19 @@
             galleryView.style.display = 'none';
 
             // Set subfolders title
-            subfoldersTitle.innerHTML = `<i class="fas fa-folder-open"></i> ${seriesName}`;
+            subfoldersTitle.innerHTML = `<i class="fas fa-folder-open"></i> ${currentSeriesName}`;
 
             // Render subfolders (Cards, Posters, Characters, Screenshots)
-            renderSubfolders(series.types, seriesName);
+            renderSubfolders(series.types, seriesId);
 
             updateBreadcrumb();
         }
 
         // Render subfolders (Cards, Posters, Characters, Screenshots)
-        function renderSubfolders(types, seriesName) {
+        function renderSubfolders(types, seriesId) {
             subfoldersGrid.innerHTML = '';
 
-            const typeOrder = ['Cards', 'Posters', 'Characters', 'Screenshots', 'Other'];
+            const typeOrder = ['Cards', 'Posters', 'Characters', 'Screenshots'];
 
             typeOrder.forEach(type => {
                 if (types[type] && types[type].length > 0) {
@@ -1037,7 +891,7 @@
                     `;
 
                     subfolderItem.addEventListener('click', () => {
-                        openSubfolder(type, types[type], seriesName);
+                        openSubfolder(type, types[type], seriesId);
                     });
 
                     subfoldersGrid.appendChild(subfolderItem);
@@ -1056,20 +910,16 @@
         }
 
         // Open a subfolder (type)
-        function openSubfolder(type, images, seriesName) {
-            currentType = type;
-            currentGalleryImages = images;
-            currentPage = 0;
-
+        function openSubfolder(type, images, seriesId) {
             currentPath = [{
                 name: 'Home',
                 action: () => {
                     showFoldersView();
                 }
             }, {
-                name: seriesName,
+                name: currentSeriesName,
                 action: () => {
-                    openSeries(seriesName);
+                    openSeries(seriesId);
                 }
             }, {
                 name: type,
@@ -1082,174 +932,199 @@
             galleryView.style.display = 'block';
 
             // Set gallery title
-            galleryTitle.innerHTML = `<i class="fas fa-${getTypeIcon(type)}"></i> ${seriesName} - ${type}`;
+            galleryTitle.innerHTML = `<i class="fas fa-${getTypeIcon(type)}"></i> ${currentSeriesName} - ${type}`;
 
-            // Clear previous content
-            gallery.innerHTML = '';
-
-            // Load initial images
-            loadMoreGalleryContent();
-
-            // Set up infinite scroll for gallery
-            setupGalleryInfiniteScroll();
+            // Render images
+            renderGallery(images);
 
             updateBreadcrumb();
         }
 
-        // Set up infinite scroll for gallery
-        function setupGalleryInfiniteScroll() {
-            let scrollTimeout;
+        // Image loading queue for better performance
+        const imageLoadQueue = [];
+        let loadingImages = 0;
+        const MAX_CONCURRENT_LOADS = 3;
 
-            window.addEventListener('scroll', function () {
-                if (isLoading) return;
+        // Process next image in queue
+        function processNextImage() {
+            if (imageLoadQueue.length === 0 || loadingImages >= MAX_CONCURRENT_LOADS) return;
 
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(() => {
-                    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-                    const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
-                    const clientHeight = document.documentElement.clientHeight;
+            loadingImages++;
+            const { element, src } = imageLoadQueue.shift();
 
-                    if (scrollTop + clientHeight >= scrollHeight - SCROLL_THRESHOLD) {
-                        loadMoreGalleryContent();
-                    }
-                }, 50);
-            });
+            const preloadImg = new Image();
+            preloadImg.onload = () => {
+                element.src = src;
+                element.classList.remove('loading');
+                element.classList.add('loaded');
+                loadingImages--;
+                processNextImage();
+            };
+
+            preloadImg.onerror = () => {
+                console.error(`Failed to load image: ${src}`);
+                element.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMDAwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIE5vdCBGb3VuZDwvdGV4dD48L3N2Zz4=';
+                element.classList.remove('loading');
+                element.classList.add('loaded');
+                loadingImages--;
+                processNextImage();
+            };
+
+            preloadImg.src = src;
         }
 
-        // Load more gallery content
-        function loadMoreGalleryContent() {
-            if (isLoading || !currentGalleryImages.length) return;
+        // Render gallery images
+        function renderGallery(imageList) {
+            gallery.innerHTML = '';
+            imageLoadQueue.length = 0;
+            loadingImages = 0;
 
-            const startIndex = currentPage * CARDS_PER_PAGE;
-            const endIndex = startIndex + CARDS_PER_PAGE;
-
-            if (startIndex >= currentGalleryImages.length) {
+            if (imageList.length === 0) {
+                notFound.style.display = 'block';
+                gallery.style.display = 'none';
                 return;
             }
 
-            isLoading = true;
-            loadingIndicator.classList.add('active');
+            notFound.style.display = 'none';
+            gallery.style.display = 'block';
 
-            // Add skeleton cards first
-            const skeletonCount = Math.min(CARDS_PER_PAGE, currentGalleryImages.length - startIndex);
-            addSkeletonCards(skeletonCount);
-
-            // Load actual content
-            setTimeout(() => {
-                replaceSkeletonsWithGalleryContent(startIndex, endIndex);
-                currentPage++;
-                isLoading = false;
-                loadingIndicator.classList.remove('active');
-            }, 300);
-        }
-
-        // Add skeleton loading cards
-        function addSkeletonCards(count) {
-            for (let i = 0; i < count; i++) {
-                const skeletonCard = document.createElement('div');
-                skeletonCard.className = 'skeleton-card';
-                skeletonCard.innerHTML = `
-                    <div class="skeleton-image"></div>
-                    <div class="skeleton-content">
-                        <div class="skeleton-title"></div>
-                        <div class="skeleton-meta"></div>
-                    </div>
-                `;
-                gallery.appendChild(skeletonCard);
-            }
-        }
-
-        // Replace skeleton cards with actual gallery content
-        function replaceSkeletonsWithGalleryContent(startIndex, endIndex) {
-            const skeletonCards = document.querySelectorAll('#gallery .skeleton-card');
-            const itemsToLoad = currentGalleryImages.slice(startIndex, endIndex);
-
-            // Clear existing skeleton cards
-            skeletonCards.forEach(card => card.remove());
-
-            // Add actual content cards
-            itemsToLoad.forEach((filename, index) => {
-                const card = createImageCard(filename);
-                gallery.appendChild(card);
-
-                // Add to image load queue
-                imageLoadQueue.push({
-                    element: card.querySelector('.card-image'),
-                    src: prefix + filename,
-                    delay: index * IMAGE_LOAD_DELAY
-                });
+            imageList.forEach(imageData => {
+                gallery.appendChild(createCard(imageData));
             });
 
-            // Process image load queue
-            processImageLoadQueue();
-        }
-
-        // Process image load queue
-        function processImageLoadQueue() {
-            if (isProcessingQueue || imageLoadQueue.length === 0) return;
-
-            isProcessingQueue = true;
-
-            const processNextImage = () => {
-                if (imageLoadQueue.length === 0) {
-                    isProcessingQueue = false;
-                    return;
-                }
-
-                const { element, src, delay } = imageLoadQueue.shift();
-
-                setTimeout(() => {
-                    const preloadImg = new Image();
-                    preloadImg.onload = () => {
-                        element.src = src;
-                        element.classList.add('loaded');
-                        loadedCache[src] = Date.now();
-                        processNextImage();
-                    };
-                    preloadImg.onerror = () => {
-                        element.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIE5vdCBGb3VuZDwvdGV4dD48L3N2Zz4=';
-                        element.classList.add('loaded');
-                        processNextImage();
-                    };
-                    preloadImg.src = src;
-                }, delay);
-            };
-
+            // Start loading images
             processNextImage();
         }
 
-        // Create image card for gallery
-        function createImageCard(filename) {
+        // Get image dimensions and calculate scale
+        async function getImageInfo(src, containerWidth) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => {
+                    const originalWidth = img.naturalWidth;
+                    const originalHeight = img.naturalHeight;
+                    const scale = (containerWidth / originalWidth * 100).toFixed(1);
+                    const quality = originalWidth >= 1920 ? 'HD' : originalWidth >= 1280 ? 'High' : 'Standard';
+                    const size = formatFileSize(estimateFileSize(originalWidth, originalHeight));
+
+                    resolve({
+                        width: originalWidth,
+                        height: originalHeight,
+                        scale: scale,
+                        quality: quality,
+                        size: size
+                    });
+                };
+                img.onerror = () => {
+                    resolve({
+                        width: 0,
+                        height: 0,
+                        scale: '0%',
+                        quality: 'Unknown',
+                        size: 'Unknown'
+                    });
+                };
+                img.src = src;
+            });
+        }
+
+        // Estimate file size based on dimensions
+        function estimateFileSize(width, height) {
+            // Rough estimation: 0.3 bytes per pixel for JPEG
+            return Math.round(width * height * 0.3);
+        }
+
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes === 0 || isNaN(bytes)) return 'Unknown';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Create image card
+        function createCard(imageData) {
+            const filename = imageData.filename;
             const url = prefix + filename;
-            const card = document.createElement('div');
-            card.className = 'anime-card';
+            const card = document.createElement("div");
+            card.className = "card";
 
-            const displayName = getImageDisplayName(filename);
-            const qualityInfo = getImageQualityInfo(filename);
+            const imageContainer = document.createElement("div");
+            imageContainer.className = "image-container";
 
-            card.innerHTML = `
-                <img src="" alt="${displayName}" loading="lazy" class="card-image">
-                <div class="anime-card-overlay">
-                    <div class="play-icon"><i class="fas fa-copy"></i></div>
-                    <h3 class="card-title">${displayName}</h3>
-                    <p class="card-meta">${qualityInfo}</p>
-                </div>
-                <!-- Card Watermark -->
-                <div class="watermark card-watermark">
-                    <img src="icons/amv-icon.png" alt="AMVVerse Watermark" class="watermark-logo">
-                </div>
-                <div class="premium-tag">${qualityInfo}</div>
-            `;
+            const img = document.createElement("img");
+            img.src = '';
+            img.alt = getImageDisplayName(imageData);
+            img.loading = "lazy";
+            img.classList.add('loading');
 
-            // Copy URL functionality
-            card.addEventListener('click', () => {
+            // Create dummy placeholder with estimated dimensions
+            const dummyPlaceholder = document.createElement("div");
+            dummyPlaceholder.className = "dummy-placeholder";
+            dummyPlaceholder.style.aspectRatio = "3/4"; // Default aspect ratio
+            dummyPlaceholder.innerHTML = '<div>Loading...</div>';
+
+            imageContainer.appendChild(dummyPlaceholder);
+            imageContainer.appendChild(img);
+
+            const imageInfo = document.createElement("div");
+            imageInfo.className = "image-info";
+
+            const imageTitle = document.createElement("div");
+            imageTitle.className = "image-title";
+            imageTitle.textContent = imageData.title;
+
+            const imageMeta = document.createElement("div");
+            imageMeta.className = "image-meta";
+            imageMeta.innerHTML = `<span>Scale: <span class="scale-value">Loading...</span></span>
+                                  <span>Quality: <span class="quality-value">Loading...</span></span>
+                                  <span>Size: <span class="size-value">Loading...</span></span>`;
+
+            imageInfo.appendChild(imageTitle);
+            imageInfo.appendChild(imageMeta);
+
+            const copied = document.createElement("div");
+            copied.className = "copied";
+            copied.textContent = "Link Copied!";
+
+            card.appendChild(imageContainer);
+            card.appendChild(imageInfo);
+            card.appendChild(copied);
+
+            // Add to loading queue
+            imageLoadQueue.push({
+                element: img,
+                src: url
+            });
+
+            // Get container width for scale calculation
+            const containerWidth = card.offsetWidth || 200; // Fallback to 200px
+
+            // Load image info after a short delay
+            setTimeout(async () => {
+                try {
+                    const info = await getImageInfo(url, containerWidth);
+                    imageMeta.innerHTML = `<span>Scale: ${info.scale}%</span>
+                                          <span>Quality: ${info.quality}</span>
+                                          <span>Size: ${info.size}</span>`;
+
+                    // Update aspect ratio based on actual image dimensions
+                    if (info.width > 0 && info.height > 0) {
+                        dummyPlaceholder.style.aspectRatio = `${info.width}/${info.height}`;
+                    }
+                } catch (error) {
+                    console.error('Error getting image info:', error);
+                    imageMeta.innerHTML = `<span>Scale: Unknown</span>
+                                          <span>Quality: Unknown</span>
+                                          <span>Size: Unknown</span>`;
+                }
+            }, 100);
+
+            card.addEventListener("click", () => {
                 navigator.clipboard.writeText(url).then(() => {
-                    const playIcon = card.querySelector('.play-icon');
-                    const originalIcon = playIcon.innerHTML;
-                    playIcon.innerHTML = '<i class="fas fa-check"></i>';
-                    setTimeout(() => {
-                        playIcon.innerHTML = originalIcon;
-                    }, 1000);
+                    copied.style.display = "block";
+                    setTimeout(() => copied.style.display = "none", 1000);
                 }).catch(err => {
                     console.error('Failed to copy: ', err);
                 });
@@ -1269,11 +1144,6 @@
             subfoldersView.style.display = 'none';
             galleryView.style.display = 'none';
             updateBreadcrumb();
-
-            // Reset gallery state
-            currentPage = 0;
-            currentGalleryImages = [];
-            imageLoadQueue = [];
         }
 
         // Update breadcrumb
@@ -1324,17 +1194,27 @@
             const searchValue = searchInput.value.toLowerCase().trim();
 
             if (searchValue === '') {
+                // If search is empty, show folders view
                 showFoldersView();
                 return;
             }
 
             // Filter images based on search
-            const filtered = images.filter(f =>
-                getImageDisplayName(f).toLowerCase().includes(searchValue) ||
-                getMainFolderName(f).toLowerCase().includes(searchValue)
-            );
+            const filtered = [];
+            Object.keys(categorizedImages).forEach(seriesId => {
+                const series = categorizedImages[seriesId];
+                Object.values(series.types).forEach(images => {
+                    images.forEach(imageData => {
+                        if (imageData.title.toLowerCase().includes(searchValue) ||
+                            imageData.type.toLowerCase().includes(searchValue)) {
+                            filtered.push(imageData);
+                        }
+                    });
+                });
+            });
 
             if (filtered.length === 0) {
+                // Show not found message
                 foldersView.style.display = 'none';
                 subfoldersView.style.display = 'none';
                 galleryView.style.display = 'block';
@@ -1342,17 +1222,12 @@
                 gallery.innerHTML = '';
                 notFound.style.display = 'block';
             } else {
-                // Show search results in gallery view
-                currentGalleryImages = filtered;
-                currentPage = 0;
-
+                // Show search results
                 foldersView.style.display = 'none';
                 subfoldersView.style.display = 'none';
                 galleryView.style.display = 'block';
                 galleryTitle.innerHTML = `<i class="fas fa-search"></i> Search Results (${filtered.length})`;
-                gallery.innerHTML = '';
-
-                loadMoreGalleryContent();
+                renderGallery(filtered);
                 notFound.style.display = 'none';
             }
 
@@ -1378,7 +1253,7 @@
         });
 
         // Initialize the file manager
-        renderFolders();
+        loadExternalData();
     </script>
 </body>
 
