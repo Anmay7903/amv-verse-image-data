@@ -8,10 +8,15 @@
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="data.js"></script>
     <link rel="icon" href="icons/icon.png" type="png/image/x-icon">
     <link rel="apple-touch-icon" href="icons/icon.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --background-color: #0f0f0f;
@@ -401,6 +406,7 @@
             overflow: hidden;
             vertical-align: top;
             transition: transform 0.3s, box-shadow 0.3s;
+            break-inside: avoid;
         }
 
         .card:hover {
@@ -422,44 +428,43 @@
             transition: opacity 0.3s ease;
         }
 
-        .image-container img.loading {
-            opacity: 0;
-        }
-
-        .image-container img.loaded {
-            opacity: 1;
-        }
-
         .dummy-placeholder {
-            width: 100%;
             background: #000;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #666;
-            font-size: 14px;
+            color: #333;
+            font-size: 12px;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
         }
 
         .image-info {
             padding: 12px;
-            text-align: center;
-            font-size: 12px;
-            color: var(--text-color-secondary);
-            line-height: 1.4;
+            background: var(--surface-color);
         }
 
         .image-title {
             font-weight: 600;
             font-size: 14px;
+            margin-bottom: 8px;
             color: var(--text-color);
-            margin-bottom: 4px;
+            line-height: 1.3;
         }
 
         .image-meta {
             display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            color: var(--text-color-secondary);
+        }
+
+        .image-scale,
+        .image-quality,
+        .image-size {
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
         .copied {
@@ -517,19 +522,6 @@
             margin-bottom: 2rem;
         }
 
-        /* Loading indicator */
-        .loading-indicator {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-color-secondary);
-        }
-
-        .loading-indicator i {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-        }
-
         /* Media Queries for Responsive Header */
         @media (max-width: 768px) {
             .main-header .container {
@@ -554,6 +546,10 @@
 
             .subfolders-grid {
                 grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+
+            .gallery {
+                column-count: 2;
             }
         }
 
@@ -585,6 +581,10 @@
 
             .subfolders-grid {
                 grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+
+            .gallery {
+                column-count: 1;
             }
         }
     </style>
@@ -635,12 +635,7 @@
                 <!-- Breadcrumb will be generated dynamically -->
             </div>
 
-            <div id="loadingIndicator" class="loading-indicator">
-                <i class="fas fa-spinner fa-spin"></i>
-                <div>Loading data...</div>
-            </div>
-
-            <div id="foldersView" style="display: none;">
+            <div id="foldersView">
                 <h2 class="section-title"><i class="fas fa-folder"></i> 𝚂𝚎𝚛𝚒𝚎𝚜</h2>
                 <div class="folders-grid" id="foldersGrid">
                     <!-- Folders will be generated dynamically -->
@@ -714,117 +709,183 @@
         const searchInput = document.getElementById('search');
         const notFound = document.getElementById('notFound');
         const goHome = document.getElementById('goHome');
-        const loadingIndicator = document.getElementById('loadingIndicator');
 
-        // Store data and cache
-        let seriesData = [];
-        let categorizedImages = {};
-        let loadedCache = {};
+        // Store already loaded images for caching
+        const loadedCache = {};
+        const imageDimensions = {};
         let currentPath = [];
         let currentSeries = '';
         let currentSeriesName = '';
-        let currentSeriesId = '';
 
-        // Load external data
-        async function loadExternalData() {
-            try {
-                const response = await fetch('https://animesaga.pages.dev/dxh2jf6f8shlldyq6lpo4exgdq/d2hs6ea0ct0of8shlanv6lpo4eygdq.js');
-                const scriptText = await response.text();
+        // Extract ID from filename
+        function getIdFromFilename(filename) {
+            // Remove file extension
+            let nameWithoutExt = filename.replace('.jpg', '');
 
-                // Extract the data array from the script
-                const dataMatch = scriptText.match(/var\s+data\s*=\s*(\[.*?\]);/s);
-                if (dataMatch) {
-                    seriesData = JSON.parse(dataMatch[1]);
-                    processSeriesData();
-                } else {
-                    throw new Error('Could not find data array in external script');
+            // Remove type suffixes and everything after
+            const typePatterns = [
+                /-card-.*$/,
+                /-poster-.*$/,
+                /-character-.*$/,
+                /-screenshot-.*$/
+            ];
+
+            for (const pattern of typePatterns) {
+                if (pattern.test(nameWithoutExt)) {
+                    nameWithoutExt = nameWithoutExt.replace(pattern, '');
+                    break;
                 }
-            } catch (error) {
-                console.error('Error loading external data:', error);
-                loadingIndicator.innerHTML = '<div>Error loading data. Please try again later.</div>';
             }
-        }
 
-        // Process series data and create image structure
-        function processSeriesData() {
-            categorizedImages = {};
-
-            seriesData.forEach(series => {
-                const seriesId = series.id;
-                const seriesTitle = series.title;
-
-                if (!categorizedImages[seriesId]) {
-                    categorizedImages[seriesId] = {
-                        title: seriesTitle,
-                        types: {
-                            'Cards': [],
-                            'Posters': [],
-                            'Characters': [],
-                            'Screenshots': []
-                        }
-                    };
-                }
-
-                // Generate image filenames based on series ID and types
-                const imageTypes = [
-                    { type: 'Cards', pattern: `${seriesId}-card-{variant}.jpg` },
-                    { type: 'Posters', pattern: `${seriesId}-poster-{variant}.jpg` },
-                    { type: 'Characters', pattern: `${seriesId}-character-{variant}.jpg` },
-                    { type: 'Screenshots', pattern: `${seriesId}-screenshot-{variant}.jpg` }
-                ];
-
-                // For demo purposes, create some sample images
-                // In real implementation, these would come from your actual image files
-                imageTypes.forEach(imageType => {
-                    for (let i = 1; i <= 3; i++) {
-                        const filename = imageType.pattern.replace('{variant}', `variant${i}`);
-                        categorizedImages[seriesId].types[imageType.type].push({
-                            filename: filename,
-                            title: seriesTitle,
-                            type: imageType.type,
-                            variant: i
-                        });
-                    }
-                });
-            });
-
-            // Hide loading indicator and show folders
-            loadingIndicator.style.display = 'none';
-            foldersView.style.display = 'block';
-            renderFolders();
+            return nameWithoutExt;
         }
 
         // Get image type from filename
         function getImageType(filename) {
-            if (filename.includes('-card')) return 'Cards';
-            if (filename.includes('-poster')) return 'Posters';
-            if (filename.includes('-character')) return 'Characters';
-            if (filename.includes('-screenshot')) return 'Screenshots';
+            if (filename.includes('-card-')) return 'Cards';
+            if (filename.includes('-poster-')) return 'Posters';
+            if (filename.includes('-character-')) return 'Characters';
+            if (filename.includes('-screenshot-')) return 'Screenshots';
             return 'Other';
         }
 
-        // Get clean image name for display
-        function getImageDisplayName(imageData) {
-            const type = imageData.type;
-            const variant = imageData.variant;
-            const title = imageData.title;
+        // Get title from ID (format the ID for display)
+        function getTitleFromId(id) {
+            return id.split('-')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+        }
 
-            return `${title} - ${type} ${variant}`;
+        // Get display name for image
+        function getImageDisplayName(filename) {
+            const id = getIdFromFilename(filename);
+            const type = getImageType(filename);
+
+            // Extract the descriptive part after the type
+            let descriptivePart = '';
+            const typeSuffixes = ['-card-', '-poster-', '-character-', '-screenshot-'];
+
+            for (const suffix of typeSuffixes) {
+                if (filename.includes(suffix)) {
+                    descriptivePart = filename.split(suffix)[1].replace('.jpg', '');
+                    break;
+                }
+            }
+
+            // Format the descriptive part
+            const formattedDescriptive = descriptivePart.split('-')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+
+            return `${getTitleFromId(id)} - ${formattedDescriptive}`;
+        }
+
+        // Get image metadata (scale, quality, size)
+        function getImageMetadata(filename, containerWidth) {
+            // In a real implementation, you would get this from image metadata
+            // For now, we'll generate realistic mock data
+            const id = getIdFromFilename(filename);
+            const type = getImageType(filename);
+
+            // Mock scale based on type and container
+            const scales = {
+                'Cards': ['1:1', '3:4', '2:3'],
+                'Posters': ['2:3', '3:4', '16:9'],
+                'Characters': ['3:4', '2:3', '1:1'],
+                'Screenshots': ['16:9', '4:3', '1.85:1'],
+                'Other': ['3:4', '1:1', '16:9']
+            };
+
+            const qualities = ['High', 'Medium', 'Low', 'Ultra HD'];
+            const sizes = ['2.4 MB', '1.8 MB', '3.2 MB', '4.1 MB', '1.2 MB', '5.6 MB'];
+
+            const randomScale = scales[type][Math.floor(Math.random() * scales[type].length)];
+            const randomQuality = qualities[Math.floor(Math.random() * qualities.length)];
+            const randomSize = sizes[Math.floor(Math.random() * sizes.length)];
+
+            return {
+                scale: randomScale,
+                quality: randomQuality,
+                size: randomSize
+            };
+        }
+
+        // Create dummy placeholder with same dimensions as image
+        function createDummyPlaceholder(filename, containerWidth) {
+            const container = document.createElement('div');
+            container.className = 'image-container';
+
+            // Create dummy placeholder
+            const dummy = document.createElement('div');
+            dummy.className = 'dummy-placeholder';
+
+            // Set realistic dimensions based on image type
+            const type = getImageType(filename);
+            let aspectRatio = 3 / 4; // Default portrait
+
+            switch (type) {
+                case 'Cards':
+                    aspectRatio = 2 / 3;
+                    break;
+                case 'Posters':
+                    aspectRatio = 2 / 3;
+                    break;
+                case 'Characters':
+                    aspectRatio = 3 / 4;
+                    break;
+                case 'Screenshots':
+                    aspectRatio = 16 / 9;
+                    break;
+                default:
+                    aspectRatio = 3 / 4;
+            }
+
+            const height = containerWidth / aspectRatio;
+            dummy.style.width = '100%';
+            dummy.style.height = height + 'px';
+            dummy.style.backgroundColor = '#000';
+
+            container.appendChild(dummy);
+            return container;
+        }
+
+        // Categorize images by ID and type
+        function categorizeImages() {
+            const categories = {};
+
+            images.forEach(filename => {
+                const id = getIdFromFilename(filename);
+                const type = getImageType(filename);
+
+                if (!categories[id]) {
+                    categories[id] = {
+                        title: getTitleFromId(id),
+                        types: {}
+                    };
+                }
+
+                if (!categories[id].types[type]) {
+                    categories[id].types[type] = [];
+                }
+
+                categories[id].types[type].push(filename);
+            });
+
+            return categories;
         }
 
         // Render main series folders
         function renderFolders() {
             foldersGrid.innerHTML = '';
+            const categories = categorizeImages();
 
-            Object.keys(categorizedImages).sort((a, b) => {
-                return categorizedImages[a].title.localeCompare(categorizedImages[b].title);
-            }).forEach(seriesId => {
-                const series = categorizedImages[seriesId];
+            Object.keys(categories).sort().forEach(id => {
+                const series = categories[id];
                 const totalImages = Object.values(series.types).reduce((sum, arr) => sum + arr.length, 0);
 
                 const folderItem = document.createElement('div');
                 folderItem.className = 'folder-item';
-                folderItem.setAttribute('data-series', seriesId);
+                folderItem.setAttribute('data-series', id);
 
                 folderItem.innerHTML = `
                     <i class="fas fa-folder folder-icon"></i>
@@ -833,7 +894,7 @@
                 `;
 
                 folderItem.addEventListener('click', () => {
-                    openSeries(seriesId);
+                    openSeries(id, series.title);
                 });
 
                 foldersGrid.appendChild(folderItem);
@@ -843,20 +904,21 @@
         }
 
         // Open a series folder
-        function openSeries(seriesId) {
-            currentSeries = seriesId;
-            currentSeriesName = categorizedImages[seriesId].title;
+        function openSeries(id, title) {
+            currentSeries = id;
+            currentSeriesName = title;
             currentPath = [{
                 name: 'Home',
                 action: () => {
                     showFoldersView();
                 }
             }, {
-                name: currentSeriesName,
+                name: title,
                 action: null
             }];
 
-            const series = categorizedImages[seriesId];
+            const categories = categorizeImages();
+            const series = categories[id];
 
             // Hide folders view and show subfolders view
             foldersView.style.display = 'none';
@@ -864,19 +926,19 @@
             galleryView.style.display = 'none';
 
             // Set subfolders title
-            subfoldersTitle.innerHTML = `<i class="fas fa-folder-open"></i> ${currentSeriesName}`;
+            subfoldersTitle.innerHTML = `<i class="fas fa-folder-open"></i> ${title}`;
 
             // Render subfolders (Cards, Posters, Characters, Screenshots)
-            renderSubfolders(series.types, seriesId);
+            renderSubfolders(series.types, id, title);
 
             updateBreadcrumb();
         }
 
         // Render subfolders (Cards, Posters, Characters, Screenshots)
-        function renderSubfolders(types, seriesId) {
+        function renderSubfolders(types, id, title) {
             subfoldersGrid.innerHTML = '';
 
-            const typeOrder = ['Cards', 'Posters', 'Characters', 'Screenshots'];
+            const typeOrder = ['Cards', 'Posters', 'Characters', 'Screenshots', 'Other'];
 
             typeOrder.forEach(type => {
                 if (types[type] && types[type].length > 0) {
@@ -891,7 +953,7 @@
                     `;
 
                     subfolderItem.addEventListener('click', () => {
-                        openSubfolder(type, types[type], seriesId);
+                        openSubfolder(type, types[type], id, title);
                     });
 
                     subfoldersGrid.appendChild(subfolderItem);
@@ -910,16 +972,16 @@
         }
 
         // Open a subfolder (type)
-        function openSubfolder(type, images, seriesId) {
+        function openSubfolder(type, images, id, title) {
             currentPath = [{
                 name: 'Home',
                 action: () => {
                     showFoldersView();
                 }
             }, {
-                name: currentSeriesName,
+                name: title,
                 action: () => {
-                    openSeries(seriesId);
+                    openSeries(id, title);
                 }
             }, {
                 name: type,
@@ -932,7 +994,7 @@
             galleryView.style.display = 'block';
 
             // Set gallery title
-            galleryTitle.innerHTML = `<i class="fas fa-${getTypeIcon(type)}"></i> ${currentSeriesName} - ${type}`;
+            galleryTitle.innerHTML = `<i class="fas fa-${getTypeIcon(type)}"></i> ${title} - ${type}`;
 
             // Render images
             renderGallery(images);
@@ -940,44 +1002,9 @@
             updateBreadcrumb();
         }
 
-        // Image loading queue for better performance
-        const imageLoadQueue = [];
-        let loadingImages = 0;
-        const MAX_CONCURRENT_LOADS = 3;
-
-        // Process next image in queue
-        function processNextImage() {
-            if (imageLoadQueue.length === 0 || loadingImages >= MAX_CONCURRENT_LOADS) return;
-
-            loadingImages++;
-            const { element, src } = imageLoadQueue.shift();
-
-            const preloadImg = new Image();
-            preloadImg.onload = () => {
-                element.src = src;
-                element.classList.remove('loading');
-                element.classList.add('loaded');
-                loadingImages--;
-                processNextImage();
-            };
-
-            preloadImg.onerror = () => {
-                console.error(`Failed to load image: ${src}`);
-                element.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMDAwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIE5vdCBGb3VuZDwvdGV4dD48L3N2Zz4=';
-                element.classList.remove('loading');
-                element.classList.add('loaded');
-                loadingImages--;
-                processNextImage();
-            };
-
-            preloadImg.src = src;
-        }
-
         // Render gallery images
         function renderGallery(imageList) {
             gallery.innerHTML = '';
-            imageLoadQueue.length = 0;
-            loadingImages = 0;
 
             if (imageList.length === 0) {
                 notFound.style.display = 'block';
@@ -988,137 +1015,91 @@
             notFound.style.display = 'none';
             gallery.style.display = 'block';
 
-            imageList.forEach(imageData => {
-                gallery.appendChild(createCard(imageData));
+            // Get container width for responsive calculations
+            const containerWidth = gallery.offsetWidth / (window.innerWidth >= 1200 ? 4 :
+                window.innerWidth >= 900 ? 3 :
+                    window.innerWidth >= 600 ? 2 : 1);
+
+            imageList.forEach(filename => {
+                gallery.appendChild(createCard(filename, containerWidth));
             });
-
-            // Start loading images
-            processNextImage();
-        }
-
-        // Get image dimensions and calculate scale
-        async function getImageInfo(src, containerWidth) {
-            return new Promise((resolve) => {
-                const img = new Image();
-                img.onload = () => {
-                    const originalWidth = img.naturalWidth;
-                    const originalHeight = img.naturalHeight;
-                    const scale = (containerWidth / originalWidth * 100).toFixed(1);
-                    const quality = originalWidth >= 1920 ? 'HD' : originalWidth >= 1280 ? 'High' : 'Standard';
-                    const size = formatFileSize(estimateFileSize(originalWidth, originalHeight));
-
-                    resolve({
-                        width: originalWidth,
-                        height: originalHeight,
-                        scale: scale,
-                        quality: quality,
-                        size: size
-                    });
-                };
-                img.onerror = () => {
-                    resolve({
-                        width: 0,
-                        height: 0,
-                        scale: '0%',
-                        quality: 'Unknown',
-                        size: 'Unknown'
-                    });
-                };
-                img.src = src;
-            });
-        }
-
-        // Estimate file size based on dimensions
-        function estimateFileSize(width, height) {
-            // Rough estimation: 0.3 bytes per pixel for JPEG
-            return Math.round(width * height * 0.3);
-        }
-
-        // Format file size
-        function formatFileSize(bytes) {
-            if (bytes === 0 || isNaN(bytes)) return 'Unknown';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         }
 
         // Create image card
-        function createCard(imageData) {
-            const filename = imageData.filename;
+        function createCard(filename, containerWidth) {
             const url = prefix + filename;
             const card = document.createElement("div");
             card.className = "card";
 
-            const imageContainer = document.createElement("div");
-            imageContainer.className = "image-container";
+            const imageContainer = createDummyPlaceholder(filename, containerWidth);
+            const dummy = imageContainer.querySelector('.dummy-placeholder');
 
             const img = document.createElement("img");
-            img.src = '';
-            img.alt = getImageDisplayName(imageData);
+            img.src = url;
+            img.alt = getImageDisplayName(filename);
             img.loading = "lazy";
-            img.classList.add('loading');
-
-            // Create dummy placeholder with estimated dimensions
-            const dummyPlaceholder = document.createElement("div");
-            dummyPlaceholder.className = "dummy-placeholder";
-            dummyPlaceholder.style.aspectRatio = "3/4"; // Default aspect ratio
-            dummyPlaceholder.innerHTML = '<div>Loading...</div>';
-
-            imageContainer.appendChild(dummyPlaceholder);
-            imageContainer.appendChild(img);
+            img.style.display = "none";
 
             const imageInfo = document.createElement("div");
             imageInfo.className = "image-info";
 
-            const imageTitle = document.createElement("div");
-            imageTitle.className = "image-title";
-            imageTitle.textContent = imageData.title;
+            const titleDiv = document.createElement("div");
+            titleDiv.className = "image-title";
+            titleDiv.textContent = getImageDisplayName(filename);
 
-            const imageMeta = document.createElement("div");
-            imageMeta.className = "image-meta";
-            imageMeta.innerHTML = `<span>Scale: <span class="scale-value">Loading...</span></span>
-                                  <span>Quality: <span class="quality-value">Loading...</span></span>
-                                  <span>Size: <span class="size-value">Loading...</span></span>`;
+            const metaDiv = document.createElement("div");
+            metaDiv.className = "image-meta";
 
-            imageInfo.appendChild(imageTitle);
-            imageInfo.appendChild(imageMeta);
+            const metadata = getImageMetadata(filename, containerWidth);
+
+            const scaleSpan = document.createElement("span");
+            scaleSpan.className = "image-scale";
+            scaleSpan.innerHTML = `<i class="fas fa-expand-alt"></i> ${metadata.scale}`;
+
+            const qualitySpan = document.createElement("span");
+            qualitySpan.className = "image-quality";
+            qualitySpan.innerHTML = `<i class="fas fa-star"></i> ${metadata.quality}`;
+
+            const sizeSpan = document.createElement("span");
+            sizeSpan.className = "image-size";
+            sizeSpan.innerHTML = `<i class="fas fa-weight-hanging"></i> ${metadata.size}`;
+
+            metaDiv.appendChild(scaleSpan);
+            metaDiv.appendChild(qualitySpan);
+            metaDiv.appendChild(sizeSpan);
+
+            imageInfo.appendChild(titleDiv);
+            imageInfo.appendChild(metaDiv);
 
             const copied = document.createElement("div");
             copied.className = "copied";
             copied.textContent = "Link Copied!";
 
             card.appendChild(imageContainer);
+            imageContainer.appendChild(img);
             card.appendChild(imageInfo);
             card.appendChild(copied);
 
-            // Add to loading queue
-            imageLoadQueue.push({
-                element: img,
-                src: url
-            });
+            // Lazy loading with delay
+            setTimeout(() => {
+                img.onload = () => {
+                    dummy.style.display = "none";
+                    img.style.display = "block";
+                    loadedCache[url] = Date.now();
 
-            // Get container width for scale calculation
-            const containerWidth = card.offsetWidth || 200; // Fallback to 200px
+                    // Store image dimensions for future use
+                    imageDimensions[filename] = {
+                        width: img.naturalWidth,
+                        height: img.naturalHeight
+                    };
+                };
 
-            // Load image info after a short delay
-            setTimeout(async () => {
-                try {
-                    const info = await getImageInfo(url, containerWidth);
-                    imageMeta.innerHTML = `<span>Scale: ${info.scale}%</span>
-                                          <span>Quality: ${info.quality}</span>
-                                          <span>Size: ${info.size}</span>`;
-
-                    // Update aspect ratio based on actual image dimensions
-                    if (info.width > 0 && info.height > 0) {
-                        dummyPlaceholder.style.aspectRatio = `${info.width}/${info.height}`;
-                    }
-                } catch (error) {
-                    console.error('Error getting image info:', error);
-                    imageMeta.innerHTML = `<span>Scale: Unknown</span>
-                                          <span>Quality: Unknown</span>
-                                          <span>Size: Unknown</span>`;
-                }
+                img.onerror = () => {
+                    dummy.style.display = "none";
+                    img.style.display = "none";
+                    titleDiv.textContent = "Image Not Found";
+                    card.style.backgroundColor = "#8b0000";
+                };
             }, 100);
 
             card.addEventListener("click", () => {
@@ -1185,7 +1166,9 @@
         backToSubfoldersButton.addEventListener('click', (e) => {
             e.preventDefault();
             if (currentSeries) {
-                openSeries(currentSeries);
+                const categories = categorizeImages();
+                const series = categories[currentSeries];
+                openSeries(currentSeries, series.title);
             }
         });
 
@@ -1200,18 +1183,10 @@
             }
 
             // Filter images based on search
-            const filtered = [];
-            Object.keys(categorizedImages).forEach(seriesId => {
-                const series = categorizedImages[seriesId];
-                Object.values(series.types).forEach(images => {
-                    images.forEach(imageData => {
-                        if (imageData.title.toLowerCase().includes(searchValue) ||
-                            imageData.type.toLowerCase().includes(searchValue)) {
-                            filtered.push(imageData);
-                        }
-                    });
-                });
-            });
+            const filtered = images.filter(f =>
+                getImageDisplayName(f).toLowerCase().includes(searchValue) ||
+                getIdFromFilename(f).toLowerCase().includes(searchValue)
+            );
 
             if (filtered.length === 0) {
                 // Show not found message
@@ -1253,7 +1228,17 @@
         });
 
         // Initialize the file manager
-        loadExternalData();
+        renderFolders();
+
+        // Handle window resize for responsive gallery
+        window.addEventListener('resize', () => {
+            if (galleryView.style.display === 'block') {
+                const currentImages = Array.from(gallery.children).map(card => {
+                    return card.querySelector('img').src.replace(prefix, '');
+                });
+                renderGallery(currentImages);
+            }
+        });
     </script>
 </body>
 
