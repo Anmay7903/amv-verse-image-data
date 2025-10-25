@@ -492,6 +492,14 @@
             background: rgba(255, 255, 255, 0.1);
         }
 
+        /* Subfolder grid */
+        .subfolders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 2rem;
+        }
+
         /* Media Queries for Responsive Header */
         @media (max-width: 768px) {
             .main-header .container {
@@ -512,6 +520,10 @@
 
             .folders-grid {
                 grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+
+            .subfolders-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
             }
         }
 
@@ -539,6 +551,10 @@
 
             .folders-grid {
                 grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            }
+
+            .subfolders-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
             }
         }
     </style>
@@ -590,20 +606,27 @@
             </div>
 
             <div id="foldersView">
-                <h2 class="section-title"><i class="fas fa-folder"></i> 𝙵𝚒𝚕𝚎 𝙼𝚊𝚗𝚊𝚐𝚎𝚛</h2>
+                <h2 class="section-title"><i class="fas fa-folder"></i> 𝚂𝚎𝚛𝚒𝚎𝚜</h2>
                 <div class="folders-grid" id="foldersGrid">
                     <!-- Folders will be generated dynamically -->
                 </div>
             </div>
 
-            <div id="galleryView" style="display: none;">
+            <div id="subfoldersView" style="display: none;">
                 <a href="#" class="back-button" id="backButton">
+                    <i class="fas fa-arrow-left"></i> Back to Series
+                </a>
+                <h2 class="section-title" id="subfoldersTitle"></h2>
+                <div class="subfolders-grid" id="subfoldersGrid">
+                    <!-- Subfolders will be generated dynamically -->
+                </div>
+            </div>
+
+            <div id="galleryView" style="display: none;">
+                <a href="#" class="back-button" id="backToSubfoldersButton">
                     <i class="fas fa-arrow-left"></i> Back
                 </a>
                 <h2 class="section-title" id="galleryTitle"></h2>
-                <div id="subcategories">
-                    <!-- Subcategories will be generated dynamically -->
-                </div>
                 <div class="gallery" id="gallery"></div>
                 <div id="notFound">No images found. <a href="#" id="goHome">𝙶𝚘 𝙱𝚊𝚌𝚔</a></div>
             </div>
@@ -643,13 +666,16 @@
         // File Manager functionality
         const prefix = "https://amvverse-image-data.pages.dev/images/";
         const foldersView = document.getElementById('foldersView');
+        const subfoldersView = document.getElementById('subfoldersView');
         const galleryView = document.getElementById('galleryView');
         const foldersGrid = document.getElementById('foldersGrid');
+        const subfoldersGrid = document.getElementById('subfoldersGrid');
         const gallery = document.getElementById('gallery');
         const breadcrumb = document.getElementById('breadcrumb');
+        const subfoldersTitle = document.getElementById('subfoldersTitle');
         const galleryTitle = document.getElementById('galleryTitle');
-        const subcategories = document.getElementById('subcategories');
         const backButton = document.getElementById('backButton');
+        const backToSubfoldersButton = document.getElementById('backToSubfoldersButton');
         const searchInput = document.getElementById('search');
         const notFound = document.getElementById('notFound');
         const goHome = document.getElementById('goHome');
@@ -657,40 +683,91 @@
         // Store already loaded images for caching
         const loadedCache = {};
         let currentPath = [];
-        let currentIndex = 0;
-        const perPage = 10;
+        let currentSeries = '';
+        let currentSeriesName = '';
+
+        // Extract main folder name from filename
+        function getMainFolderName(filename) {
+            // Remove file extension
+            let nameWithoutExt = filename.replace('.jpg', '');
+
+            // Remove type suffixes
+            const typeSuffixes = ['-card', '-poster', '-character', '-screenshot'];
+            for (const suffix of typeSuffixes) {
+                if (nameWithoutExt.includes(suffix)) {
+                    nameWithoutExt = nameWithoutExt.replace(suffix, '');
+                    break;
+                }
+            }
+
+            // Remove character names and other details after the main series name
+            // The main series name is everything before the last dash that contains a type
+            const parts = nameWithoutExt.split('-');
+
+            // Find the index where character names or details start
+            let mainParts = [];
+            for (let i = 0; i < parts.length; i++) {
+                // If we encounter a part that starts with uppercase (likely a character name), stop
+                if (parts[i] && parts[i][0] === parts[i][0].toUpperCase() && parts[i][0] !== parts[i][0].toLowerCase()) {
+                    break;
+                }
+                mainParts.push(parts[i]);
+            }
+
+            // If no uppercase found, use all parts except the last one (which is usually a number or identifier)
+            if (mainParts.length === parts.length) {
+                mainParts = parts.slice(0, -1);
+            }
+
+            // Format the folder name
+            return formatFolderName(mainParts.join('-'));
+        }
+
+        // Format folder name (remove hyphens and capitalize first letters)
+        function formatFolderName(name) {
+            return name.split('-')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+        }
+
+        // Get image type from filename
+        function getImageType(filename) {
+            if (filename.includes('-card')) return 'Cards';
+            if (filename.includes('-poster')) return 'Posters';
+            if (filename.includes('-character')) return 'Characters';
+            if (filename.includes('-screenshot')) return 'Screenshots';
+            return 'Other';
+        }
+
+        // Get clean image name for display
+        function getImageDisplayName(filename) {
+            const nameWithoutExt = filename.replace('.jpg', '');
+            const parts = nameWithoutExt.split('-');
+
+            // Remove the series name parts and type, keep the descriptive part
+            const typeSuffixes = ['card', 'poster', 'character', 'screenshot'];
+            let displayParts = [];
+
+            for (let i = parts.length - 1; i >= 0; i--) {
+                if (typeSuffixes.includes(parts[i])) {
+                    break;
+                }
+                displayParts.unshift(parts[i]);
+            }
+
+            return formatFolderName(displayParts.join('-'));
+        }
 
         // Categorize images by series and type
         function categorizeImages() {
             const categories = {};
 
             images.forEach(filename => {
-                // Extract series name and type from filename
-                const parts = filename.split('-');
-                let seriesName = '';
-                let type = 'Other';
-
-                // Determine type based on filename
-                if (filename.includes('-card')) {
-                    type = 'Card';
-                } else if (filename.includes('-poster')) {
-                    type = 'Poster';
-                } else if (filename.includes('-character')) {
-                    type = 'Character';
-                } else if (filename.includes('-screenshot')) {
-                    type = 'Screenshot';
-                }
-
-                // Extract series name by removing the type suffix and formatting
-                let seriesKey = filename.replace(`-${type.toLowerCase()}`, '');
-                seriesKey = seriesKey.split('-').slice(0, -1).join('-');
-
-                // Format series name for display
-                seriesName = formatName(seriesKey);
+                const seriesName = getMainFolderName(filename);
+                const type = getImageType(filename);
 
                 if (!categories[seriesName]) {
                     categories[seriesName] = {
-                        key: seriesKey,
                         types: {}
                     };
                 }
@@ -705,11 +782,7 @@
             return categories;
         }
 
-        function formatName(filename) {
-            return filename.replace(".jpg", "").replace(/[-_]/g, " ").replace(/\b\w/g, c => c.toUpperCase());
-        }
-
-        // Render folder view
+        // Render main series folders
         function renderFolders() {
             foldersGrid.innerHTML = '';
             const categories = categorizeImages();
@@ -720,7 +793,7 @@
 
                 const folderItem = document.createElement('div');
                 folderItem.className = 'folder-item';
-                folderItem.setAttribute('data-series', series.key);
+                folderItem.setAttribute('data-series', seriesName);
 
                 folderItem.innerHTML = `
                     <i class="fas fa-folder folder-icon"></i>
@@ -729,7 +802,7 @@
                 `;
 
                 folderItem.addEventListener('click', () => {
-                    openSeries(series.key, seriesName);
+                    openSeries(seriesName);
                 });
 
                 foldersGrid.appendChild(folderItem);
@@ -739,7 +812,9 @@
         }
 
         // Open a series folder
-        function openSeries(seriesKey, seriesName) {
+        function openSeries(seriesName) {
+            currentSeries = seriesName;
+            currentSeriesName = seriesName;
             currentPath = [{
                 name: 'Home',
                 action: () => {
@@ -753,57 +828,104 @@
             const categories = categorizeImages();
             const series = categories[seriesName];
 
-            // Hide folders view and show gallery view
+            // Hide folders view and show subfolders view
             foldersView.style.display = 'none';
-            galleryView.style.display = 'block';
+            subfoldersView.style.display = 'block';
+            galleryView.style.display = 'none';
 
-            // Set gallery title
-            galleryTitle.innerHTML = `<i class="fas fa-folder-open"></i> ${seriesName}`;
+            // Set subfolders title
+            subfoldersTitle.innerHTML = `<i class="fas fa-folder-open"></i> ${seriesName}`;
 
-            // Render subcategories
-            renderSubcategories(series.types, seriesName);
+            // Render subfolders (Cards, Posters, Characters, Screenshots)
+            renderSubfolders(series.types, seriesName);
 
             updateBreadcrumb();
         }
 
-        // Render subcategories (Card, Poster, Character, Screenshot)
-        function renderSubcategories(types, seriesName) {
-            subcategories.innerHTML = '';
+        // Render subfolders (Cards, Posters, Characters, Screenshots)
+        function renderSubfolders(types, seriesName) {
+            subfoldersGrid.innerHTML = '';
 
-            const typeOrder = ['Card', 'Poster', 'Character', 'Screenshot', 'Other'];
+            const typeOrder = ['Cards', 'Posters', 'Characters', 'Screenshots', 'Other'];
 
             typeOrder.forEach(type => {
                 if (types[type] && types[type].length > 0) {
-                    const typeSection = document.createElement('div');
+                    const subfolderItem = document.createElement('div');
+                    subfolderItem.className = 'folder-item';
+                    subfolderItem.setAttribute('data-type', type);
 
-                    const typeTitle = document.createElement('h3');
-                    typeTitle.className = 'subcategory-title';
-                    typeTitle.innerHTML = `<i class="fas fa-${getTypeIcon(type)}"></i> ${type}s (${types[type].length})`;
+                    subfolderItem.innerHTML = `
+                        <i class="fas fa-${getTypeIcon(type)} folder-icon"></i>
+                        <div class="folder-name">${type}</div>
+                        <div class="folder-count">${types[type].length} images</div>
+                    `;
 
-                    typeSection.appendChild(typeTitle);
-
-                    const typeGallery = document.createElement('div');
-                    typeGallery.className = 'gallery';
-                    typeGallery.id = `gallery-${type}`;
-
-                    types[type].forEach(filename => {
-                        typeGallery.appendChild(createCard(filename));
+                    subfolderItem.addEventListener('click', () => {
+                        openSubfolder(type, types[type], seriesName);
                     });
 
-                    typeSection.appendChild(typeGallery);
-                    subcategories.appendChild(typeSection);
+                    subfoldersGrid.appendChild(subfolderItem);
                 }
             });
         }
 
         function getTypeIcon(type) {
             switch (type) {
-                case 'Card': return 'id-card';
-                case 'Poster': return 'image';
-                case 'Character': return 'user';
-                case 'Screenshot': return 'camera';
+                case 'Cards': return 'id-card';
+                case 'Posters': return 'image';
+                case 'Characters': return 'user';
+                case 'Screenshots': return 'camera';
                 default: return 'file-image';
             }
+        }
+
+        // Open a subfolder (type)
+        function openSubfolder(type, images, seriesName) {
+            currentPath = [{
+                name: 'Home',
+                action: () => {
+                    showFoldersView();
+                }
+            }, {
+                name: seriesName,
+                action: () => {
+                    openSeries(seriesName);
+                }
+            }, {
+                name: type,
+                action: null
+            }];
+
+            // Hide subfolders view and show gallery view
+            foldersView.style.display = 'none';
+            subfoldersView.style.display = 'none';
+            galleryView.style.display = 'block';
+
+            // Set gallery title
+            galleryTitle.innerHTML = `<i class="fas fa-${getTypeIcon(type)}"></i> ${seriesName} - ${type}`;
+
+            // Render images
+            renderGallery(images);
+
+            updateBreadcrumb();
+        }
+
+        // Render gallery images
+        function renderGallery(imageList) {
+            gallery.innerHTML = '';
+
+            if (imageList.length === 0) {
+                notFound.style.display = 'block';
+                gallery.style.display = 'none';
+                return;
+            }
+
+            notFound.style.display = 'none';
+            gallery.style.display = 'block';
+
+            imageList.forEach(filename => {
+                gallery.appendChild(createCard(filename));
+            });
         }
 
         // Create image card
@@ -817,12 +939,12 @@
 
             const img = document.createElement("img");
             img.src = url;
-            img.alt = formatName(filename);
+            img.alt = getImageDisplayName(filename);
             img.loading = "lazy";
 
             const nameDiv = document.createElement("div");
             nameDiv.className = "name";
-            nameDiv.textContent = formatName(filename);
+            nameDiv.textContent = getImageDisplayName(filename);
 
             const copied = document.createElement("div");
             copied.className = "copied";
@@ -869,6 +991,7 @@
             }];
 
             foldersView.style.display = 'block';
+            subfoldersView.style.display = 'none';
             galleryView.style.display = 'none';
             updateBreadcrumb();
         }
@@ -909,6 +1032,13 @@
             showFoldersView();
         });
 
+        backToSubfoldersButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (currentSeries) {
+                openSeries(currentSeries);
+            }
+        });
+
         // Search functionality
         searchInput.addEventListener("input", () => {
             const searchValue = searchInput.value.toLowerCase().trim();
@@ -921,58 +1051,25 @@
 
             // Filter images based on search
             const filtered = images.filter(f =>
-                formatName(f).toLowerCase().includes(searchValue)
+                getImageDisplayName(f).toLowerCase().includes(searchValue) ||
+                getMainFolderName(f).toLowerCase().includes(searchValue)
             );
 
             if (filtered.length === 0) {
                 // Show not found message
                 foldersView.style.display = 'none';
+                subfoldersView.style.display = 'none';
                 galleryView.style.display = 'block';
                 galleryTitle.innerHTML = `<i class="fas fa-search"></i> Search Results`;
-                subcategories.innerHTML = '';
                 gallery.innerHTML = '';
                 notFound.style.display = 'block';
             } else {
                 // Show search results
                 foldersView.style.display = 'none';
+                subfoldersView.style.display = 'none';
                 galleryView.style.display = 'block';
                 galleryTitle.innerHTML = `<i class="fas fa-search"></i> Search Results (${filtered.length})`;
-                subcategories.innerHTML = '';
-
-                // Group by series for better organization
-                const searchCategories = {};
-
-                filtered.forEach(filename => {
-                    const seriesName = getSeriesName(filename);
-
-                    if (!searchCategories[seriesName]) {
-                        searchCategories[seriesName] = [];
-                    }
-
-                    searchCategories[seriesName].push(filename);
-                });
-
-                // Render search results by series
-                Object.keys(searchCategories).sort().forEach(seriesName => {
-                    const seriesSection = document.createElement('div');
-
-                    const seriesTitle = document.createElement('h3');
-                    seriesTitle.className = 'subcategory-title';
-                    seriesTitle.innerHTML = `<i class="fas fa-folder"></i> ${seriesName} (${searchCategories[seriesName].length})`;
-
-                    seriesSection.appendChild(seriesTitle);
-
-                    const seriesGallery = document.createElement('div');
-                    seriesGallery.className = 'gallery';
-
-                    searchCategories[seriesName].forEach(filename => {
-                        seriesGallery.appendChild(createCard(filename));
-                    });
-
-                    seriesSection.appendChild(seriesGallery);
-                    subcategories.appendChild(seriesSection);
-                });
-
+                renderGallery(filtered);
                 notFound.style.display = 'none';
             }
 
@@ -989,23 +1086,6 @@
             }];
             updateBreadcrumb();
         });
-
-        function getSeriesName(filename) {
-            // Extract series name from filename
-            let seriesKey = filename;
-            if (filename.includes('-card')) {
-                seriesKey = filename.replace('-card', '');
-            } else if (filename.includes('-poster')) {
-                seriesKey = filename.replace('-poster', '');
-            } else if (filename.includes('-character')) {
-                seriesKey = filename.replace('-character', '');
-            } else if (filename.includes('-screenshot')) {
-                seriesKey = filename.replace('-screenshot', '');
-            }
-
-            seriesKey = seriesKey.split('-').slice(0, -1).join('-');
-            return formatName(seriesKey);
-        }
 
         // Go home functionality
         goHome.addEventListener("click", (e) => {
