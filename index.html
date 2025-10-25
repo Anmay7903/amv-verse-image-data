@@ -8,23 +8,23 @@
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://animesaga.pages.dev/dxh2jf6f8shlldyq6lpo4exgdq/d2hs6ea0ct0of8shlanv6lpo4eygdq.js"></script>
     <script src="data.js"></script>
     <link rel="icon" href="icons/icon.png" type="png/image/x-icon">
     <link rel="apple-touch-icon" href="icons/icon.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --background-color: #0f0f0f;
-            --surface-color: #1a1a1a;
-            --text-color: #ffffff;
-            --text-color-secondary: #b0b0b0;
             --primary-color: #e50914;
+            --secondary-color: #e50914a6;
+            --background-color: #141414;
+            --surface-color: #23252a;
+            --text-color: #ffffff;
+            --text-color-secondary: #a0a0a0;
             --border-radius: 8px;
+            --transition-speed: 0.3s;
+            --font-family: 'Inter', sans-serif;
         }
 
         * {
@@ -35,7 +35,7 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: var(--font-family);
             background-color: var(--background-color);
             color: var(--text-color);
             line-height: 1.6;
@@ -91,7 +91,8 @@
         }
 
         .container {
-            max-width: 1200px;
+            width: 90%;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 0 15px;
         }
@@ -269,6 +270,48 @@
             visibility: visible;
         }
 
+        /* Media Queries for Responsive Header */
+        @media (max-width: 768px) {
+            .main-header .container {
+                gap: 10px;
+            }
+
+            .logo {
+                font-size: 1.3rem;
+            }
+
+            .header-actions {
+                gap: 10px;
+            }
+
+            .search-box {
+                min-width: 120px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-header {
+                padding: 0.6rem 0;
+            }
+
+            .logo {
+                font-size: 1.1rem;
+            }
+
+            .search-box input {
+                padding: 0.6rem 0.8rem;
+            }
+
+            .search-box button {
+                padding: 0.6rem 0.8rem;
+            }
+
+            .mobile-menu-toggle {
+                font-size: 1.3rem;
+                padding: 0.4rem;
+            }
+        }
+
         /* Breadcrumb Styles */
         .breadcrumb {
             display: flex;
@@ -370,106 +413,238 @@
             padding-bottom: 0.5rem;
         }
 
-        /* Gallery-specific styling */
-        .gallery {
-            column-count: 1;
-            column-gap: 15px;
+        /* Anime Grid Styles */
+        .anime-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
 
-        @media (min-width: 600px) {
-            .gallery {
-                column-count: 2;
-            }
-        }
-
-        @media (min-width: 900px) {
-            .gallery {
-                column-count: 3;
-            }
-        }
-
-        @media (min-width: 1200px) {
-            .gallery {
-                column-count: 4;
-            }
-        }
-
-        .card {
-            display: inline-block;
-            background: var(--surface-color);
-            margin: 0 0 15px;
-            width: 100%;
-            border-radius: var(--border-radius);
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-            cursor: pointer;
+        .anime-card {
             position: relative;
+            border-radius: var(--border-radius);
             overflow: hidden;
-            vertical-align: top;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform var(--transition-speed);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            background: var(--surface-color);
+            cursor: pointer;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+        .anime-card:hover {
+            transform: scale(1.05);
         }
 
-        .card img {
+        .anime-card img {
             width: 100%;
-            display: block;
+            aspect-ratio: 2/3;
             object-fit: cover;
-            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            display: block;
         }
 
-        .skeleton {
-            width: 100%;
-            aspect-ratio: 3/4;
-            background: linear-gradient(90deg, #2d2d2d 25%, #3a3d42 37%, #2d2d2d 63%);
-            background-size: 400% 100%;
-            animation: shimmer 1.4s infinite;
+        /* New CSS for Landscape Cards (Posters and Screenshots) */
+        .anime-card.landscape {
+            aspect-ratio: 16/9;
+            /* Landscape aspect ratio for auto-fit */
         }
 
-        @keyframes shimmer {
-            0% {
-                background-position: -468px 0;
-            }
-
-            100% {
-                background-position: 468px 0;
-            }
+        .anime-card.landscape img {
+            aspect-ratio: 16/9;
+            object-fit: contain;
+            /* Auto-fit without cropping, maintains aspect ratio */
+            object-position: center;
+            background-color: rgba(35, 37, 42, 0.8);
+            /* Subtle background for letterboxing if needed */
         }
 
-        .name {
-            padding: 10px;
+        .anime-card.landscape .anime-card-overlay {
+            /* Adjust overlay for landscape to ensure text fits better */
+            padding: 0.8rem;
+            justify-content: center;
             text-align: center;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-color);
         }
 
-        .copied {
+        .anime-card.landscape .anime-card-overlay h3 {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            margin-bottom: 0.3rem;
+        }
+
+        .anime-card.landscape .anime-card-overlay p {
+            font-size: clamp(0.7rem, 1.2vw, 0.8rem);
+        }
+
+        .card-image {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card-image.loaded {
+            opacity: 1;
+        }
+
+        .anime-card-overlay {
             position: absolute;
-            bottom: 8px;
-            right: 8px;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            display: none;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 20%, transparent);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1rem;
+            opacity: 0;
+            transition: opacity var(--transition-speed);
         }
 
-        #notFound {
-            display: none;
-            text-align: center;
-            margin-top: 50px;
-            font-size: 20px;
+        .anime-card:hover .anime-card-overlay {
+            opacity: 1;
+        }
+
+        .anime-card-overlay .zoom-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1.5);
+            font-size: 3rem;
+            opacity: 0;
+            transition: transform 0.3s, opacity 0.3s;
+            color: var(--primary-color);
+        }
+
+        .anime-card:hover .zoom-icon {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .anime-card-overlay h3 {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .anime-card-overlay p {
+            font-size: clamp(0.8rem, 1.5vw, 0.95rem);
             color: var(--text-color-secondary);
         }
 
-        #notFound a {
-            color: var(--primary-color);
-            text-decoration: none;
-            margin-left: 5px;
+        .card-title {
+            font-weight: 600;
+            font-size: 14px;
+            text-align: center;
+            padding: 10px;
+            color: var(--text-color);
+            background: var(--surface-color);
+        }
+
+        .card-meta {
+            font-size: 12px;
+            color: var(--text-color-secondary);
+            text-align: center;
+            padding: 0 10px 10px;
+        }
+
+        /* Skeleton Loading Animation - Portrait Default */
+        .skeleton-card {
+            position: relative;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            aspect-ratio: 2/3;
+            background: var(--surface-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .skeleton-image {
+            width: 100%;
+            height: 70%;
+            background: linear-gradient(90deg, #2a2a2a 25%, #333 50%, #2a2a2a 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+        }
+
+        .skeleton-content {
+            padding: 1rem;
+            height: 30%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .skeleton-title {
+            height: 20px;
+            background: linear-gradient(90deg, #2a2a2a 25%, #333 50%, #2a2a2a 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .skeleton-meta {
+            height: 16px;
+            background: linear-gradient(90deg, #2a2a2a 25%, #333 50%, #2a2a2a 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+            border-radius: 4px;
+            width: 60%;
+        }
+
+        /* New Skeleton for Landscape */
+        .skeleton-card.landscape {
+            aspect-ratio: 16/9;
+        }
+
+        .skeleton-card.landscape .skeleton-image {
+            height: 60%;
+            /* Adjust for landscape proportions */
+        }
+
+        .skeleton-card.landscape .skeleton-content {
+            height: 40%;
+            padding: 0.8rem;
+        }
+
+        @keyframes skeleton-loading {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        /* Loading indicator */
+        .loading-indicator {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-color-secondary);
+            display: none;
+        }
+
+        .loading-indicator.active {
+            display: block;
+        }
+
+        .loading-indicator .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(229, 9, 20, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* Back button */
@@ -492,54 +667,200 @@
             background: rgba(255, 255, 255, 0.1);
         }
 
+        /* Subfolder grid */
+        .subfolders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 2rem;
+        }
+
+        /* Zoom Modal Styles */
+        .zoom-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            animation: fadeIn 0.3s;
+        }
+
+        .zoom-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .zoom-modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            text-align: center;
+        }
+
+        .zoom-modal img {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: var(--border-radius);
+        }
+
+        .modal-actions {
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+        }
+
+        .modal-btn {
+            background: var(--primary-color);
+            color: var(--text-color);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .modal-btn:hover {
+            background: #f40610;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            background: rgba(0, 0, 0, 0.5);
+            color: var(--text-color);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            background: var(--primary-color);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Additional Functions: Sort/Filter Controls */
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .sort-select,
+        .filter-select {
+            background: var(--surface-color);
+            color: var(--text-color);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+            font-size: 0.9rem;
+        }
+
         /* Media Queries for Responsive Header */
         @media (max-width: 768px) {
-            .main-header .container {
-                gap: 10px;
-            }
-
-            .logo {
-                font-size: 1.3rem;
-            }
-
-            .header-actions {
-                gap: 10px;
-            }
-
-            .search-box {
-                min-width: 120px;
-            }
 
             .folders-grid {
                 grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             }
+
+            .subfolders-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+
+            .anime-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 1rem;
+            }
+
+            /* Responsive adjustments for landscape cards */
+            .anime-card.landscape {
+                aspect-ratio: 3/2;
+                /* Slightly adjusted for mobile */
+            }
+
+            .modal-actions {
+                flex-direction: column;
+                bottom: -80px;
+            }
         }
 
         @media (max-width: 480px) {
-            .main-header {
-                padding: 0.6rem 0;
-            }
-
-            .logo {
-                font-size: 1.1rem;
-            }
-
-            .search-box input {
-                padding: 0.6rem 0.8rem;
-            }
-
-            .search-box button {
-                padding: 0.6rem 0.8rem;
-            }
-
-            .mobile-menu-toggle {
-                font-size: 1.3rem;
-                padding: 0.4rem;
-            }
-
             .folders-grid {
                 grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
             }
+
+            .subfolders-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+
+            .anime-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+
+        .premium-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.603);
+            color: #fffdfd;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+        }
+
+        #notFound {
+            display: none;
+            text-align: center;
+            margin-top: 50px;
+            font-size: 20px;
+            color: var(--text-color-secondary);
+        }
+
+        #notFound a {
+            color: var(--primary-color);
+            text-decoration: none;
+            margin-left: 5px;
         }
     </style>
 </head>
@@ -570,17 +891,25 @@
             </button>
         </div>
         <ul>
-            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
             <li><a href="upload.html"><i class="fas fa-upload"></i> Upload</a></li>
-            <li><a href="#"><i class="fas fa-heart"></i> Favorites</a></li>
-            <li><a href="#"><i class="fas fa-history"></i> History</a></li>
-            <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
-            <li><a href="#"><i class="fas fa-info-circle"></i> About</a></li>
         </ul>
     </div>
 
     <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
+
+    <!-- Zoom Modal -->
+    <div class="zoom-modal" id="zoomModal">
+        <div class="zoom-modal-content">
+            <button class="close-modal" id="closeModal"><i class="fas fa-times"></i></button>
+            <img id="modalImage" src="" alt="Zoomed Image">
+            <div class="modal-actions">
+                <button class="modal-btn" id="downloadBtn"><i class="fas fa-download"></i> Preview</button>
+                <button class="modal-btn" id="copyBtn"><i class="fas fa-copy"></i> Copy</button>
+            </div>
+        </div>
+    </div>
 
     <!-- File Manager -->
     <main class="file-manager">
@@ -590,432 +919,819 @@
             </div>
 
             <div id="foldersView">
-                <h2 class="section-title"><i class="fas fa-folder"></i> 𝙵𝚒𝚕𝚎 𝙼𝚊𝚗𝚊𝚐𝚎𝚛</h2>
+                <h2 class="section-title"><i class="fas fa-folder"></i> 𝚂𝚎𝚛𝚒𝚎𝚜</h2>
                 <div class="folders-grid" id="foldersGrid">
                     <!-- Folders will be generated dynamically -->
                 </div>
             </div>
 
-            <div id="galleryView" style="display: none;">
+            <div id="subfoldersView" style="display: none;">
                 <a href="#" class="back-button" id="backButton">
+                    <i class="fas fa-arrow-left"></i> Back to Series
+                </a>
+                <div class="controls" id="subfoldersControls" style="display: none;">
+                    <select class="sort-select" id="subfoldersSort">
+                        <option value="name-asc">Sort by Name (A-Z)</option>
+                        <option value="name-desc">Sort by Name (Z-A)</option>
+                        <option value="count-asc">Sort by Count (Low-High)</option>
+                        <option value="count-desc">Sort by Count (High-Low)</option>
+                    </select>
+                </div>
+                <h2 class="section-title" id="subfoldersTitle"></h2>
+                <div class="subfolders-grid" id="subfoldersGrid">
+                    <!-- Subfolders will be generated dynamically -->
+                </div>
+            </div>
+
+            <div id="galleryView" style="display: none;">
+                <a href="#" class="back-button" id="backToSubfoldersButton">
                     <i class="fas fa-arrow-left"></i> Back
                 </a>
-                <h2 class="section-title" id="galleryTitle"></h2>
-                <div id="subcategories">
-                    <!-- Subcategories will be generated dynamically -->
+                <div class="controls">
+                    <select class="sort-select" id="gallerySort">
+                        <option value="name-asc">Sort by Name (A-Z)</option>
+                        <option value="name-desc">Sort by Name (Z-A)</option>
+                        <option value="random">Random</option>
+                    </select>
+                    <select class="filter-select" id="galleryFilter">
+                        <option value="all">All Qualities</option>
+                        <option value="1080p">HD 1080p</option>
+                        <option value="720p">HD 720p</option>
+                        <option value="480p">SD 480p</option>
+                    </select>
                 </div>
-                <div class="gallery" id="gallery"></div>
+                <h2 class="section-title" id="galleryTitle"></h2>
+                <div class="anime-grid" id="gallery"></div>
                 <div id="notFound">No images found. <a href="#" id="goHome">𝙶𝚘 𝙱𝚊𝚌𝚔</a></div>
+
+                <!-- Loading Indicator -->
+                <div class="loading-indicator" id="loadingIndicator">
+                    <div class="spinner"></div>
+                    <p>Loading more content...</p>
+                </div>
             </div>
         </div>
     </main>
 
     <script>
-        // Menu toggle functionality
-        const menuToggle = document.getElementById('mobile-menu-toggle');
-        const sideMenu = document.getElementById('sideMenu');
-        const closeMenu = document.getElementById('closeMenu');
-        const overlay = document.getElementById('overlay');
+        // Enhanced Configuration with Modern JS
+        class FileManager {
+            constructor() {
+                this.CARDS_PER_PAGE = 20;
+                this.SCROLL_THRESHOLD = 100;
+                this.IMAGE_LOAD_DELAY = 50;
+                this.prefix = "https://amvverse-image-data.pages.dev/images/";
+                this.currentPage = 0;
+                this.isLoading = false;
+                this.imageLoadQueue = [];
+                this.isProcessingQueue = false;
+                this.currentGalleryImages = [];
+                this.loadedCache = {};
+                this.currentPath = [];
+                this.currentSeries = '';
+                this.currentSeriesName = '';
+                this.currentType = '';
+                this.sortOrder = 'name-asc'; // Default sort
+                this.filterValue = 'all'; // Default filter
 
-        function openMenu() {
-            sideMenu.classList.add('active');
-            overlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeMenuFunc() {
-            sideMenu.classList.remove('active');
-            overlay.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        menuToggle.addEventListener('click', openMenu);
-        closeMenu.addEventListener('click', closeMenuFunc);
-        overlay.addEventListener('click', closeMenuFunc);
-
-        // Close menu when pressing Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeMenuFunc();
+                this.initElements();
+                this.bindEvents();
+                this.renderFolders();
             }
-        });
 
-        // File Manager functionality
-        const prefix = "https://amvverse-image-data.pages.dev/images/";
-        const foldersView = document.getElementById('foldersView');
-        const galleryView = document.getElementById('galleryView');
-        const foldersGrid = document.getElementById('foldersGrid');
-        const gallery = document.getElementById('gallery');
-        const breadcrumb = document.getElementById('breadcrumb');
-        const galleryTitle = document.getElementById('galleryTitle');
-        const subcategories = document.getElementById('subcategories');
-        const backButton = document.getElementById('backButton');
-        const searchInput = document.getElementById('search');
-        const notFound = document.getElementById('notFound');
-        const goHome = document.getElementById('goHome');
+            initElements() {
+                this.foldersView = document.getElementById('foldersView');
+                this.subfoldersView = document.getElementById('subfoldersView');
+                this.galleryView = document.getElementById('galleryView');
+                this.foldersGrid = document.getElementById('foldersGrid');
+                this.subfoldersGrid = document.getElementById('subfoldersGrid');
+                this.gallery = document.getElementById('gallery');
+                this.breadcrumb = document.getElementById('breadcrumb');
+                this.subfoldersTitle = document.getElementById('subfoldersTitle');
+                this.galleryTitle = document.getElementById('galleryTitle');
+                this.backButton = document.getElementById('backButton');
+                this.backToSubfoldersButton = document.getElementById('backToSubfoldersButton');
+                this.searchInput = document.getElementById('search');
+                this.notFound = document.getElementById('notFound');
+                this.goHome = document.getElementById('goHome');
+                this.loadingIndicator = document.getElementById('loadingIndicator');
+                this.zoomModal = document.getElementById('zoomModal');
+                this.modalImage = document.getElementById('modalImage');
+                this.downloadBtn = document.getElementById('downloadBtn');
+                this.copyBtn = document.getElementById('copyBtn');
+                this.closeModal = document.getElementById('closeModal');
+                this.gallerySort = document.getElementById('gallerySort');
+                this.galleryFilter = document.getElementById('galleryFilter');
+                this.subfoldersSort = document.getElementById('subfoldersSort');
+                this.subfoldersControls = document.getElementById('subfoldersControls');
 
-        // Store already loaded images for caching
-        const loadedCache = {};
-        let currentPath = [];
-        let currentIndex = 0;
-        const perPage = 10;
+                // Menu elements
+                this.menuToggle = document.getElementById('mobile-menu-toggle');
+                this.sideMenu = document.getElementById('sideMenu');
+                this.closeMenu = document.getElementById('closeMenu');
+                this.overlay = document.getElementById('overlay');
+            }
 
-        // Categorize images by series and type
-        function categorizeImages() {
-            const categories = {};
+            bindEvents() {
+                // Menu events
+                this.menuToggle.addEventListener('click', () => this.openMenu());
+                this.closeMenu.addEventListener('click', () => this.closeMenuFunc());
+                this.overlay.addEventListener('click', () => this.closeMenuFunc());
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        this.closeMenuFunc();
+                        this.closeZoomModal();
+                    }
+                });
 
-            images.forEach(filename => {
-                // Extract series name and type from filename
-                const parts = filename.split('-');
-                let seriesName = '';
-                let type = 'Other';
+                // Navigation events
+                this.backButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.showFoldersView();
+                });
+                this.backToSubfoldersButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (this.currentSeries) this.openSeries(this.currentSeries);
+                });
+                this.goHome.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.searchInput.value = '';
+                    this.showFoldersView();
+                });
 
-                // Determine type based on filename
-                if (filename.includes('-card')) {
-                    type = 'Card';
-                } else if (filename.includes('-poster')) {
-                    type = 'Poster';
-                } else if (filename.includes('-character')) {
-                    type = 'Character';
-                } else if (filename.includes('-screenshot')) {
-                    type = 'Screenshot';
-                }
+                // Search event
+                this.searchInput.addEventListener('input', () => this.handleSearch());
 
-                // Extract series name by removing the type suffix and formatting
-                let seriesKey = filename.replace(`-${type.toLowerCase()}`, '');
-                seriesKey = seriesKey.split('-').slice(0, -1).join('-');
+                // Sort/Filter events
+                this.gallerySort.addEventListener('change', () => this.handleGallerySort());
+                this.galleryFilter.addEventListener('change', () => this.handleGalleryFilter());
+                this.subfoldersSort.addEventListener('change', () => this.handleSubfoldersSort());
 
-                // Format series name for display
-                seriesName = formatName(seriesKey);
+                // Modal events
+                this.closeModal.addEventListener('click', () => this.closeZoomModal());
+                this.downloadBtn.addEventListener('click', () => this.downloadCurrentImage());
+                this.copyBtn.addEventListener('click', () => this.copyCurrentUrl());
+                this.zoomModal.addEventListener('click', (e) => {
+                    if (e.target === this.zoomModal) this.closeZoomModal();
+                });
+            }
 
-                if (!categories[seriesName]) {
-                    categories[seriesName] = {
-                        key: seriesKey,
-                        types: {}
-                    };
-                }
+            // Enhanced categorization with sorting and filtering support
+            categorizeImages(sortBy = 'name-asc') {
+                const categories = {};
+                images.forEach(filename => {
+                    const seriesName = this.getMainFolderName(filename);
+                    const type = this.getImageType(filename);
 
-                if (!categories[seriesName].types[type]) {
-                    categories[seriesName].types[type] = [];
-                }
+                    if (!categories[seriesName]) {
+                        categories[seriesName] = { types: {} };
+                    }
+                    if (!categories[seriesName].types[type]) {
+                        categories[seriesName].types[type] = [];
+                    }
+                    categories[seriesName].types[type].push(filename);
+                });
 
-                categories[seriesName].types[type].push(filename);
-            });
+                // Sort series names
+                const sortedSeries = Object.keys(categories).sort((a, b) => {
+                    if (sortBy === 'name-asc') return a.localeCompare(b);
+                    if (sortBy === 'name-desc') return b.localeCompare(a);
+                    // Add more sort options if needed
+                    return 0;
+                });
 
-            return categories;
-        }
+                const sortedCategories = {};
+                sortedSeries.forEach(series => {
+                    sortedCategories[series] = categories[series];
+                });
 
-        function formatName(filename) {
-            return filename.replace(".jpg", "").replace(/[-_]/g, " ").replace(/\b\w/g, c => c.toUpperCase());
-        }
+                return sortedCategories;
+            }
 
-        // Render folder view
-        function renderFolders() {
-            foldersGrid.innerHTML = '';
-            const categories = categorizeImages();
+            // Render main series folders with sorting
+            renderFolders(sortBy = 'name-asc') {
+                this.foldersGrid.innerHTML = '';
+                const categories = this.categorizeImages(sortBy);
 
-            Object.keys(categories).sort().forEach(seriesName => {
+                Object.keys(categories).forEach(seriesName => {
+                    const series = categories[seriesName];
+                    const totalImages = Object.values(series.types).reduce((sum, arr) => sum + arr.length, 0);
+
+                    const folderItem = document.createElement('div');
+                    folderItem.className = 'folder-item';
+                    folderItem.setAttribute('data-series', seriesName);
+                    folderItem.innerHTML = `
+                        <i class="fas fa-folder folder-icon"></i>
+                        <div class="folder-name">${seriesName}</div>
+                        <div class="folder-count">${totalImages} images</div>
+                    `;
+                    folderItem.addEventListener('click', () => this.openSeries(seriesName));
+                    this.foldersGrid.appendChild(folderItem);
+                });
+
+                this.updateBreadcrumb();
+            }
+
+            // Open series with enhanced subfolder rendering
+            async openSeries(seriesName) {
+                this.currentSeries = seriesName;
+                this.currentSeriesName = seriesName;
+                this.currentPath = [{
+                    name: 'Home',
+                    action: () => this.showFoldersView()
+                }, {
+                    name: seriesName,
+                    action: null
+                }];
+
+                const categories = this.categorizeImages();
                 const series = categories[seriesName];
-                const totalImages = Object.values(series.types).reduce((sum, arr) => sum + arr.length, 0);
 
-                const folderItem = document.createElement('div');
-                folderItem.className = 'folder-item';
-                folderItem.setAttribute('data-series', series.key);
+                this.foldersView.style.display = 'none';
+                this.subfoldersView.style.display = 'block';
+                this.galleryView.style.display = 'none';
+                this.subfoldersTitle.innerHTML = `<i class="fas fa-folder-open"></i> ${seriesName}`;
+                this.subfoldersControls.style.display = 'block'; // Show controls for subfolders
 
-                folderItem.innerHTML = `
-                    <i class="fas fa-folder folder-icon"></i>
-                    <div class="folder-name">${seriesName}</div>
-                    <div class="folder-count">${totalImages} images</div>
-                `;
-
-                folderItem.addEventListener('click', () => {
-                    openSeries(series.key, seriesName);
-                });
-
-                foldersGrid.appendChild(folderItem);
-            });
-
-            updateBreadcrumb();
-        }
-
-        // Open a series folder
-        function openSeries(seriesKey, seriesName) {
-            currentPath = [{
-                name: 'Home',
-                action: () => {
-                    showFoldersView();
-                }
-            }, {
-                name: seriesName,
-                action: null
-            }];
-
-            const categories = categorizeImages();
-            const series = categories[seriesName];
-
-            // Hide folders view and show gallery view
-            foldersView.style.display = 'none';
-            galleryView.style.display = 'block';
-
-            // Set gallery title
-            galleryTitle.innerHTML = `<i class="fas fa-folder-open"></i> ${seriesName}`;
-
-            // Render subcategories
-            renderSubcategories(series.types, seriesName);
-
-            updateBreadcrumb();
-        }
-
-        // Render subcategories (Card, Poster, Character, Screenshot)
-        function renderSubcategories(types, seriesName) {
-            subcategories.innerHTML = '';
-
-            const typeOrder = ['Card', 'Poster', 'Character', 'Screenshot', 'Other'];
-
-            typeOrder.forEach(type => {
-                if (types[type] && types[type].length > 0) {
-                    const typeSection = document.createElement('div');
-
-                    const typeTitle = document.createElement('h3');
-                    typeTitle.className = 'subcategory-title';
-                    typeTitle.innerHTML = `<i class="fas fa-${getTypeIcon(type)}"></i> ${type}s (${types[type].length})`;
-
-                    typeSection.appendChild(typeTitle);
-
-                    const typeGallery = document.createElement('div');
-                    typeGallery.className = 'gallery';
-                    typeGallery.id = `gallery-${type}`;
-
-                    types[type].forEach(filename => {
-                        typeGallery.appendChild(createCard(filename));
-                    });
-
-                    typeSection.appendChild(typeGallery);
-                    subcategories.appendChild(typeSection);
-                }
-            });
-        }
-
-        function getTypeIcon(type) {
-            switch (type) {
-                case 'Card': return 'id-card';
-                case 'Poster': return 'image';
-                case 'Character': return 'user';
-                case 'Screenshot': return 'camera';
-                default: return 'file-image';
+                await this.renderSubfolders(series.types, seriesName);
+                this.updateBreadcrumb();
             }
-        }
 
-        // Create image card
-        function createCard(filename) {
-            const url = prefix + filename;
-            const card = document.createElement("div");
-            card.className = "card";
+            // Render subfolders with sorting
+            async renderSubfolders(types, seriesName) {
+                this.subfoldersGrid.innerHTML = '';
+                const sortedTypes = this.sortTypes(types, this.sortOrder);
 
-            const skeleton = document.createElement("div");
-            skeleton.className = "skeleton";
-
-            const img = document.createElement("img");
-            img.src = url;
-            img.alt = formatName(filename);
-            img.loading = "lazy";
-
-            const nameDiv = document.createElement("div");
-            nameDiv.className = "name";
-            nameDiv.textContent = formatName(filename);
-
-            const copied = document.createElement("div");
-            copied.className = "copied";
-            copied.textContent = "Link Copied!";
-
-            card.appendChild(skeleton);
-            card.appendChild(img);
-            card.appendChild(nameDiv);
-            card.appendChild(copied);
-
-            // Lazy loading with 50ms delay
-            setTimeout(() => {
-                img.onload = () => {
-                    skeleton.style.display = "none";
-                    img.style.display = "block";
-                    loadedCache[url] = Date.now();
-                };
-
-                img.onerror = () => {
-                    skeleton.style.display = "none";
-                    img.style.display = "none";
-                    nameDiv.textContent = "Image Not Found";
-                    card.style.backgroundColor = "#8b0000";
-                };
-            }, 50);
-
-            card.addEventListener("click", () => {
-                navigator.clipboard.writeText(url).then(() => {
-                    copied.style.display = "block";
-                    setTimeout(() => copied.style.display = "none", 1000);
-                }).catch(err => {
-                    console.error('Failed to copy: ', err);
+                const typeOrder = ['Cards', 'Posters', 'Characters', 'Screenshots', 'Other'];
+                typeOrder.forEach(type => {
+                    if (sortedTypes[type] && sortedTypes[type].length > 0) {
+                        const subfolderItem = document.createElement('div');
+                        subfolderItem.className = 'folder-item';
+                        subfolderItem.setAttribute('data-type', type);
+                        subfolderItem.innerHTML = `
+                            <i class="fas fa-${this.getTypeIcon(type)} folder-icon"></i>
+                            <div class="folder-name">${type}</div>
+                            <div class="folder-count">${sortedTypes[type].length} images</div>
+                        `;
+                        subfolderItem.addEventListener('click', () => this.openSubfolder(type, sortedTypes[type], seriesName));
+                        this.subfoldersGrid.appendChild(subfolderItem);
+                    }
                 });
-            });
+            }
 
-            return card;
-        }
+            sortTypes(types, sortBy) {
+                const sorted = { ...types };
+                Object.keys(sorted).forEach(type => {
+                    if (sortBy.startsWith('name-')) {
+                        sorted[type].sort((a, b) => a.localeCompare(b));
+                    } else if (sortBy.startsWith('count-')) {
+                        // Count sort not applicable per type, but could extend
+                    }
+                });
+                return sorted;
+            }
 
-        // Show folders view
-        function showFoldersView() {
-            currentPath = [{
-                name: 'Home',
-                action: null
-            }];
+            handleSubfoldersSort() {
+                this.sortOrder = this.subfoldersSort.value;
+                if (this.currentSeries) {
+                    const categories = this.categorizeImages();
+                    const series = categories[this.currentSeries];
+                    this.renderSubfolders(series.types, this.currentSeries);
+                }
+            }
 
-            foldersView.style.display = 'block';
-            galleryView.style.display = 'none';
-            updateBreadcrumb();
-        }
+            getTypeIcon(type) {
+                const icons = {
+                    'Cards': 'id-card',
+                    'Posters': 'image',
+                    'Characters': 'user',
+                    'Screenshots': 'camera',
+                    'Other': 'file-image'
+                };
+                return icons[type] || 'file-image';
+            }
 
-        // Update breadcrumb
-        function updateBreadcrumb() {
-            breadcrumb.innerHTML = '';
+            // Open subfolder with enhanced gallery setup
+            openSubfolder(type, images, seriesName) {
+                this.currentType = type;
+                this.currentGalleryImages = this.applyGalleryFiltersAndSort(images);
+                this.currentPage = 0;
 
-            currentPath.forEach((item, index) => {
-                if (index > 0) {
-                    const separator = document.createElement('i');
-                    separator.className = 'fas fa-chevron-right';
-                    breadcrumb.appendChild(separator);
+                this.currentPath = [{
+                    name: 'Home',
+                    action: () => this.showFoldersView()
+                }, {
+                    name: seriesName,
+                    action: () => this.openSeries(seriesName)
+                }, {
+                    name: type,
+                    action: null
+                }];
+
+                this.foldersView.style.display = 'none';
+                this.subfoldersView.style.display = 'none';
+                this.galleryView.style.display = 'block';
+
+                this.galleryTitle.innerHTML = `<i class="fas fa-${this.getTypeIcon(type)}"></i> ${seriesName} - ${type}`;
+
+                this.gallery.innerHTML = '';
+                this.loadMoreGalleryContent();
+                this.setupGalleryInfiniteScroll();
+
+                this.updateBreadcrumb();
+            }
+
+            // Enhanced gallery sort and filter
+            applyGalleryFiltersAndSort(images) {
+                let filtered = images.filter(img => {
+                    if (this.filterValue === 'all') return true;
+                    const quality = this.getImageQualityInfo(img);
+                    return quality.includes(this.filterValue);
+                });
+
+                switch (this.sortOrder) {
+                    case 'name-asc':
+                        filtered.sort((a, b) => this.getImageDisplayName(a).localeCompare(this.getImageDisplayName(b)));
+                        break;
+                    case 'name-desc':
+                        filtered.sort((a, b) => this.getImageDisplayName(b).localeCompare(this.getImageDisplayName(a)));
+                        break;
+                    case 'random':
+                        filtered = this.shuffleArray(filtered);
+                        break;
                 }
 
-                const crumb = document.createElement('a');
-                crumb.href = '#';
-                crumb.textContent = item.name;
+                return filtered;
+            }
 
-                if (index === currentPath.length - 1) {
-                    crumb.className = 'current';
-                } else {
-                    crumb.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        if (item.action) {
-                            item.action();
+            handleGallerySort() {
+                this.sortOrder = this.gallerySort.value;
+                if (this.currentGalleryImages.length > 0) {
+                    this.currentGalleryImages = this.applyGalleryFiltersAndSort(this.currentGalleryImages);
+                    this.gallery.innerHTML = '';
+                    this.currentPage = 0;
+                    this.loadMoreGalleryContent();
+                }
+            }
+
+            handleGalleryFilter() {
+                this.filterValue = this.galleryFilter.value;
+                if (this.currentGalleryImages.length > 0) {
+                    // Re-apply filter on current images
+                    const originalImages = this.currentGalleryImages; // Assume we keep original for re-filter
+                    this.currentGalleryImages = this.applyGalleryFiltersAndSort(originalImages);
+                    this.gallery.innerHTML = '';
+                    this.currentPage = 0;
+                    this.loadMoreGalleryContent();
+                }
+            }
+
+            shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
+            }
+
+            // Infinite scroll setup (unchanged but modularized)
+            setupGalleryInfiniteScroll() {
+                let scrollTimeout;
+                window.removeEventListener('scroll', this.scrollHandler); // Prevent duplicates
+                this.scrollHandler = () => {
+                    if (this.isLoading) return;
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(() => {
+                        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                        const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+                        const clientHeight = document.documentElement.clientHeight;
+                        if (scrollTop + clientHeight >= scrollHeight - this.SCROLL_THRESHOLD) {
+                            this.loadMoreGalleryContent();
                         }
-                    });
-                }
-
-                breadcrumb.appendChild(crumb);
-            });
-        }
-
-        // Back button functionality
-        backButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            showFoldersView();
-        });
-
-        // Search functionality
-        searchInput.addEventListener("input", () => {
-            const searchValue = searchInput.value.toLowerCase().trim();
-
-            if (searchValue === '') {
-                // If search is empty, show folders view
-                showFoldersView();
-                return;
+                    }, 50);
+                };
+                window.addEventListener('scroll', this.scrollHandler);
             }
 
-            // Filter images based on search
-            const filtered = images.filter(f =>
-                formatName(f).toLowerCase().includes(searchValue)
-            );
+            // Load more with better async handling
+            async loadMoreGalleryContent() {
+                if (this.isLoading || !this.currentGalleryImages.length) return;
 
-            if (filtered.length === 0) {
-                // Show not found message
-                foldersView.style.display = 'none';
-                galleryView.style.display = 'block';
-                galleryTitle.innerHTML = `<i class="fas fa-search"></i> Search Results`;
-                subcategories.innerHTML = '';
-                gallery.innerHTML = '';
-                notFound.style.display = 'block';
-            } else {
-                // Show search results
-                foldersView.style.display = 'none';
-                galleryView.style.display = 'block';
-                galleryTitle.innerHTML = `<i class="fas fa-search"></i> Search Results (${filtered.length})`;
-                subcategories.innerHTML = '';
+                const startIndex = this.currentPage * this.CARDS_PER_PAGE;
+                const endIndex = startIndex + this.CARDS_PER_PAGE;
 
-                // Group by series for better organization
-                const searchCategories = {};
+                if (startIndex >= this.currentGalleryImages.length) return;
 
-                filtered.forEach(filename => {
-                    const seriesName = getSeriesName(filename);
+                this.isLoading = true;
+                this.loadingIndicator.classList.add('active');
 
-                    if (!searchCategories[seriesName]) {
-                        searchCategories[seriesName] = [];
+                this.addSkeletonCards(Math.min(this.CARDS_PER_PAGE, this.currentGalleryImages.length - startIndex), this.isLandscapeType(this.currentType));
+
+                // Simulate async load for better UX
+                await new Promise(resolve => setTimeout(resolve, 300));
+
+                this.replaceSkeletonsWithGalleryContent(startIndex, endIndex);
+                this.currentPage++;
+                this.isLoading = false;
+                this.loadingIndicator.classList.remove('active');
+            }
+
+            addSkeletonCards(count, isLandscape = false) {
+                for (let i = 0; i < count; i++) {
+                    const skeletonCard = document.createElement('div');
+                    skeletonCard.className = `skeleton-card ${isLandscape ? 'landscape' : ''}`;
+                    skeletonCard.innerHTML = `
+                        <div class="skeleton-image"></div>
+                        <div class="skeleton-content">
+                            <div class="skeleton-title"></div>
+                            <div class="skeleton-meta"></div>
+                        </div>
+                    `;
+                    this.gallery.appendChild(skeletonCard);
+                }
+            }
+
+            replaceSkeletonsWithGalleryContent(startIndex, endIndex) {
+                document.querySelectorAll('#gallery .skeleton-card').forEach(card => card.remove());
+                const itemsToLoad = this.currentGalleryImages.slice(startIndex, endIndex);
+
+                itemsToLoad.forEach((filename, index) => {
+                    const card = this.createImageCard(filename, this.currentType);
+                    this.gallery.appendChild(card);
+
+                    this.imageLoadQueue.push({
+                        element: card.querySelector('.card-image'),
+                        src: this.prefix + filename,
+                        delay: index * this.IMAGE_LOAD_DELAY,
+                        filename // Store for modal
+                    });
+                });
+
+                this.processImageLoadQueue();
+            }
+
+            processImageLoadQueue() {
+                if (this.isProcessingQueue || this.imageLoadQueue.length === 0) return;
+                this.isProcessingQueue = true;
+
+                const processNext = async () => {
+                    if (this.imageLoadQueue.length === 0) {
+                        this.isProcessingQueue = false;
+                        return;
                     }
 
-                    searchCategories[seriesName].push(filename);
+                    const { element, src, delay, filename } = this.imageLoadQueue.shift();
+
+                    await new Promise(resolve => setTimeout(resolve, delay));
+
+                    const preloadImg = new Image();
+                    preloadImg.onload = () => {
+                        element.src = src;
+                        element.classList.add('loaded');
+                        this.loadedCache[src] = Date.now();
+                        element.dataset.filename = filename; // Attach for modal
+                        processNext();
+                    };
+                    preloadImg.onerror = () => {
+                        element.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIE5vdCBGb3VuZDwvdGV4dD48L3N2Zz4=';
+                        element.classList.add('loaded');
+                        processNext();
+                    };
+                    preloadImg.src = src;
+                };
+
+                processNext();
+            }
+
+            // Enhanced card creation with zoom instead of copy
+            createImageCard(filename, type) {
+                const url = this.prefix + filename;
+                const isLandscape = this.isLandscapeType(type);
+                const card = document.createElement('div');
+                card.className = `anime-card ${isLandscape ? 'landscape' : ''}`;
+
+                const displayName = this.getImageDisplayName(filename);
+                const qualityInfo = this.getImageQualityInfo(filename);
+
+                card.innerHTML = `
+                    <img src="" alt="${displayName}" loading="lazy" class="card-image" data-filename="${filename}">
+                    <div class="anime-card-overlay">
+                        <div class="zoom-icon"><i class="fas fa-search-plus"></i></div>
+                        <h3 class="card-title">${displayName}</h3>
+                        <p class="card-meta">${qualityInfo}</p>
+                    </div>
+                `;
+
+                // Click to open zoom modal
+                card.addEventListener('click', (e) => {
+                    if (e.target.tagName !== 'IMG') { // Avoid interfering with image load
+                        this.openZoomModal(url, displayName, filename);
+                    }
                 });
 
-                // Render search results by series
-                Object.keys(searchCategories).sort().forEach(seriesName => {
-                    const seriesSection = document.createElement('div');
-
-                    const seriesTitle = document.createElement('h3');
-                    seriesTitle.className = 'subcategory-title';
-                    seriesTitle.innerHTML = `<i class="fas fa-folder"></i> ${seriesName} (${searchCategories[seriesName].length})`;
-
-                    seriesSection.appendChild(seriesTitle);
-
-                    const seriesGallery = document.createElement('div');
-                    seriesGallery.className = 'gallery';
-
-                    searchCategories[seriesName].forEach(filename => {
-                        seriesGallery.appendChild(createCard(filename));
+                // Context menu for copy (optional)
+                card.addEventListener('contextmenu', (e) => {
+                    e.preventDefault();
+                    navigator.clipboard.writeText(url).then(() => {
+                        // Visual feedback
+                        const icon = card.querySelector('.zoom-icon');
+                        const original = icon.innerHTML;
+                        icon.innerHTML = '<i class="fas fa-check"></i>';
+                        setTimeout(() => { icon.innerHTML = original; }, 1000);
                     });
-
-                    seriesSection.appendChild(seriesGallery);
-                    subcategories.appendChild(seriesSection);
                 });
 
-                notFound.style.display = 'none';
+                return card;
             }
 
-            // Update breadcrumb for search
-            currentPath = [{
-                name: 'Home',
-                action: () => {
-                    showFoldersView();
-                    searchInput.value = '';
+            // Zoom modal functions
+            openZoomModal(imageUrl, title, filename) {
+                this.modalImage.src = imageUrl;
+                this.modalImage.alt = title;
+                this.currentImageUrl = imageUrl;
+                this.currentFilename = filename;
+                this.zoomModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            closeZoomModal() {
+                this.zoomModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+
+            downloadCurrentImage() {
+                const link = document.createElement('a');
+                link.href = this.currentImageUrl;
+                link.download = this.currentFilename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+
+            copyCurrentUrl() {
+                navigator.clipboard.writeText(this.currentImageUrl).then(() => {
+                    const originalCopy = this.copyBtn.innerHTML;
+                    this.copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    setTimeout(() => { this.copyBtn.innerHTML = originalCopy; }, 2000);
+                }).catch(err => console.error('Copy failed:', err));
+            }
+
+            // Utility functions (enhanced with better error handling)
+            getAnimeTitleFromId(animeId) {
+                try {
+                    if (typeof animeData !== 'undefined') {
+                        const anime = animeData.find(a => a.id === animeId);
+                        return anime ? anime.title : animeId;
+                    }
+                } catch (e) {
+                    console.warn('Anime data not available:', e);
                 }
-            }, {
-                name: `Search: "${searchValue}"`,
-                action: null
-            }];
-            updateBreadcrumb();
-        });
-
-        function getSeriesName(filename) {
-            // Extract series name from filename
-            let seriesKey = filename;
-            if (filename.includes('-card')) {
-                seriesKey = filename.replace('-card', '');
-            } else if (filename.includes('-poster')) {
-                seriesKey = filename.replace('-poster', '');
-            } else if (filename.includes('-character')) {
-                seriesKey = filename.replace('-character', '');
-            } else if (filename.includes('-screenshot')) {
-                seriesKey = filename.replace('-screenshot', '');
+                return animeId;
             }
 
-            seriesKey = seriesKey.split('-').slice(0, -1).join('-');
-            return formatName(seriesKey);
+            getMainFolderName(filename) {
+                let nameWithoutExt = filename.replace('.jpg', '');
+                const typeSuffixes = ['-card', '-poster', '-character', '-screenshot'];
+                for (const suffix of typeSuffixes) {
+                    if (nameWithoutExt.includes(suffix)) {
+                        const animeId = nameWithoutExt.split(suffix)[0];
+                        return this.getAnimeTitleFromId(animeId);
+                    }
+                }
+                const parts = nameWithoutExt.split('-');
+                let animeId = nameWithoutExt;
+                for (let i = parts.length - 1; i >= 0; i--) {
+                    if (parts[i].match(/^\d+$/) || parts[i].length <= 2) {
+                        animeId = parts.slice(0, i).join('-');
+                        break;
+                    }
+                }
+                return this.getAnimeTitleFromId(animeId);
+            }
+
+            getImageType(filename) {
+                if (filename.includes('-card')) return 'Cards';
+                if (filename.includes('-poster')) return 'Posters';
+                if (filename.includes('-character')) return 'Characters';
+                if (filename.includes('-screenshot')) return 'Screenshots';
+                return 'Other';
+            }
+
+            isLandscapeType(type) {
+                return type === 'Posters' || type === 'Screenshots';
+            }
+
+            getImageDisplayName(filename) {
+                const nameWithoutExt = filename.replace('.jpg', '');
+                const type = this.getImageType(filename);
+                let displayName = nameWithoutExt;
+                const typeSuffixes = ['-card', '-poster', '-character', '-screenshot'];
+
+                for (const suffix of typeSuffixes) {
+                    if (displayName.includes(suffix)) {
+                        displayName = displayName.replace(suffix, '');
+                        break;
+                    }
+                }
+
+                const animeIdMatch = displayName.match(/^([^-]+-?)+/);
+                if (animeIdMatch) {
+                    displayName = displayName.replace(animeIdMatch[0], '').replace(/^-/, '');
+                }
+
+                if (!displayName || displayName === '') {
+                    return type.slice(0, -1);
+                }
+
+                return displayName.split('-')
+                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(' ');
+            }
+
+            getImageQualityInfo(filename) {
+                const resolutionMatch = filename.match(/(\d+)x(\d+)/);
+                if (resolutionMatch) {
+                    return `${resolutionMatch[1]}p`;
+                }
+
+                const type = this.getImageType(filename);
+                const qualities = {
+                    'Cards': 'HD 1080p',
+                    'Posters': 'HD 1080p',
+                    'Characters': 'HD 720p',
+                    'Screenshots': 'SD 480p'
+                };
+                return qualities[type] || 'HD';
+            }
+
+            // Search with fuzzy matching (simple implementation)
+            handleSearch() {
+                const searchValue = this.searchInput.value.toLowerCase().trim();
+
+                if (searchValue === '') {
+                    this.showFoldersView();
+                    return;
+                }
+
+                const filtered = images.filter(f =>
+                    this.getImageDisplayName(f).toLowerCase().includes(searchValue) ||
+                    this.getMainFolderName(f).toLowerCase().includes(searchValue) ||
+                    fuzzyMatch(this.getImageDisplayName(f), searchValue) // Enhanced fuzzy
+                );
+
+                if (filtered.length === 0) {
+                    this.foldersView.style.display = 'none';
+                    this.subfoldersView.style.display = 'none';
+                    this.galleryView.style.display = 'block';
+                    this.galleryTitle.innerHTML = `<i class="fas fa-search"></i> Search Results`;
+                    this.gallery.innerHTML = '';
+                    this.notFound.style.display = 'block';
+                } else {
+                    this.currentGalleryImages = filtered;
+                    this.currentPage = 0;
+                    this.foldersView.style.display = 'none';
+                    this.subfoldersView.style.display = 'none';
+                    this.galleryView.style.display = 'block';
+                    this.galleryTitle.innerHTML = `<i class="fas fa-search"></i> Search Results (${filtered.length})`;
+                    this.gallery.innerHTML = '';
+                    this.loadMoreGalleryContent();
+                    this.notFound.style.display = 'none';
+                    this.setupGalleryInfiniteScroll();
+                }
+
+                this.currentPath = [{
+                    name: 'Home',
+                    action: () => {
+                        this.showFoldersView();
+                        this.searchInput.value = '';
+                    }
+                }, {
+                    name: `Search: "${searchValue}"`,
+                    action: null
+                }];
+                this.updateBreadcrumb();
+            }
+
+            // Simple fuzzy match helper
+            fuzzyMatch(str, query) {
+                return str.toLowerCase().split('').filter(char => query.includes(char)).join('') === query;
+            }
+
+            showFoldersView() {
+                this.currentPath = [{ name: 'Home', action: null }];
+                this.foldersView.style.display = 'block';
+                this.subfoldersView.style.display = 'none';
+                this.galleryView.style.display = 'none';
+                this.updateBreadcrumb();
+                this.currentPage = 0;
+                this.currentGalleryImages = [];
+                this.imageLoadQueue = [];
+                window.removeEventListener('scroll', this.scrollHandler);
+            }
+
+            updateBreadcrumb() {
+                this.breadcrumb.innerHTML = '';
+
+                this.currentPath.forEach((item, index) => {
+                    if (index > 0) {
+                        const separator = document.createElement('i');
+                        separator.className = 'fas fa-chevron-right';
+                        this.breadcrumb.appendChild(separator);
+                    }
+
+                    const crumb = document.createElement('a');
+                    crumb.href = '#';
+                    crumb.textContent = item.name;
+
+                    if (index === this.currentPath.length - 1) {
+                        crumb.className = 'current';
+                    } else {
+                        crumb.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            if (item.action) item.action();
+                        });
+                    }
+
+                    this.breadcrumb.appendChild(crumb);
+                });
+            }
+
+            // Menu functions
+            openMenu() {
+                this.sideMenu.classList.add('active');
+                this.overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            closeMenuFunc() {
+                this.sideMenu.classList.remove('active');
+                this.overlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
         }
 
-        // Go home functionality
-        goHome.addEventListener("click", (e) => {
-            e.preventDefault();
-            searchInput.value = "";
-            showFoldersView();
+        // Initialize on DOM load
+        document.addEventListener('DOMContentLoaded', () => {
+            new FileManager();
+
+            // Register Service Worker for offline support
+            if ('serviceWorker' in navigator) {
+                const swCode = `
+                    const CACHE_NAME = 'amvverse-v1';
+                    const urlsToCache = [
+                        '/',
+                        '/index.html',
+                        '/manifest.json',
+                        '/icons/icon.png',
+                        '/data.js'
+                    ];
+
+                    self.addEventListener('install', function(event) {
+                        event.waitUntil(
+                            caches.open(CACHE_NAME)
+                                .then(function(cache) {
+                                    console.log('Opened cache');
+                                    return cache.addAll(urlsToCache);
+                                })
+                        );
+                    });
+
+                    self.addEventListener('fetch', function(event) {
+                        event.respondWith(
+                            caches.open(CACHE_NAME).then(function(cache) {
+                                return caches.match(event.request).then(function(response) {
+                                    return response || fetch(event.request).then(function(response) {
+                                        // Cache successful network requests (including images)
+                                        if (response && response.status === 200) {
+                                            cache.put(event.request, response.clone());
+                                        }
+                                        return response;
+                                    }).catch(function() {
+                                        // Offline fallback: for images, serve a placeholder
+                                        if (event.request.destination === 'image') {
+                                            return new Response('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk9mZmxpbmU8L3RleHQ+PC9zdmc+');
+                                        }
+                                        return caches.match('/');
+                                    });
+                                });
+                            })
+                        );
+                    });
+                `;
+                const blob = new Blob([swCode], { type: 'application/javascript' });
+                const swUrl = URL.createObjectURL(blob);
+                navigator.serviceWorker.register(swUrl).then(function (registration) {
+                    console.log('ServiceWorker registered: ', registration);
+                }).catch(function (error) {
+                    console.log('ServiceWorker registration failed: ', error);
+                });
+            }
         });
 
-        // Initialize the file manager
-        renderFolders();
+        // Global fuzzyMatch for search (if needed outside class)
+        function fuzzyMatch(str, query) {
+            return str.toLowerCase().split('').filter(char => query.includes(char)).join('') === query;
+        }
     </script>
 </body>
 
