@@ -8,23 +8,23 @@
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://animesaga.pages.dev/dxh2jf6f8shlldyq6lpo4exgdq/d2hs6ea0ct0of8shlanv6lpo4eygdq.js"></script>
     <script src="data.js"></script>
     <link rel="icon" href="icons/icon.png" type="png/image/x-icon">
     <link rel="apple-touch-icon" href="icons/icon.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --background-color: #0f0f0f;
-            --surface-color: #1a1a1a;
-            --text-color: #ffffff;
-            --text-color-secondary: #b0b0b0;
             --primary-color: #e50914;
+            --secondary-color: #e50914a6;
+            --background-color: #141414;
+            --surface-color: #23252a;
+            --text-color: #ffffff;
+            --text-color-secondary: #a0a0a0;
             --border-radius: 8px;
+            --transition-speed: 0.3s;
+            --font-family: 'Inter', sans-serif;
         }
 
         * {
@@ -35,7 +35,7 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: var(--font-family);
             background-color: var(--background-color);
             color: var(--text-color);
             line-height: 1.6;
@@ -91,91 +91,74 @@
         }
 
         .container {
-            max-width: 1200px;
+            width: 90%;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 0 15px;
         }
 
         /* Header Styles */
         .main-header {
-            background-color: var(--surface-color);
-            padding: 0.8rem 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .main-header .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 15px;
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            color: var(--text-color);
+            color: var(--primary-color);
+            letter-spacing: 1px;
             text-decoration: none;
-            white-space: nowrap;
         }
 
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 15px;
-            flex: 1;
-            justify-content: flex-end;
-            max-width: 600px;
+            gap: 1rem;
         }
 
         .search-box {
             display: flex;
-            background: var(--background-color);
+            background: var(--surface-color);
             border-radius: var(--border-radius);
             overflow: hidden;
-            flex: 1;
-            max-width: 500px;
-            min-width: 150px;
-            transition: all 0.3s ease;
-        }
-
-        .search-box:focus-within {
-            box-shadow: 0 0 0 2px var(--primary-color);
         }
 
         .search-box input {
             border: none;
             background: transparent;
-            padding: 0.8rem 1rem;
+            padding: 0.6rem;
             color: var(--text-color);
-            flex: 1;
             outline: none;
-            width: 100%;
-            min-width: 0;
+            width: 200px;
         }
 
         .search-box button {
             background: var(--primary-color);
             border: none;
             color: var(--text-color);
-            padding: 0.8rem 1rem;
+            padding: 0.6rem 1rem;
             cursor: pointer;
-            flex-shrink: 0;
         }
 
         .mobile-menu-toggle {
+            display: none;
             background: none;
             border: none;
             color: var(--text-color);
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             cursor: pointer;
-            padding: 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
         }
 
         /* Side Menu */
@@ -370,106 +353,190 @@
             padding-bottom: 0.5rem;
         }
 
-        /* Gallery-specific styling */
-        .gallery {
-            column-count: 1;
-            column-gap: 15px;
+        /* Anime Grid Styles */
+        .anime-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
 
-        @media (min-width: 600px) {
-            .gallery {
-                column-count: 2;
-            }
-        }
-
-        @media (min-width: 900px) {
-            .gallery {
-                column-count: 3;
-            }
-        }
-
-        @media (min-width: 1200px) {
-            .gallery {
-                column-count: 4;
-            }
-        }
-
-        .card {
-            display: inline-block;
-            background: var(--surface-color);
-            margin: 0 0 15px;
-            width: 100%;
-            border-radius: var(--border-radius);
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-            cursor: pointer;
+        .anime-card {
             position: relative;
+            border-radius: var(--border-radius);
             overflow: hidden;
-            vertical-align: top;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform var(--transition-speed);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            background: var(--surface-color);
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+        .anime-card:hover {
+            transform: scale(1.05);
         }
 
-        .card img {
+        .anime-card img {
             width: 100%;
-            display: block;
+            aspect-ratio: 2/3;
             object-fit: cover;
-            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            display: block;
         }
 
-        .skeleton {
-            width: 100%;
-            aspect-ratio: 3/4;
-            background: linear-gradient(90deg, #2d2d2d 25%, #3a3d42 37%, #2d2d2d 63%);
-            background-size: 400% 100%;
-            animation: shimmer 1.4s infinite;
+        .card-image {
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        @keyframes shimmer {
-            0% {
-                background-position: -468px 0;
-            }
-
-            100% {
-                background-position: 468px 0;
-            }
+        .card-image.loaded {
+            opacity: 1;
         }
 
-        .name {
-            padding: 10px;
-            text-align: center;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-color);
-        }
-
-        .copied {
+        .anime-card-overlay {
             position: absolute;
-            bottom: 8px;
-            right: 8px;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            display: none;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 20%, transparent);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1rem;
+            opacity: 0;
+            transition: opacity var(--transition-speed);
         }
 
-        #notFound {
-            display: none;
-            text-align: center;
-            margin-top: 50px;
-            font-size: 20px;
+        .anime-card:hover .anime-card-overlay {
+            opacity: 1;
+        }
+
+        .anime-card-overlay .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1.5);
+            font-size: 3rem;
+            opacity: 0;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+
+        .anime-card:hover .play-icon {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .anime-card-overlay h3 {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .anime-card-overlay p {
+            font-size: clamp(0.8rem, 1.5vw, 0.95rem);
             color: var(--text-color-secondary);
         }
 
-        #notFound a {
-            color: var(--primary-color);
-            text-decoration: none;
-            margin-left: 5px;
+        .card-title {
+            font-weight: 600;
+            font-size: 14px;
+            text-align: center;
+            padding: 10px;
+            color: var(--text-color);
+            background: var(--surface-color);
+        }
+
+        .card-meta {
+            font-size: 12px;
+            color: var(--text-color-secondary);
+            text-align: center;
+            padding: 0 10px 10px;
+        }
+
+        /* Skeleton Loading Animation */
+        .skeleton-card {
+            position: relative;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            aspect-ratio: 2/3;
+            background: var(--surface-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .skeleton-image {
+            width: 100%;
+            height: 70%;
+            background: linear-gradient(90deg, #2a2a2a 25%, #333 50%, #2a2a2a 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+        }
+
+        .skeleton-content {
+            padding: 1rem;
+            height: 30%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .skeleton-title {
+            height: 20px;
+            background: linear-gradient(90deg, #2a2a2a 25%, #333 50%, #2a2a2a 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .skeleton-meta {
+            height: 16px;
+            background: linear-gradient(90deg, #2a2a2a 25%, #333 50%, #2a2a2a 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+            border-radius: 4px;
+            width: 60%;
+        }
+
+        @keyframes skeleton-loading {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        /* Loading indicator */
+        .loading-indicator {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-color-secondary);
+            display: none;
+        }
+
+        .loading-indicator.active {
+            display: block;
+        }
+
+        .loading-indicator .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(229, 9, 20, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* Back button */
@@ -502,20 +569,16 @@
 
         /* Media Queries for Responsive Header */
         @media (max-width: 768px) {
+            .main-nav {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
             .main-header .container {
-                gap: 10px;
-            }
-
-            .logo {
-                font-size: 1.3rem;
-            }
-
-            .header-actions {
-                gap: 10px;
-            }
-
-            .search-box {
-                min-width: 120px;
+                position: relative;
             }
 
             .folders-grid {
@@ -525,6 +588,11 @@
             .subfolders-grid {
                 grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
             }
+
+            .anime-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 1rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -533,10 +601,11 @@
             }
 
             .logo {
-                font-size: 1.1rem;
+                font-size: 1.5rem;
             }
 
             .search-box input {
+                width: 120px;
                 padding: 0.6rem 0.8rem;
             }
 
@@ -556,6 +625,62 @@
             .subfolders-grid {
                 grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
             }
+
+            .anime-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+        }
+
+        /* Watermark Styles */
+        .watermark {
+            position: absolute;
+            opacity: 0.5;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .card-watermark {
+            top: 8px;
+            left: 8px;
+            width: 30px;
+            height: 30px;
+        }
+
+        .watermark-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+        }
+
+        .premium-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.603);
+            color: #fffdfd;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+        }
+
+        #notFound {
+            display: none;
+            text-align: center;
+            margin-top: 50px;
+            font-size: 20px;
+            color: var(--text-color-secondary);
+        }
+
+        #notFound a {
+            color: var(--primary-color);
+            text-decoration: none;
+            margin-left: 5px;
         }
     </style>
 </head>
@@ -627,13 +752,24 @@
                     <i class="fas fa-arrow-left"></i> Back
                 </a>
                 <h2 class="section-title" id="galleryTitle"></h2>
-                <div class="gallery" id="gallery"></div>
+                <div class="anime-grid" id="gallery"></div>
                 <div id="notFound">No images found. <a href="#" id="goHome">𝙶𝚘 𝙱𝚊𝚌𝚔</a></div>
+
+                <!-- Loading Indicator -->
+                <div class="loading-indicator" id="loadingIndicator">
+                    <div class="spinner"></div>
+                    <p>Loading more content...</p>
+                </div>
             </div>
         </div>
     </main>
 
     <script>
+        // Configuration
+        const CARDS_PER_PAGE = 20;
+        const SCROLL_THRESHOLD = 100;
+        const IMAGE_LOAD_DELAY = 50;
+
         // Menu toggle functionality
         const menuToggle = document.getElementById('mobile-menu-toggle');
         const sideMenu = document.getElementById('sideMenu');
@@ -679,55 +815,59 @@
         const searchInput = document.getElementById('search');
         const notFound = document.getElementById('notFound');
         const goHome = document.getElementById('goHome');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+
+        // State variables for gallery
+        let currentPage = 0;
+        let isLoading = false;
+        let imageLoadQueue = [];
+        let isProcessingQueue = false;
+        let currentGalleryImages = [];
 
         // Store already loaded images for caching
         const loadedCache = {};
         let currentPath = [];
         let currentSeries = '';
         let currentSeriesName = '';
+        let currentType = '';
+
+        // Get anime title from ID
+        function getAnimeTitleFromId(animeId) {
+            if (typeof animeData !== 'undefined') {
+                const anime = animeData.find(a => a.id === animeId);
+                return anime ? anime.title : animeId;
+            }
+            return animeId;
+        }
 
         // Extract main folder name from filename
         function getMainFolderName(filename) {
             // Remove file extension
             let nameWithoutExt = filename.replace('.jpg', '');
 
-            // Remove type suffixes
+            // Remove type suffixes and everything after them
             const typeSuffixes = ['-card', '-poster', '-character', '-screenshot'];
             for (const suffix of typeSuffixes) {
                 if (nameWithoutExt.includes(suffix)) {
-                    nameWithoutExt = nameWithoutExt.replace(suffix, '');
-                    break;
+                    // Extract the anime ID part (everything before the suffix)
+                    const animeId = nameWithoutExt.split(suffix)[0];
+                    return getAnimeTitleFromId(animeId);
                 }
             }
 
-            // Remove character names and other details after the main series name
-            // The main series name is everything before the last dash that contains a type
+            // If no type suffix found, try to extract anime ID
             const parts = nameWithoutExt.split('-');
-
-            // Find the index where character names or details start
-            let mainParts = [];
-            for (let i = 0; i < parts.length; i++) {
-                // If we encounter a part that starts with uppercase (likely a character name), stop
-                if (parts[i] && parts[i][0] === parts[i][0].toUpperCase() && parts[i][0] !== parts[i][0].toLowerCase()) {
+            // Look for common patterns to extract anime ID
+            let animeId = nameWithoutExt;
+            for (let i = parts.length - 1; i >= 0; i--) {
+                if (parts[i].match(/^\d+$/) || parts[i].length <= 2) {
+                    // This might be a number or short identifier, try without it
+                    animeId = parts.slice(0, i).join('-');
                     break;
                 }
-                mainParts.push(parts[i]);
             }
 
-            // If no uppercase found, use all parts except the last one (which is usually a number or identifier)
-            if (mainParts.length === parts.length) {
-                mainParts = parts.slice(0, -1);
-            }
-
-            // Format the folder name
-            return formatFolderName(mainParts.join('-'));
-        }
-
-        // Format folder name (remove hyphens and capitalize first letters)
-        function formatFolderName(name) {
-            return name.split('-')
-                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(' ');
+            return getAnimeTitleFromId(animeId);
         }
 
         // Get image type from filename
@@ -742,20 +882,56 @@
         // Get clean image name for display
         function getImageDisplayName(filename) {
             const nameWithoutExt = filename.replace('.jpg', '');
-            const parts = nameWithoutExt.split('-');
+            const type = getImageType(filename);
 
-            // Remove the series name parts and type, keep the descriptive part
-            const typeSuffixes = ['card', 'poster', 'character', 'screenshot'];
-            let displayParts = [];
+            // Remove the anime ID and type to get the descriptive part
+            let displayName = nameWithoutExt;
+            const typeSuffixes = ['-card', '-poster', '-character', '-screenshot'];
 
-            for (let i = parts.length - 1; i >= 0; i--) {
-                if (typeSuffixes.includes(parts[i])) {
+            for (const suffix of typeSuffixes) {
+                if (displayName.includes(suffix)) {
+                    displayName = displayName.replace(suffix, '');
                     break;
                 }
-                displayParts.unshift(parts[i]);
             }
 
-            return formatFolderName(displayParts.join('-'));
+            // Remove the anime ID part (we already have the series name)
+            const animeIdMatch = displayName.match(/^([^-]+-?)+/);
+            if (animeIdMatch) {
+                displayName = displayName.replace(animeIdMatch[0], '').replace(/^-/, '');
+            }
+
+            // Format for display
+            if (!displayName || displayName === '') {
+                return type.slice(0, -1); // Remove 's' from type
+            }
+
+            return displayName.split('-')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+        }
+
+        // Get image quality info for display
+        function getImageQualityInfo(filename) {
+            // Extract resolution/quality from filename if available
+            const resolutionMatch = filename.match(/(\d+)x(\d+)/);
+            if (resolutionMatch) {
+                return `${resolutionMatch[1]}p`;
+            }
+
+            // Default quality based on type
+            const type = getImageType(filename);
+            switch (type) {
+                case 'Cards':
+                case 'Posters':
+                    return 'HD 1080p';
+                case 'Characters':
+                    return 'HD 720p';
+                case 'Screenshots':
+                    return 'SD 480p';
+                default:
+                    return 'HD';
+            }
         }
 
         // Categorize images by series and type
@@ -881,6 +1057,10 @@
 
         // Open a subfolder (type)
         function openSubfolder(type, images, seriesName) {
+            currentType = type;
+            currentGalleryImages = images;
+            currentPage = 0;
+
             currentPath = [{
                 name: 'Home',
                 action: () => {
@@ -904,77 +1084,172 @@
             // Set gallery title
             galleryTitle.innerHTML = `<i class="fas fa-${getTypeIcon(type)}"></i> ${seriesName} - ${type}`;
 
-            // Render images
-            renderGallery(images);
+            // Clear previous content
+            gallery.innerHTML = '';
+
+            // Load initial images
+            loadMoreGalleryContent();
+
+            // Set up infinite scroll for gallery
+            setupGalleryInfiniteScroll();
 
             updateBreadcrumb();
         }
 
-        // Render gallery images
-        function renderGallery(imageList) {
-            gallery.innerHTML = '';
+        // Set up infinite scroll for gallery
+        function setupGalleryInfiniteScroll() {
+            let scrollTimeout;
 
-            if (imageList.length === 0) {
-                notFound.style.display = 'block';
-                gallery.style.display = 'none';
-                return;
-            }
+            window.addEventListener('scroll', function () {
+                if (isLoading) return;
 
-            notFound.style.display = 'none';
-            gallery.style.display = 'block';
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                    const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+                    const clientHeight = document.documentElement.clientHeight;
 
-            imageList.forEach(filename => {
-                gallery.appendChild(createCard(filename));
+                    if (scrollTop + clientHeight >= scrollHeight - SCROLL_THRESHOLD) {
+                        loadMoreGalleryContent();
+                    }
+                }, 50);
             });
         }
 
-        // Create image card
-        function createCard(filename) {
-            const url = prefix + filename;
-            const card = document.createElement("div");
-            card.className = "card";
+        // Load more gallery content
+        function loadMoreGalleryContent() {
+            if (isLoading || !currentGalleryImages.length) return;
 
-            const skeleton = document.createElement("div");
-            skeleton.className = "skeleton";
+            const startIndex = currentPage * CARDS_PER_PAGE;
+            const endIndex = startIndex + CARDS_PER_PAGE;
 
-            const img = document.createElement("img");
-            img.src = url;
-            img.alt = getImageDisplayName(filename);
-            img.loading = "lazy";
+            if (startIndex >= currentGalleryImages.length) {
+                return;
+            }
 
-            const nameDiv = document.createElement("div");
-            nameDiv.className = "name";
-            nameDiv.textContent = getImageDisplayName(filename);
+            isLoading = true;
+            loadingIndicator.classList.add('active');
 
-            const copied = document.createElement("div");
-            copied.className = "copied";
-            copied.textContent = "Link Copied!";
+            // Add skeleton cards first
+            const skeletonCount = Math.min(CARDS_PER_PAGE, currentGalleryImages.length - startIndex);
+            addSkeletonCards(skeletonCount);
 
-            card.appendChild(skeleton);
-            card.appendChild(img);
-            card.appendChild(nameDiv);
-            card.appendChild(copied);
-
-            // Lazy loading with 50ms delay
+            // Load actual content
             setTimeout(() => {
-                img.onload = () => {
-                    skeleton.style.display = "none";
-                    img.style.display = "block";
-                    loadedCache[url] = Date.now();
-                };
+                replaceSkeletonsWithGalleryContent(startIndex, endIndex);
+                currentPage++;
+                isLoading = false;
+                loadingIndicator.classList.remove('active');
+            }, 300);
+        }
 
-                img.onerror = () => {
-                    skeleton.style.display = "none";
-                    img.style.display = "none";
-                    nameDiv.textContent = "Image Not Found";
-                    card.style.backgroundColor = "#8b0000";
-                };
-            }, 50);
+        // Add skeleton loading cards
+        function addSkeletonCards(count) {
+            for (let i = 0; i < count; i++) {
+                const skeletonCard = document.createElement('div');
+                skeletonCard.className = 'skeleton-card';
+                skeletonCard.innerHTML = `
+                    <div class="skeleton-image"></div>
+                    <div class="skeleton-content">
+                        <div class="skeleton-title"></div>
+                        <div class="skeleton-meta"></div>
+                    </div>
+                `;
+                gallery.appendChild(skeletonCard);
+            }
+        }
 
-            card.addEventListener("click", () => {
+        // Replace skeleton cards with actual gallery content
+        function replaceSkeletonsWithGalleryContent(startIndex, endIndex) {
+            const skeletonCards = document.querySelectorAll('#gallery .skeleton-card');
+            const itemsToLoad = currentGalleryImages.slice(startIndex, endIndex);
+
+            // Clear existing skeleton cards
+            skeletonCards.forEach(card => card.remove());
+
+            // Add actual content cards
+            itemsToLoad.forEach((filename, index) => {
+                const card = createImageCard(filename);
+                gallery.appendChild(card);
+
+                // Add to image load queue
+                imageLoadQueue.push({
+                    element: card.querySelector('.card-image'),
+                    src: prefix + filename,
+                    delay: index * IMAGE_LOAD_DELAY
+                });
+            });
+
+            // Process image load queue
+            processImageLoadQueue();
+        }
+
+        // Process image load queue
+        function processImageLoadQueue() {
+            if (isProcessingQueue || imageLoadQueue.length === 0) return;
+
+            isProcessingQueue = true;
+
+            const processNextImage = () => {
+                if (imageLoadQueue.length === 0) {
+                    isProcessingQueue = false;
+                    return;
+                }
+
+                const { element, src, delay } = imageLoadQueue.shift();
+
+                setTimeout(() => {
+                    const preloadImg = new Image();
+                    preloadImg.onload = () => {
+                        element.src = src;
+                        element.classList.add('loaded');
+                        loadedCache[src] = Date.now();
+                        processNextImage();
+                    };
+                    preloadImg.onerror = () => {
+                        element.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIE5vdCBGb3VuZDwvdGV4dD48L3N2Zz4=';
+                        element.classList.add('loaded');
+                        processNextImage();
+                    };
+                    preloadImg.src = src;
+                }, delay);
+            };
+
+            processNextImage();
+        }
+
+        // Create image card for gallery
+        function createImageCard(filename) {
+            const url = prefix + filename;
+            const card = document.createElement('div');
+            card.className = 'anime-card';
+
+            const displayName = getImageDisplayName(filename);
+            const qualityInfo = getImageQualityInfo(filename);
+
+            card.innerHTML = `
+                <img src="" alt="${displayName}" loading="lazy" class="card-image">
+                <div class="anime-card-overlay">
+                    <div class="play-icon"><i class="fas fa-copy"></i></div>
+                    <h3 class="card-title">${displayName}</h3>
+                    <p class="card-meta">${qualityInfo}</p>
+                </div>
+                <!-- Card Watermark -->
+                <div class="watermark card-watermark">
+                    <img src="icons/amv-icon.png" alt="AMVVerse Watermark" class="watermark-logo">
+                </div>
+                <div class="premium-tag">${qualityInfo}</div>
+            `;
+
+            // Copy URL functionality
+            card.addEventListener('click', () => {
                 navigator.clipboard.writeText(url).then(() => {
-                    copied.style.display = "block";
-                    setTimeout(() => copied.style.display = "none", 1000);
+                    const playIcon = card.querySelector('.play-icon');
+                    const originalIcon = playIcon.innerHTML;
+                    playIcon.innerHTML = '<i class="fas fa-check"></i>';
+                    setTimeout(() => {
+                        playIcon.innerHTML = originalIcon;
+                    }, 1000);
                 }).catch(err => {
                     console.error('Failed to copy: ', err);
                 });
@@ -994,6 +1269,11 @@
             subfoldersView.style.display = 'none';
             galleryView.style.display = 'none';
             updateBreadcrumb();
+
+            // Reset gallery state
+            currentPage = 0;
+            currentGalleryImages = [];
+            imageLoadQueue = [];
         }
 
         // Update breadcrumb
@@ -1044,7 +1324,6 @@
             const searchValue = searchInput.value.toLowerCase().trim();
 
             if (searchValue === '') {
-                // If search is empty, show folders view
                 showFoldersView();
                 return;
             }
@@ -1056,7 +1335,6 @@
             );
 
             if (filtered.length === 0) {
-                // Show not found message
                 foldersView.style.display = 'none';
                 subfoldersView.style.display = 'none';
                 galleryView.style.display = 'block';
@@ -1064,12 +1342,17 @@
                 gallery.innerHTML = '';
                 notFound.style.display = 'block';
             } else {
-                // Show search results
+                // Show search results in gallery view
+                currentGalleryImages = filtered;
+                currentPage = 0;
+
                 foldersView.style.display = 'none';
                 subfoldersView.style.display = 'none';
                 galleryView.style.display = 'block';
                 galleryTitle.innerHTML = `<i class="fas fa-search"></i> Search Results (${filtered.length})`;
-                renderGallery(filtered);
+                gallery.innerHTML = '';
+
+                loadMoreGalleryContent();
                 notFound.style.display = 'none';
             }
 
