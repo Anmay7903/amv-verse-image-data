@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>𝙵𝚒𝚕𝚎 𝙿𝚛𝚎𝚟𝚒𝚎𝚠 | 𝙰𝙼𝚅 𝚅𝙴𝚁𝚂𝙴</title>
+    <title>𝙵𝚒𝚕𝚎 𝙼𝚊𝚗𝚊𝚐𝚎𝚛 | 𝙰𝙼𝚅 𝚅𝙴𝚁𝚂𝙴</title>
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -269,59 +269,108 @@
             visibility: visible;
         }
 
-        /* Gallery-specific styling */
-        .gallery-page {
-            padding: 2rem 0;
+        /* Breadcrumb Styles */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            padding: 1rem 0;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .breadcrumb a {
+            color: var(--text-color-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary-color);
+        }
+
+        .breadcrumb i {
+            margin: 0 0.5rem;
+            color: var(--text-color-secondary);
+            font-size: 0.8rem;
+        }
+
+        .breadcrumb .current {
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        /* File Manager Styles */
+        .file-manager {
+            padding: 1rem 0;
             min-height: 100vh;
             background-color: var(--background-color);
         }
 
-        .section-title {
-            text-align: center;
+        .folders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
             margin-bottom: 2rem;
-            font-size: 1.8rem;
         }
 
-        .section-title i {
-            margin-right: 10px;
+        .folder-item {
+            background: var(--surface-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .folder-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .folder-icon {
+            font-size: 2.5rem;
             color: var(--primary-color);
         }
 
-        /* Folder Navigation */
-        .folder-nav {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
-            justify-content: center;
-        }
-
-        .folder-btn {
-            background: var(--surface-color);
-            border: none;
-            color: var(--text-color);
-            padding: 8px 16px;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 14px;
-        }
-
-        .folder-btn:hover {
-            background: var(--primary-color);
-        }
-
-        .folder-btn.active {
-            background: var(--primary-color);
-        }
-
-        .folder-title {
+        .folder-name {
+            font-weight: 600;
+            font-size: 0.9rem;
             text-align: center;
-            margin: 20px 0;
-            font-size: 1.5rem;
-            color: var(--text-color);
+            word-break: break-word;
         }
 
+        .folder-count {
+            font-size: 0.8rem;
+            color: var(--text-color-secondary);
+        }
+
+        .section-title {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--primary-color);
+        }
+
+        .subcategory-title {
+            margin: 1.5rem 0 1rem;
+            font-size: 1.2rem;
+            color: var(--text-color-secondary);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.5rem;
+        }
+
+        /* Gallery-specific styling */
         .gallery {
             column-count: 1;
             column-gap: 15px;
@@ -423,6 +472,26 @@
             margin-left: 5px;
         }
 
+        /* Back button */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--surface-color);
+            color: var(--text-color);
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 1rem;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
         /* Media Queries for Responsive Header */
         @media (max-width: 768px) {
             .main-header .container {
@@ -441,13 +510,8 @@
                 min-width: 120px;
             }
 
-            .folder-nav {
-                gap: 8px;
-            }
-
-            .folder-btn {
-                padding: 6px 12px;
-                font-size: 12px;
+            .folders-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             }
         }
 
@@ -473,13 +537,8 @@
                 padding: 0.4rem;
             }
 
-            .folder-nav {
-                gap: 5px;
-            }
-
-            .folder-btn {
-                padding: 5px 10px;
-                font-size: 11px;
+            .folders-grid {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
             }
         }
     </style>
@@ -523,17 +582,31 @@
     <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
 
-    <!-- Gallery Page -->
-    <main class="gallery-page">
+    <!-- File Manager -->
+    <main class="file-manager">
         <div class="container">
-            <h2 class="section-title"><i class="fas fa-images"></i> 𝙲𝚘𝚗𝚝𝚎𝚗𝚝 𝙲𝚊𝚛𝚍</h2>
+            <div class="breadcrumb" id="breadcrumb">
+                <!-- Breadcrumb will be generated dynamically -->
+            </div>
 
-            <!-- Folder Navigation -->
-            <div class="folder-nav" id="folderNav"></div>
-            <div class="folder-title" id="folderTitle"></div>
+            <div id="foldersView">
+                <h2 class="section-title"><i class="fas fa-folder"></i> 𝙵𝚒𝚕𝚎 𝙼𝚊𝚗𝚊𝚐𝚎𝚛</h2>
+                <div class="folders-grid" id="foldersGrid">
+                    <!-- Folders will be generated dynamically -->
+                </div>
+            </div>
 
-            <div class="gallery" id="gallery"></div>
-            <div id="notFound">No images found. <a href="#" id="goHome">𝙶𝚘 𝙱𝚊𝚌𝚔</a></div>
+            <div id="galleryView" style="display: none;">
+                <a href="#" class="back-button" id="backButton">
+                    <i class="fas fa-arrow-left"></i> Back
+                </a>
+                <h2 class="section-title" id="galleryTitle"></h2>
+                <div id="subcategories">
+                    <!-- Subcategories will be generated dynamically -->
+                </div>
+                <div class="gallery" id="gallery"></div>
+                <div id="notFound">No images found. <a href="#" id="goHome">𝙶𝚘 𝙱𝚊𝚌𝚔</a></div>
+            </div>
         </div>
     </main>
 
@@ -567,130 +640,173 @@
             }
         });
 
-        // Gallery functionality
+        // File Manager functionality
+        const prefix = "https://amvverse-image-data.pages.dev/images/";
+        const foldersView = document.getElementById('foldersView');
+        const galleryView = document.getElementById('galleryView');
+        const foldersGrid = document.getElementById('foldersGrid');
+        const gallery = document.getElementById('gallery');
+        const breadcrumb = document.getElementById('breadcrumb');
+        const galleryTitle = document.getElementById('galleryTitle');
+        const subcategories = document.getElementById('subcategories');
+        const backButton = document.getElementById('backButton');
+        const searchInput = document.getElementById('search');
+        const notFound = document.getElementById('notFound');
+        const goHome = document.getElementById('goHome');
+
+        // Store already loaded images for caching
+        const loadedCache = {};
+        let currentPath = [];
         let currentIndex = 0;
         const perPage = 10;
-        const gallery = document.getElementById("gallery");
-        const searchInput = document.getElementById("search");
-        const notFound = document.getElementById("notFound");
-        const goHome = document.getElementById("goHome");
-        const folderNav = document.getElementById("folderNav");
-        const folderTitle = document.getElementById("folderTitle");
 
-        const prefix = "https://amvverse-image-data.pages.dev/images/";
-
-        // Store already loaded images for 2-second caching
-        const loadedCache = {};
-
-        // Store organized folders
-        let folders = {};
-        let currentFolder = "all";
-
-        // Function to extract folder name and type from filename
-        function parseFilename(filename) {
-            const parts = filename.split('-');
-            let showName = "";
-            let type = "other";
-
-            // Find the show name (everything before the last part that contains "card", "poster", "character", "screenshot")
-            for (let i = 0; i < parts.length; i++) {
-                if (parts[i].includes("card") || parts[i].includes("poster") ||
-                    parts[i].includes("character") || parts[i].includes("screenshot")) {
-                    showName = parts.slice(0, i).join(' ');
-                    type = parts[i];
-                    break;
-                }
-            }
-
-            // If no type found, use the whole name as show name
-            if (!showName) {
-                showName = parts.join(' ');
-            }
-
-            // Format the show name
-            showName = showName.replace(/\b\w/g, c => c.toUpperCase());
-
-            // Determine the folder type
-            let folderType = "Other";
-            if (type.includes("card")) folderType = "Card";
-            else if (type.includes("poster")) folderType = "Poster";
-            else if (type.includes("character")) folderType = "Character";
-            else if (type.includes("screenshot")) folderType = "Screenshot";
-
-            return {
-                show: showName,
-                type: folderType,
-                fullType: type
-            };
-        }
-
-        // Organize images into folders
-        function organizeImages() {
-            folders = {
-                "all": {
-                    name: "All Images",
-                    images: [...images]
-                }
-            };
+        // Categorize images by series and type
+        function categorizeImages() {
+            const categories = {};
 
             images.forEach(filename => {
-                const { show, type } = parseFilename(filename);
+                // Extract series name and type from filename
+                const parts = filename.split('-');
+                let seriesName = '';
+                let type = 'Other';
 
-                if (!folders[show]) {
-                    folders[show] = {
-                        name: show,
-                        images: []
+                // Determine type based on filename
+                if (filename.includes('-card')) {
+                    type = 'Card';
+                } else if (filename.includes('-poster')) {
+                    type = 'Poster';
+                } else if (filename.includes('-character')) {
+                    type = 'Character';
+                } else if (filename.includes('-screenshot')) {
+                    type = 'Screenshot';
+                }
+
+                // Extract series name by removing the type suffix and formatting
+                let seriesKey = filename.replace(`-${type.toLowerCase()}`, '');
+                seriesKey = seriesKey.split('-').slice(0, -1).join('-');
+
+                // Format series name for display
+                seriesName = formatName(seriesKey);
+
+                if (!categories[seriesName]) {
+                    categories[seriesName] = {
+                        key: seriesKey,
+                        types: {}
                     };
                 }
 
-                if (!folders[type]) {
-                    folders[type] = {
-                        name: type,
-                        images: []
-                    };
+                if (!categories[seriesName].types[type]) {
+                    categories[seriesName].types[type] = [];
                 }
 
-                // Add to show folder
-                folders[show].images.push(filename);
-
-                // Add to type folder
-                folders[type].images.push(filename);
+                categories[seriesName].types[type].push(filename);
             });
-        }
 
-        // Create folder navigation
-        function createFolderNav() {
-            folderNav.innerHTML = '';
-
-            Object.keys(folders).forEach(folderKey => {
-                const folder = folders[folderKey];
-                const button = document.createElement('button');
-                button.className = 'folder-btn';
-                button.textContent = folder.name;
-                button.dataset.folder = folderKey;
-
-                if (folderKey === currentFolder) {
-                    button.classList.add('active');
-                }
-
-                button.addEventListener('click', () => {
-                    currentFolder = folderKey;
-                    document.querySelectorAll('.folder-btn').forEach(btn => {
-                        btn.classList.remove('active');
-                    });
-                    button.classList.add('active');
-                    folderTitle.textContent = folder.name;
-                    renderImages(true);
-                });
-
-                folderNav.appendChild(button);
-            });
+            return categories;
         }
 
         function formatName(filename) {
             return filename.replace(".jpg", "").replace(/[-_]/g, " ").replace(/\b\w/g, c => c.toUpperCase());
         }
 
+        // Render folder view
+        function renderFolders() {
+            foldersGrid.innerHTML = '';
+            const categories = categorizeImages();
+
+            Object.keys(categories).sort().forEach(seriesName => {
+                const series = categories[seriesName];
+                const totalImages = Object.values(series.types).reduce((sum, arr) => sum + arr.length, 0);
+
+                const folderItem = document.createElement('div');
+                folderItem.className = 'folder-item';
+                folderItem.setAttribute('data-series', series.key);
+
+                folderItem.innerHTML = `
+                    <i class="fas fa-folder folder-icon"></i>
+                    <div class="folder-name">${seriesName}</div>
+                    <div class="folder-count">${totalImages} images</div>
+                `;
+
+                folderItem.addEventListener('click', () => {
+                    openSeries(series.key, seriesName);
+                });
+
+                foldersGrid.appendChild(folderItem);
+            });
+
+            updateBreadcrumb();
+        }
+
+        // Open a series folder
+        function openSeries(seriesKey, seriesName) {
+            currentPath = [{
+                name: 'Home',
+                action: () => {
+                    showFoldersView();
+                }
+            }, {
+                name: seriesName,
+                action: null
+            }];
+
+            const categories = categorizeImages();
+            const series = categories[seriesName];
+
+            // Hide folders view and show gallery view
+            foldersView.style.display = 'none';
+            galleryView.style.display = 'block';
+
+            // Set gallery title
+            galleryTitle.innerHTML = `<i class="fas fa-folder-open"></i> ${seriesName}`;
+
+            // Render subcategories
+            renderSubcategories(series.types, seriesName);
+
+            updateBreadcrumb();
+        }
+
+        // Render subcategories (Card, Poster, Character, Screenshot)
+        function renderSubcategories(types, seriesName) {
+            subcategories.innerHTML = '';
+
+            const typeOrder = ['Card', 'Poster', 'Character', 'Screenshot', 'Other'];
+
+            typeOrder.forEach(type => {
+                if (types[type] && types[type].length > 0) {
+                    const typeSection = document.createElement('div');
+
+                    const typeTitle = document.createElement('h3');
+                    typeTitle.className = 'subcategory-title';
+                    typeTitle.innerHTML = `<i class="fas fa-${getTypeIcon(type)}"></i> ${type}s (${types[type].length})`;
+
+                    typeSection.appendChild(typeTitle);
+
+                    const typeGallery = document.createElement('div');
+                    typeGallery.className = 'gallery';
+                    typeGallery.id = `gallery-${type}`;
+
+                    types[type].forEach(filename => {
+                        typeGallery.appendChild(createCard(filename));
+                    });
+
+                    typeSection.appendChild(typeGallery);
+                    subcategories.appendChild(typeSection);
+                }
+            });
+        }
+
+        function getTypeIcon(type) {
+            switch (type) {
+                case 'Card': return 'id-card';
+                case 'Poster': return 'image';
+                case 'Character': return 'user';
+                case 'Screenshot': return 'camera';
+                default: return 'file-image';
+            }
+        }
+
+        // Create image card
         function createCard(filename) {
             const url = prefix + filename;
             const card = document.createElement("div");
@@ -700,9 +816,9 @@
             skeleton.className = "skeleton";
 
             const img = document.createElement("img");
-            img.loading = "lazy";
             img.src = url;
             img.alt = formatName(filename);
+            img.loading = "lazy";
 
             const nameDiv = document.createElement("div");
             nameDiv.className = "name";
@@ -745,70 +861,161 @@
             return card;
         }
 
-        function renderImages(reset = false) {
-            if (reset) {
-                gallery.innerHTML = "";
-                currentIndex = 0;
+        // Show folders view
+        function showFoldersView() {
+            currentPath = [{
+                name: 'Home',
+                action: null
+            }];
+
+            foldersView.style.display = 'block';
+            galleryView.style.display = 'none';
+            updateBreadcrumb();
+        }
+
+        // Update breadcrumb
+        function updateBreadcrumb() {
+            breadcrumb.innerHTML = '';
+
+            currentPath.forEach((item, index) => {
+                if (index > 0) {
+                    const separator = document.createElement('i');
+                    separator.className = 'fas fa-chevron-right';
+                    breadcrumb.appendChild(separator);
+                }
+
+                const crumb = document.createElement('a');
+                crumb.href = '#';
+                crumb.textContent = item.name;
+
+                if (index === currentPath.length - 1) {
+                    crumb.className = 'current';
+                } else {
+                    crumb.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        if (item.action) {
+                            item.action();
+                        }
+                    });
+                }
+
+                breadcrumb.appendChild(crumb);
+            });
+        }
+
+        // Back button functionality
+        backButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            showFoldersView();
+        });
+
+        // Search functionality
+        searchInput.addEventListener("input", () => {
+            const searchValue = searchInput.value.toLowerCase().trim();
+
+            if (searchValue === '') {
+                // If search is empty, show folders view
+                showFoldersView();
+                return;
             }
 
-            const searchValue = searchInput.value.toLowerCase();
-            const currentImages = folders[currentFolder].images;
-            const filtered = currentImages.filter(f => formatName(f).toLowerCase().includes(searchValue));
+            // Filter images based on search
+            const filtered = images.filter(f =>
+                formatName(f).toLowerCase().includes(searchValue)
+            );
 
             if (filtered.length === 0) {
-                notFound.style.display = "block";
-                gallery.style.display = "none";
-                return;
+                // Show not found message
+                foldersView.style.display = 'none';
+                galleryView.style.display = 'block';
+                galleryTitle.innerHTML = `<i class="fas fa-search"></i> Search Results`;
+                subcategories.innerHTML = '';
+                gallery.innerHTML = '';
+                notFound.style.display = 'block';
             } else {
-                notFound.style.display = "none";
-                gallery.style.display = "block";
+                // Show search results
+                foldersView.style.display = 'none';
+                galleryView.style.display = 'block';
+                galleryTitle.innerHTML = `<i class="fas fa-search"></i> Search Results (${filtered.length})`;
+                subcategories.innerHTML = '';
+
+                // Group by series for better organization
+                const searchCategories = {};
+
+                filtered.forEach(filename => {
+                    const seriesName = getSeriesName(filename);
+
+                    if (!searchCategories[seriesName]) {
+                        searchCategories[seriesName] = [];
+                    }
+
+                    searchCategories[seriesName].push(filename);
+                });
+
+                // Render search results by series
+                Object.keys(searchCategories).sort().forEach(seriesName => {
+                    const seriesSection = document.createElement('div');
+
+                    const seriesTitle = document.createElement('h3');
+                    seriesTitle.className = 'subcategory-title';
+                    seriesTitle.innerHTML = `<i class="fas fa-folder"></i> ${seriesName} (${searchCategories[seriesName].length})`;
+
+                    seriesSection.appendChild(seriesTitle);
+
+                    const seriesGallery = document.createElement('div');
+                    seriesGallery.className = 'gallery';
+
+                    searchCategories[seriesName].forEach(filename => {
+                        seriesGallery.appendChild(createCard(filename));
+                    });
+
+                    seriesSection.appendChild(seriesGallery);
+                    subcategories.appendChild(seriesSection);
+                });
+
+                notFound.style.display = 'none';
             }
 
-            const nextItems = filtered.slice(currentIndex, currentIndex + perPage);
-            nextItems.forEach(f => {
-                const url = prefix + f;
-                if (loadedCache[url] && (Date.now() - loadedCache[url] < 2000)) {
-                    const card = createCard(f);
-                    gallery.appendChild(card);
-                    const img = card.querySelector("img");
-                    img.style.display = "block";
-                    card.querySelector(".skeleton").style.display = "none";
-                } else {
-                    gallery.appendChild(createCard(f));
+            // Update breadcrumb for search
+            currentPath = [{
+                name: 'Home',
+                action: () => {
+                    showFoldersView();
+                    searchInput.value = '';
                 }
-            });
-            currentIndex += perPage;
+            }, {
+                name: `Search: "${searchValue}"`,
+                action: null
+            }];
+            updateBreadcrumb();
+        });
+
+        function getSeriesName(filename) {
+            // Extract series name from filename
+            let seriesKey = filename;
+            if (filename.includes('-card')) {
+                seriesKey = filename.replace('-card', '');
+            } else if (filename.includes('-poster')) {
+                seriesKey = filename.replace('-poster', '');
+            } else if (filename.includes('-character')) {
+                seriesKey = filename.replace('-character', '');
+            } else if (filename.includes('-screenshot')) {
+                seriesKey = filename.replace('-screenshot', '');
+            }
+
+            seriesKey = seriesKey.split('-').slice(0, -1).join('-');
+            return formatName(seriesKey);
         }
 
-        // Initialize the app
-        function init() {
-            organizeImages();
-            createFolderNav();
-            folderTitle.textContent = "All Images";
-            renderImages();
-        }
-
-        searchInput.addEventListener("input", () => renderImages(true));
+        // Go home functionality
         goHome.addEventListener("click", (e) => {
             e.preventDefault();
             searchInput.value = "";
-            currentFolder = "all";
-            document.querySelectorAll('.folder-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelector('[data-folder="all"]').classList.add('active');
-            folderTitle.textContent = "All Images";
-            renderImages(true);
+            showFoldersView();
         });
 
-        window.addEventListener("scroll", () => {
-            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
-                renderImages();
-            }
-        });
-
-        // Initial render
-        init();
+        // Initialize the file manager
+        renderFolders();
     </script>
 </body>
 
