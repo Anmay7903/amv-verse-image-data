@@ -117,5 +117,6 @@ const images = [
   "lord-of-the-mysteries-screenshot-1.jpg",
   "lord-of-the-mysteries-screenshot-2.jpg",
   "lord-of-the-mysteries-screenshot-3.jpg",
-  "lord-of-the-mysteries-screenshot-4.jpg"
+  "lord-of-the-mysteries-screenshot-4.jpg",
+  "eclipse-of-illusion-poster-2.jpg"
 ];
