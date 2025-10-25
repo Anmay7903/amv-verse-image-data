@@ -9,10 +9,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>𝙵𝚒𝚕𝚎 𝙿𝚛𝚎𝚟𝚒𝚎𝚠 | 𝙰𝙼𝚅 𝚅𝙴𝚁𝚂𝙴</title>
     <link rel="manifest" href="manifest.json">
-    <script src="install.js"></script>
+    <script src="data.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="https://amvverse-anime-card.pages.dev/fav-icon.png" type="png/image/x-icon">
+    <link rel="icon" href="icons/icon.png" type="png/image/x-icon">
+    <link rel="apple-touch-icon" href="icons/icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* CSS Variables from the external style.css */
         :root {
@@ -41,7 +48,7 @@
             touch-action: manipulation;
             overflow-x: hidden;
         }
-        
+
         ::selection {
             background: rgba(255, 0, 0, 0.452);
             color: white;
@@ -60,7 +67,7 @@
             user-select: none;
             outline: none !important;
         }
-        
+
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 10px;
@@ -78,7 +85,7 @@
         ::-webkit-scrollbar-thumb:hover {
             background: var(--primary-color);
         }
-        
+
         /* Smooth scrolling */
         html {
             scroll-behavior: smooth;
@@ -88,7 +95,7 @@
             touch-action: manipulation;
             -ms-touch-action: manipulation;
         }
-        
+
         /* Header Styles */
         .main-header {
             background-color: var(--surface-color);
@@ -267,15 +274,15 @@
             .main-header .container {
                 gap: 10px;
             }
-            
+
             .logo {
                 font-size: 1.3rem;
             }
-            
+
             .header-actions {
                 gap: 10px;
             }
-            
+
             .search-box {
                 min-width: 120px;
             }
@@ -285,19 +292,19 @@
             .main-header {
                 padding: 0.6rem 0;
             }
-            
+
             .logo {
                 font-size: 1.1rem;
             }
-            
+
             .search-box input {
                 padding: 0.6rem 0.8rem;
             }
-            
+
             .search-box button {
                 padding: 0.6rem 0.8rem;
             }
-            
+
             .mobile-menu-toggle {
                 font-size: 1.3rem;
                 padding: 0.4rem;
@@ -336,7 +343,7 @@
             -ms-touch-action: manipulation;
             /* legacy IE/Edge */
         }
-        
+
         /* Mobile-first responsive design */
         .container {
             width: 100%;
@@ -352,7 +359,7 @@
             overflow: hidden;
 
         }
-        
+
         .section-title {
             font-size: 2rem;
             margin-bottom: 1.5rem;
@@ -360,7 +367,7 @@
             border-left: 4px solid var(--primary-color);
             padding-left: 1rem;
         }
-        
+
         .upload-page,
         .delete-page {
             transition: transform 0.4s ease-in-out;
@@ -766,7 +773,7 @@
     <!-- Header -->
     <header class="main-header">
         <div class="container">
-            <a href="index.html" class="logo">𝙰𝙼𝚅 𝚅𝙴𝚁𝚂𝙴</a>
+            <a href="/" class="logo">𝙰𝙼𝚅 𝚅𝙴𝚁𝚂𝙴</a>
             <div class="header-actions">
                 <div class="search-box" id="searchBox">
                     <input type="text" id="Search" placeholder="Search id...">
@@ -799,7 +806,7 @@
 
     <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
-  
+
     <!-- Main Content -->
     <main class="gallery-page">
         <div class="container">
@@ -897,9 +904,9 @@
                         </form>
 
                         <div class="status-message" id="statusMessage"></div>
-                     <a href="/" class="back-link">
+                        <a href="/" class="back-link">
                             <i class="fas fa-arrow-left"></i> 𝙱𝚊𝚌𝚔 𝚝𝚘 𝙷𝚘𝚖𝚎
-                     </a>
+                        </a>
                     </div>
                 </div>
 
