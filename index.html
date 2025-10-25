@@ -287,6 +287,41 @@
             color: var(--primary-color);
         }
 
+        /* Folder Navigation */
+        .folder-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .folder-btn {
+            background: var(--surface-color);
+            border: none;
+            color: var(--text-color);
+            padding: 8px 16px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .folder-btn:hover {
+            background: var(--primary-color);
+        }
+
+        .folder-btn.active {
+            background: var(--primary-color);
+        }
+
+        .folder-title {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.5rem;
+            color: var(--text-color);
+        }
+
         .gallery {
             column-count: 1;
             column-gap: 15px;
@@ -405,6 +440,15 @@
             .search-box {
                 min-width: 120px;
             }
+
+            .folder-nav {
+                gap: 8px;
+            }
+
+            .folder-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -427,6 +471,15 @@
             .mobile-menu-toggle {
                 font-size: 1.3rem;
                 padding: 0.4rem;
+            }
+
+            .folder-nav {
+                gap: 5px;
+            }
+
+            .folder-btn {
+                padding: 5px 10px;
+                font-size: 11px;
             }
         }
     </style>
@@ -474,6 +527,11 @@
     <main class="gallery-page">
         <div class="container">
             <h2 class="section-title"><i class="fas fa-images"></i> 𝙲𝚘𝚗𝚝𝚎𝚗𝚝 𝙲𝚊𝚛𝚍</h2>
+
+            <!-- Folder Navigation -->
+            <div class="folder-nav" id="folderNav"></div>
+            <div class="folder-title" id="folderTitle"></div>
+
             <div class="gallery" id="gallery"></div>
             <div id="notFound">No images found. <a href="#" id="goHome">𝙶𝚘 𝙱𝚊𝚌𝚔</a></div>
         </div>
@@ -516,14 +574,118 @@
         const searchInput = document.getElementById("search");
         const notFound = document.getElementById("notFound");
         const goHome = document.getElementById("goHome");
-
-        // Sample data - replace with your actual data
-
+        const folderNav = document.getElementById("folderNav");
+        const folderTitle = document.getElementById("folderTitle");
 
         const prefix = "https://amvverse-image-data.pages.dev/images/";
 
         // Store already loaded images for 2-second caching
         const loadedCache = {};
+
+        // Store organized folders
+        let folders = {};
+        let currentFolder = "all";
+
+        // Function to extract folder name and type from filename
+        function parseFilename(filename) {
+            const parts = filename.split('-');
+            let showName = "";
+            let type = "other";
+
+            // Find the show name (everything before the last part that contains "card", "poster", "character", "screenshot")
+            for (let i = 0; i < parts.length; i++) {
+                if (parts[i].includes("card") || parts[i].includes("poster") ||
+                    parts[i].includes("character") || parts[i].includes("screenshot")) {
+                    showName = parts.slice(0, i).join(' ');
+                    type = parts[i];
+                    break;
+                }
+            }
+
+            // If no type found, use the whole name as show name
+            if (!showName) {
+                showName = parts.join(' ');
+            }
+
+            // Format the show name
+            showName = showName.replace(/\b\w/g, c => c.toUpperCase());
+
+            // Determine the folder type
+            let folderType = "Other";
+            if (type.includes("card")) folderType = "Card";
+            else if (type.includes("poster")) folderType = "Poster";
+            else if (type.includes("character")) folderType = "Character";
+            else if (type.includes("screenshot")) folderType = "Screenshot";
+
+            return {
+                show: showName,
+                type: folderType,
+                fullType: type
+            };
+        }
+
+        // Organize images into folders
+        function organizeImages() {
+            folders = {
+                "all": {
+                    name: "All Images",
+                    images: [...images]
+                }
+            };
+
+            images.forEach(filename => {
+                const { show, type } = parseFilename(filename);
+
+                if (!folders[show]) {
+                    folders[show] = {
+                        name: show,
+                        images: []
+                    };
+                }
+
+                if (!folders[type]) {
+                    folders[type] = {
+                        name: type,
+                        images: []
+                    };
+                }
+
+                // Add to show folder
+                folders[show].images.push(filename);
+
+                // Add to type folder
+                folders[type].images.push(filename);
+            });
+        }
+
+        // Create folder navigation
+        function createFolderNav() {
+            folderNav.innerHTML = '';
+
+            Object.keys(folders).forEach(folderKey => {
+                const folder = folders[folderKey];
+                const button = document.createElement('button');
+                button.className = 'folder-btn';
+                button.textContent = folder.name;
+                button.dataset.folder = folderKey;
+
+                if (folderKey === currentFolder) {
+                    button.classList.add('active');
+                }
+
+                button.addEventListener('click', () => {
+                    currentFolder = folderKey;
+                    document.querySelectorAll('.folder-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    button.classList.add('active');
+                    folderTitle.textContent = folder.name;
+                    renderImages(true);
+                });
+
+                folderNav.appendChild(button);
+            });
+        }
 
         function formatName(filename) {
             return filename.replace(".jpg", "").replace(/[-_]/g, " ").replace(/\b\w/g, c => c.toUpperCase());
@@ -538,6 +700,7 @@
             skeleton.className = "skeleton";
 
             const img = document.createElement("img");
+            img.loading = "lazy";
             img.src = url;
             img.alt = formatName(filename);
 
@@ -554,18 +717,21 @@
             card.appendChild(nameDiv);
             card.appendChild(copied);
 
-            img.onload = () => {
-                skeleton.style.display = "none";
-                img.style.display = "block";
-                loadedCache[url] = Date.now();
-            };
+            // Lazy loading with 50ms delay
+            setTimeout(() => {
+                img.onload = () => {
+                    skeleton.style.display = "none";
+                    img.style.display = "block";
+                    loadedCache[url] = Date.now();
+                };
 
-            img.onerror = () => {
-                skeleton.style.display = "none";
-                img.style.display = "none";
-                nameDiv.textContent = "Image Not Found";
-                card.style.backgroundColor = "#8b0000";
-            };
+                img.onerror = () => {
+                    skeleton.style.display = "none";
+                    img.style.display = "none";
+                    nameDiv.textContent = "Image Not Found";
+                    card.style.backgroundColor = "#8b0000";
+                };
+            }, 50);
 
             card.addEventListener("click", () => {
                 navigator.clipboard.writeText(url).then(() => {
@@ -584,8 +750,11 @@
                 gallery.innerHTML = "";
                 currentIndex = 0;
             }
+
             const searchValue = searchInput.value.toLowerCase();
-            const filtered = images.filter(f => formatName(f).toLowerCase().includes(searchValue));
+            const currentImages = folders[currentFolder].images;
+            const filtered = currentImages.filter(f => formatName(f).toLowerCase().includes(searchValue));
+
             if (filtered.length === 0) {
                 notFound.style.display = "block";
                 gallery.style.display = "none";
@@ -611,8 +780,26 @@
             currentIndex += perPage;
         }
 
+        // Initialize the app
+        function init() {
+            organizeImages();
+            createFolderNav();
+            folderTitle.textContent = "All Images";
+            renderImages();
+        }
+
         searchInput.addEventListener("input", () => renderImages(true));
-        goHome.addEventListener("click", (e) => { e.preventDefault(); searchInput.value = ""; renderImages(true); });
+        goHome.addEventListener("click", (e) => {
+            e.preventDefault();
+            searchInput.value = "";
+            currentFolder = "all";
+            document.querySelectorAll('.folder-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector('[data-folder="all"]').classList.add('active');
+            folderTitle.textContent = "All Images";
+            renderImages(true);
+        });
 
         window.addEventListener("scroll", () => {
             if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
@@ -621,7 +808,7 @@
         });
 
         // Initial render
-        renderImages();
+        init();
     </script>
 </body>
 
