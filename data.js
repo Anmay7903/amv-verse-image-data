@@ -119,5 +119,6 @@ const images = [
   "soul-land-2-poster-tang_wutong.jpg",
   "demon-slayer-kimetsu-no-yaiba-season-1-poster-1.jpg",
   "the-angel-next-door-spoils-me-rotten-screenshot-1.jpg",
-  "the-angel-next-door-spoils-me-rotten-screenshot-2.jpg"
+  "the-angel-next-door-spoils-me-rotten-screenshot-2.jpg",
+  "the-angel-next-door-spoils-me-rotten-screenshot-3.jpg"
 ];
