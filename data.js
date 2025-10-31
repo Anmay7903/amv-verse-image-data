@@ -121,5 +121,6 @@ const images = [
   "the-angel-next-door-spoils-me-rotten-screenshot-1.jpg",
   "the-angel-next-door-spoils-me-rotten-screenshot-2.jpg",
   "the-angel-next-door-spoils-me-rotten-screenshot-3.jpg",
-  "the-angel-next-door-spoils-me-rotten-screenshot-4.jpg"
+  "the-angel-next-door-spoils-me-rotten-screenshot-4.jpg",
+  "the-angel-next-door-spoils-me-rotten-character-Chitose_Shirakawa.jpg"
 ];
