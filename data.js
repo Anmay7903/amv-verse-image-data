@@ -126,5 +126,6 @@ const images = [
   "the-angel-next-door-spoils-me-rotten-character-Itsuki_Akazawa.jpg",
   "the-angel-next-door-spoils-me-rotten-character-Amane_Fujimiya.jpg",
   "the-angel-next-door-spoils-me-rotten-character-Mahiru_Shiina.jpg",
-  "sakamoto-days-poster-1.jpg"
+  "sakamoto-days-poster-1.jpg",
+  "demon-slayer-infinity-castle-poster-1.jpg"
 ];
