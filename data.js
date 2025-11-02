@@ -135,5 +135,6 @@ const images = [
   "blue-lock-movie-episode-nagi-screenshot-1.jpg",
   "blue-lock-movie-episode-nagi-screenshot-2.jpg",
   "blue-lock-movie-episode-nagi-screenshot-3.jpg",
-  "blue-lock-movie-episode-nagi-screenshot-4.jpg"
+  "blue-lock-movie-episode-nagi-screenshot-4.jpg",
+  "blue-lock-movie-episode-nagi-screenshot.jpg"
 ];
