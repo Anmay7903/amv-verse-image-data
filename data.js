@@ -143,5 +143,6 @@ const images = [
   "blue-lock-movie-episode-nagi-screenshot-8.jpg",
   "blue-lock-movie-episode-nagi-screenshot-9.jpg",
   "the-apothecary-diaries-poster.jpg",
-  "the-apothecary-diaries-screenshot-1.jpg"
+  "the-apothecary-diaries-screenshot-1.jpg",
+  "the-apothecary-diaries-screenshot-2.jpg"
 ];
