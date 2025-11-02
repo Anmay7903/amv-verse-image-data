@@ -127,5 +127,6 @@ const images = [
   "the-angel-next-door-spoils-me-rotten-character-Amane_Fujimiya.jpg",
   "the-angel-next-door-spoils-me-rotten-character-Mahiru_Shiina.jpg",
   "sakamoto-days-poster-1.jpg",
-  "demon-slayer-infinity-castle-poster-1.jpg"
+  "demon-slayer-infinity-castle-poster-1.jpg",
+  "blue-lock-movie-episode-nagi-character-Reo_Mikage.webp"
 ];
