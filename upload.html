@@ -777,16 +777,26 @@
             <div class="header-actions">
                 <div class="search-box" id="searchBox">
                     <input type="text" id="Search" placeholder="Search id...">
-                    <button><i class="fas fa-search"></i></button>
-                </div>
-                <button href="/" class="mobile-menu-toggle">
-                    <i class="fas fa-home"></i>
-
+                   <button id="mobile-menu-toggle" class="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
                 </button>
             </div>
         </div>
     </header>
 
+    <!-- Side Menu -->
+    <div class="side-menu" id="sideMenu">
+        <div class="side-menu-header">
+            <div class="side-menu-logo">𝙰𝙼𝚅 𝚅𝙴𝚁𝚂𝙴</div>
+            <button class="close-menu" id="closeMenu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <ul>
+            <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="/upload"><i class="fas fa-upload"></i> Upload</a></li>
+        </ul>
+    </div>
     <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
 
