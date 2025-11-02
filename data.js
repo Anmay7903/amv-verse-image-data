@@ -129,5 +129,6 @@ const images = [
   "sakamoto-days-poster-1.jpg",
   "demon-slayer-infinity-castle-poster-1.jpg",
   "blue-lock-movie-episode-nagi-character-Reo_Mikage.webp",
-  "blue-lock-movie-episode-nagi-character-Yoichi_Isagi.webp"
+  "blue-lock-movie-episode-nagi-character-Yoichi_Isagi.webp",
+  "blue-lock-movie-episode-nagi-character-Hajime_Nishioka.webp"
 ];
