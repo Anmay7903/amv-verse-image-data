@@ -154,5 +154,6 @@ const images = [
   "the-apothecary-diaries-screenshot-9.jpg",
   "the-apothecary-diaries-screenshot-10.jpg",
   "the-apothecary-diaries-2-screenshot-1.jpg",
-  "the-apothecary-diaries-2-screenshot-2.jpg"
+  "the-apothecary-diaries-2-screenshot-2.jpg",
+  "the-apothecary-diaries-2-screenshot-3.jpg"
 ];
