@@ -169,5 +169,6 @@ const images = [
   "ne-zha-card-1.jpg",
   "demon-slayer-kimetsu-no-yaiba-season-1-screenshot-1.jpg",
   "demon-slayer-kimetsu-no-yaiba-season-1-screenshot-2.jpg",
-  "demon-slayer-kimetsu-no-yaiba-season-1-screenshot-3.jpg"
+  "demon-slayer-kimetsu-no-yaiba-season-1-screenshot-3.jpg",
+  "demon-slayer-kimetsu-no-yaiba-season-1-screenshot-4.jpg"
 ];
