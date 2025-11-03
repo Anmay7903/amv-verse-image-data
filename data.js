@@ -172,5 +172,6 @@ const images = [
   "demon-slayer-kimetsu-no-yaiba-season-1-screenshot-3.jpg",
   "demon-slayer-kimetsu-no-yaiba-season-1-screenshot-4.jpg",
   "demon-slayer-kimetsu-no-yaiba-season-1-screenshot-5.jpg",
-  "demon-slayer-kimetsu-no-yaiba-season-1-screenshot-6.jpg"
+  "demon-slayer-kimetsu-no-yaiba-season-1-screenshot-6.jpg",
+  "eclipse-of-illusion-poster-3.jpg"
 ];
