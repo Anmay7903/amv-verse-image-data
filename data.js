@@ -179,5 +179,6 @@ const images = [
   "may-i-ask-for-one-final-thing-screenshot-3.jpg",
   "may-i-ask-for-one-final-thing-screenshot-4.jpg",
   "may-i-ask-for-one-final-thing-poster-1.jpg",
-  "ameku-md-doctor-detective-poster-1.jpg"
+  "ameku-md-doctor-detective-poster-1.jpg",
+  "alya-sometimes-hides-her-feelings-in-russian-poster-1.jpg"
 ];
