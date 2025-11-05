@@ -176,5 +176,6 @@ const images = [
   "eclipse-of-illusion-poster-3.jpg",
   "may-i-ask-for-one-final-thing-screenshot-1.webp",
   "may-i-ask-for-one-final-thing-screenshot-2.webp",
-  "may-i-ask-for-one-final-thing-screenshot-3.webp"
+  "may-i-ask-for-one-final-thing-screenshot-3.webp",
+  "may-i-ask-for-one-final-thing-screenshot-4.webp"
 ];
