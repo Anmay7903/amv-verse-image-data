@@ -177,5 +177,6 @@ const images = [
   "may-i-ask-for-one-final-thing-screenshot-1.jpg",
   "may-i-ask-for-one-final-thing-screenshot-2.jpg",
   "may-i-ask-for-one-final-thing-screenshot-3.jpg",
-  "may-i-ask-for-one-final-thing-screenshot-4.jpg"
+  "may-i-ask-for-one-final-thing-screenshot-4.jpg",
+  "may-i-ask-for-one-final-thing-poster-1.jpg"
 ];
