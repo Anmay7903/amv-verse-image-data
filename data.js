@@ -181,5 +181,6 @@ const images = [
   "may-i-ask-for-one-final-thing-poster-1.jpg",
   "ameku-md-doctor-detective-poster-1.jpg",
   "alya-sometimes-hides-her-feelings-in-russian-poster-1.jpg",
-  "lord-of-the-mysteries-poster-1.jpg"
+  "lord-of-the-mysteries-poster-1.jpg",
+  "eclipse-of-illusion-card-2.jpg"
 ];
