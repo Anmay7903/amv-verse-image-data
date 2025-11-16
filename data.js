@@ -182,5 +182,8 @@ const images = [
   "ameku-md-doctor-detective-poster-1.jpg",
   "alya-sometimes-hides-her-feelings-in-russian-poster-1.jpg",
   "lord-of-the-mysteries-poster-1.jpg",
-  "eclipse-of-illusion-card-2.jpg"
+  "eclipse-of-illusion-card-2.jpg",
+  "battle-through-the-heavens-poster-3.jpg",
+  "battle-through-the-heavens-poster-4.jpg",
+  "battle-through-the-heavens-poster-5.jpg"
 ];
