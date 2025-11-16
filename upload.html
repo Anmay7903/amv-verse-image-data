@@ -732,6 +732,32 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
+        .multiple-files-info {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .file-list {
+            max-height: 150px;
+            overflow-y: auto;
+            margin-top: 0.5rem;
+        }
+
+        .file-item {
+            padding: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-family: monospace;
+            font-size: 0.8rem;
+        }
+
+        .file-item:last-child {
+            border-bottom: none;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
 
@@ -816,8 +842,16 @@
                     <div class="upload-container">
                         <form class="upload-form" id="uploadForm" method="POST" enctype="multipart/form-data">
                             <div class="form-group">
-                                <label for="file">𝙲𝚑𝚘𝚘𝚜𝚎 𝙵𝚒𝚕𝚎 𝚝𝚘 𝚄𝚙𝚕𝚘𝚊𝚍:</label>
-                                <input type="file" id="file" name="file" accept="*" required>
+                                <label for="file">𝙲𝚑𝚘𝚘𝚜𝚎 𝙵𝚒𝚕𝚎(𝚜) 𝚝𝚘 𝚄𝚙𝚕𝚘𝚊𝚍:</label>
+                                <input type="file" id="file" name="files" accept="image/*" multiple required>
+                                <small>𝚂𝚎𝚕𝚎𝚌𝚝 𝚖𝚞𝚕𝚝𝚒𝚙𝚕𝚎 𝚒𝚖𝚊𝚐𝚎𝚜 (𝙹𝙿𝙶, 𝙹𝙿𝙴𝙶, 𝙿𝙽𝙶, 𝚎𝚝𝚌.) - 𝚝𝚑𝚎𝚢 𝚠𝚒𝚕𝚕 𝚋𝚎 𝚌𝚘𝚗𝚟𝚎𝚛𝚝𝚎𝚍 𝚝𝚘 𝚆𝙴𝙱𝙿</small>
+                            </div>
+
+                            <!-- Multiple Files Info -->
+                            <div class="multiple-files-info" id="multipleFilesInfo">
+                                <strong>𝚂𝚎𝚕𝚎𝚌𝚝𝚎𝚍 𝙵𝚒𝚕𝚎𝚜:</strong>
+                                <div class="file-list" id="fileList"></div>
+                                <small>𝙵𝚒𝚕𝚎𝚜 𝚠𝚒𝚕𝚕 𝚋𝚎 𝚗𝚞𝚖𝚋𝚎𝚛𝚎𝚍 𝚊𝚞𝚝𝚘𝚖𝚊𝚝𝚒𝚌𝚊𝚕𝚕𝚢 (𝚎.𝚐., -𝟷, -𝟸, -𝟹)</small>
                             </div>
 
                             <!-- Filename Builder -->
@@ -857,15 +891,16 @@
                                 <div class="filename-step">
                                     <div class="step-title">
                                         <span class="step-number">3</span>
-                                        𝙰𝚍𝚍 𝙲𝚞𝚜𝚝𝚘𝚖 𝚃𝚎𝚡𝚝 (𝚘𝚙𝚝𝚒𝚘𝚗𝚊𝚕):
+                                        𝚂𝚝𝚊𝚛𝚝𝚒𝚗𝚐 𝙽𝚞𝚖𝚋𝚎𝚛 (𝚘𝚙𝚝𝚒𝚘𝚗𝚊𝚕):
                                     </div>
-                                    <input type="text" id="customText" name="custom_text"
-                                        placeholder="𝚎.𝚐., 𝟷, 𝟸, 𝚜𝚙𝚎𝚌𝚒𝚊𝚕..." class="search-input">
+                                    <input type="number" id="customText" name="custom_text"
+                                        placeholder="𝚎.𝚐., 𝟻 (𝚠𝚒𝚕𝚕 𝚌𝚛𝚎𝚊𝚝𝚎 -𝟻, -𝟼, -𝟽...)" class="search-input" min="1">
+                                    <small>𝙸𝚏 𝚎𝚖𝚙𝚝𝚢, 𝚏𝚒𝚕𝚎𝚜 𝚠𝚒𝚕𝚕 𝚜𝚝𝚊𝚛𝚝 𝚏𝚛𝚘𝚖 𝟷</small>
                                 </div>
 
                                 <!-- Filename Preview -->
                                 <div class="filename-preview" id="filenamePreview">
-                                    𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...
+                                    𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎𝚜 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...
                                 </div>
                             </div>
 
@@ -892,7 +927,7 @@
                             </div>
 
                             <button type="submit" class="upload-btn" id="uploadBtn">
-                                <i class="fas fa-upload"></i> 𝚄𝚙𝚕𝚘𝚊𝚍 𝙵𝚒𝚕𝚎
+                                <i class="fas fa-upload"></i> 𝚄𝚙𝚕𝚘𝚊𝚍 𝙵𝚒𝚕𝚎(𝚜)
                             </button>
                         </form>
 
@@ -1210,32 +1245,51 @@
         // Custom text input
         document.getElementById('customText').addEventListener('input', updateFilenamePreview);
 
-        // File input change handler
+        // File input change handler for multiple files
         document.getElementById('file').addEventListener('change', function (e) {
-            const file = e.target.files[0];
+            const files = Array.from(e.target.files);
             const preview = document.getElementById('filePreview');
             const previewContent = document.getElementById('previewContent');
+            const multipleFilesInfo = document.getElementById('multipleFilesInfo');
+            const fileList = document.getElementById('fileList');
 
-            if (file) {
-                // Show preview
-                preview.style.display = 'block';
+            if (files.length > 0) {
+                // Show multiple files info
+                multipleFilesInfo.style.display = 'block';
+                
+                // Clear and populate file list
+                fileList.innerHTML = '';
+                files.forEach((file, index) => {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'file-item';
+                    fileItem.textContent = `${index + 1}. ${file.name} (${formatFileSize(file.size)})`;
+                    fileList.appendChild(fileItem);
+                });
 
-                // Check if file is an image
-                if (file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        previewContent.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
-                    };
-                    reader.readAsDataURL(file);
+                // Show preview of first file
+                if (files.length === 1) {
+                    preview.style.display = 'block';
+                    const file = files[0];
+                    
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            previewContent.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        previewContent.innerHTML = `<p><strong>File Name:</strong> ${file.name}</p>
+                                              <p><strong>File Type:</strong> ${file.type || 'Unknown'}</p>
+                                              <p><strong>File Size:</strong> ${formatFileSize(file.size)}</p>`;
+                    }
                 } else {
-                    previewContent.innerHTML = `<p><strong>File Name:</strong> ${file.name}</p>
-                                          <p><strong>File Type:</strong> ${file.type || 'Unknown'}</p>
-                                          <p><strong>File Size:</strong> ${formatFileSize(file.size)}</p>`;
+                    preview.style.display = 'none';
                 }
 
                 updateFilenamePreview();
             } else {
                 preview.style.display = 'none';
+                multipleFilesInfo.style.display = 'none';
             }
         });
 
@@ -1293,29 +1347,30 @@
                 });
         }
 
-        // Update filename preview
+        // Update filename preview for multiple files
         function updateFilenamePreview() {
             const contentId = document.getElementById('contentId').value;
             const fileType = document.getElementById('fileType').value;
             const customText = document.getElementById('customText').value;
             const fileInput = document.getElementById('file');
-            const file = fileInput.files[0];
+            const files = Array.from(fileInput.files);
+            const preview = document.getElementById('filenamePreview');
 
-            let filename = '';
+            let previewHTML = '';
 
-            if (contentId && fileType) {
-                filename = contentId + '-' + fileType;
-                if (customText) {
-                    filename += '-' + cleanFilename(customText);
-                }
-
-                if (file) {
-                    const extension = getFileExtension(file.name);
-                    filename += '.' + extension;
-                }
+            if (contentId && fileType && files.length > 0) {
+                const startNumber = customText ? parseInt(customText) : 1;
+                
+                files.forEach((file, index) => {
+                    const fileNumber = startNumber + index;
+                    let filename = contentId + '-' + fileType + '-' + fileNumber + '.webp';
+                    previewHTML += `<div>${filename}</div>`;
+                });
+            } else {
+                previewHTML = '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎𝚜 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...';
             }
 
-            document.getElementById('filenamePreview').textContent = filename || '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...';
+            preview.innerHTML = previewHTML;
         }
 
         // Utility functions
@@ -1362,7 +1417,8 @@
             const fileType = document.getElementById('fileType').value;
             const authCode = document.getElementById('authCode').value;
             const fileInput = document.getElementById('file');
-            const file = fileInput.files[0];
+            const files = Array.from(fileInput.files);
+            const customText = document.getElementById('customText').value;
 
             if (!contentId) {
                 showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳', 'error');
@@ -1374,25 +1430,26 @@
                 return;
             }
 
-            if (!file) {
-                showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚏𝚒𝚕𝚎', 'error');
+            if (files.length === 0) {
+                showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊𝚝 𝚕𝚎𝚊𝚜𝚝 𝚘𝚗𝚎 𝚏𝚒𝚕𝚎', 'error');
                 return;
             }
 
             // Create FormData for file upload
             const formData = new FormData();
-            formData.append('file', file);
+            files.forEach(file => {
+                formData.append('files', file);
+            });
             formData.append('content_id', contentId);
             formData.append('file_type', fileType);
             formData.append('auth_code', authCode);
 
-            const customText = document.getElementById('customText').value;
             if (customText) {
-                formData.append('custom_text', customText);
+                formData.append('start_number', customText);
             }
 
-            // Upload file
-            uploadFile(formData);
+            // Upload files
+            uploadFiles(formData);
         });
 
         document.getElementById('deleteForm').addEventListener('submit', function (e) {
@@ -1416,8 +1473,8 @@
             deleteFile(filename, authCode);
         });
 
-        // Upload file to backend
-        function uploadFile(formData) {
+        // Upload files to backend
+        function uploadFiles(formData) {
             const progressContainer = document.getElementById('progressContainer');
             const progressFill = document.getElementById('progressFill');
             const progressText = document.getElementById('progressText');
@@ -1437,12 +1494,17 @@
                     if (data.error) {
                         showStatus(data.error, 'error');
                     } else {
-                        showStatus(`𝙵𝚒𝚕𝚎 "${data.filename}" 𝚞𝚙𝚕𝚘𝚊𝚍𝚎𝚍 𝚜𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢!`, 'success');
+                        if (data.filenames && data.filenames.length > 0) {
+                            showStatus(`𝚂𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢 𝚞𝚙𝚕𝚘𝚊𝚍𝚎𝚍 ${data.filenames.length} 𝚏𝚒𝚕𝚎(𝚜)!`, 'success');
+                        } else {
+                            showStatus(`𝙵𝚒𝚕𝚎 "${data.filename}" 𝚞𝚙𝚕𝚘𝚊𝚍𝚎𝚍 𝚜𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢!`, 'success');
+                        }
 
                         // Reset form
                         document.getElementById('uploadForm').reset();
                         document.getElementById('filePreview').style.display = 'none';
-                        document.getElementById('filenamePreview').textContent = '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...';
+                        document.getElementById('multipleFilesInfo').style.display = 'none';
+                        document.getElementById('filenamePreview').innerHTML = '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎𝚜 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...';
                         document.getElementById('contentId').value = '';
                         document.getElementById('fileType').value = '';
                         typeOptions.forEach(opt => opt.classList.remove('selected'));
@@ -1450,12 +1512,12 @@
                 })
                 .catch(error => {
                     console.error('Upload error:', error);
-                    showStatus('𝙵𝚊𝚒𝚕𝚎𝚍 𝚝𝚘 𝚞𝚙𝚕𝚘𝚊𝚍 𝚏𝚒𝚕𝚎', 'error');
+                    showStatus('𝙵𝚊𝚒𝚕𝚎𝚍 𝚝𝚘 𝚞𝚙𝚕𝚘𝚊𝚍 𝚏𝚒𝚕𝚎𝚜', 'error');
                 })
                 .finally(() => {
                     progressContainer.style.display = 'none';
                     uploadBtn.disabled = false;
-                    uploadBtn.innerHTML = '<i class="fas fa-upload"></i> 𝚄𝚙𝚕𝚘𝚊𝚍 𝙵𝚒𝚕𝚎';
+                    uploadBtn.innerHTML = '<i class="fas fa-upload"></i> 𝚄𝚙𝚕𝚘𝚊𝚍 𝙵𝚒𝚕𝚎(𝚜)';
                 });
         }
 
