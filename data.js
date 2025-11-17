@@ -185,5 +185,6 @@ const images = [
   "eclipse-of-illusion-card-2.jpg",
   "battle-through-the-heavens-poster-3.jpg",
   "battle-through-the-heavens-poster-4.jpg",
-  "battle-through-the-heavens-poster-5.jpg"
+  "battle-through-the-heavens-poster-5.jpg",
+  "battle-through-the-heavens-character-Xiao_yan.jpg"
 ];
