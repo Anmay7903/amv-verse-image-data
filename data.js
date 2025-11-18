@@ -191,5 +191,6 @@ const images = [
   "new-saga-character-1.jpg",
   "new-saga-screenshot-2.jpg",
   "new-saga-screenshot-3.jpg",
-  "new-saga-screenshot-4.jpg"
+  "new-saga-screenshot-4.jpg",
+  "new-saga-screenshot-5.jpg"
 ];
