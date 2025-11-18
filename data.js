@@ -1,5 +1,6 @@
 // Image data for AMV VERSE
 const images = [
+  "no-longer-allowed-in-another-world-poster.jpg",
   "may-i-ask-for-one-final-thing-card.jpg",
   "a-couple-of-cuckoos-card.jpg",
   "a-couple-of-cuckoos-season-2-card.jpg",
