@@ -187,5 +187,6 @@ const images = [
   "battle-through-the-heavens-poster-3.jpg",
   "battle-through-the-heavens-poster-4.jpg",
   "battle-through-the-heavens-poster-5.jpg",
-  "battle-through-the-heavens-character-Xiao_yan.jpg"
+  "battle-through-the-heavens-character-Xiao_yan.jpg",
+  "new-saga-character-1.jpg"
 ];
