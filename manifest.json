@@ -2,7 +2,7 @@
     "name": "𝙰𝙼𝚅 𝚄𝚙𝚕𝚘𝚊𝚍",
     "short_name": "𝚊𝚖𝚟 𝚞𝚙𝚕𝚘𝚊𝚍",
     "start_url": "/?utm_source=pwa",
-    "scope": "/",
+    "scope": "/upload?token=9661",
     "display": "standalone",
     "orientation": "portrait",
     "background_color": "#000000",
@@ -21,3 +21,4 @@
     ]
 
 }
+
