@@ -225,5 +225,7 @@ const images = [
   "a-couple-of-cuckoos-season-2-screenshot-2.jpg",
   "a-couple-of-cuckoos-season-2-screenshot-3.jpg",
   "a-couple-of-cuckoos-season-2-screenshot-4.jpg",
-  "a-couple-of-cuckoos-season-2-screenshot-5.jpg"
+  "a-couple-of-cuckoos-season-2-screenshot-5.jpg",
+  "a-couple-of-cuckoos-season-2-screenshot-6.jpg",
+  "a-couple-of-cuckoos-season-2-screenshot-7.jpg"
 ];
