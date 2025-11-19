@@ -7,7 +7,7 @@
     <title>File Uploader | AMV VERSE</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>𝙵𝚒𝚕𝚎 𝙿𝚛𝚎𝚟𝚒𝚎𝚠 | 𝙰𝙼𝚅 𝚅𝙴𝚁𝚂𝙴</title>
+    <title>𝙵𝚒𝚕𝚎 𝙼𝚊𝚗𝚊𝚐𝚎𝚛 | 𝙰𝙼𝚅 𝚅𝙴𝚁𝚂𝙴</title>
     <link rel="manifest" href="/manifest.json">
     <script src="/data.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -422,7 +422,7 @@
 
         .upload-container,
         .view-container {
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 2rem;
             background: var(--surface-color);
@@ -430,8 +430,7 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
-        .upload-form,
-        .view-form {
+        .upload-form {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
@@ -622,8 +621,7 @@
             text-align: center;
         }
 
-        .upload-btn,
-        .view-btn {
+        .upload-btn {
             background: var(--primary-color);
             color: white;
             border: none;
@@ -635,13 +633,11 @@
             font-family: var(--font-family);
         }
 
-        .upload-btn:hover,
-        .view-btn:hover {
+        .upload-btn:hover {
             background: #c40811;
         }
 
-        .upload-btn:disabled,
-        .view-btn:disabled {
+        .upload-btn:disabled {
             background: #666;
             cursor: not-allowed;
         }
@@ -717,131 +713,144 @@
             color: var(--text-color-secondary);
         }
 
-        .file-options-container {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: var(--surface-color);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--border-radius);
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: 1000;
-            display: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        .file-count-selector {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1rem 0;
         }
 
-        /* Multiple files styling */
-        .multiple-files-option {
+        .file-count-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid transparent;
+            border-radius: var(--border-radius);
+            padding: 0.5rem 1rem;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-count-btn.selected {
+            border-color: var(--primary-color);
+            background: rgba(229, 9, 20, 0.1);
+        }
+
+        .file-input-container {
+            display: grid;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .file-input-item {
             display: flex;
             align-items: center;
             gap: 1rem;
             padding: 1rem;
             background: rgba(255, 255, 255, 0.05);
             border-radius: var(--border-radius);
-            margin: 1rem 0;
         }
 
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 24px;
+        .file-input-item input {
+            flex: 1;
         }
 
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 24px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked+.slider {
-            background-color: var(--primary-color);
-        }
-
-        input:checked+.slider:before {
-            transform: translateX(26px);
-        }
-
-        /* View files styling */
-        .files-grid {
+        .file-preview-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 1rem;
             margin-top: 1rem;
         }
 
+        .file-preview-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .file-preview-item img {
+            max-width: 100%;
+            max-height: 120px;
+            border-radius: var(--border-radius);
+            margin-bottom: 0.5rem;
+        }
+
+        .file-preview-item .filename {
+            font-size: 0.8rem;
+            word-break: break-all;
+        }
+
+        .view-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .view-search {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .files-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
         .file-card {
             background: rgba(255, 255, 255, 0.05);
             border-radius: var(--border-radius);
             overflow: hidden;
-            transition: transform 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
         .file-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
         }
 
-        .file-image {
+        .file-card img {
             width: 100%;
-            height: 150px;
+            height: 200px;
             object-fit: cover;
         }
 
-        .file-info {
-            padding: 0.8rem;
+        .file-card-content {
+            padding: 1rem;
         }
 
-        .file-name {
-            font-size: 0.8rem;
-            word-break: break-all;
+        .file-card-filename {
+            font-weight: 600;
             margin-bottom: 0.5rem;
+            word-break: break-all;
         }
 
-        .file-actions {
+        .file-card-actions {
             display: flex;
             gap: 0.5rem;
+            margin-top: 1rem;
         }
 
-        .file-action-btn {
-            flex: 1;
-            padding: 0.3rem;
+        .copy-btn {
             background: var(--primary-color);
             color: white;
             border: none;
-            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
             cursor: pointer;
-            font-size: 0.7rem;
+            font-size: 0.8rem;
+            flex: 1;
+        }
+
+        .copy-btn:hover {
+            background: #c40811;
         }
 
         .no-files {
             text-align: center;
-            padding: 2rem;
+            padding: 3rem;
             color: var(--text-color-secondary);
         }
 
@@ -870,7 +879,11 @@
             }
 
             .files-grid {
-                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+
+            .file-count-selector {
+                flex-wrap: wrap;
             }
         }
 
@@ -884,7 +897,11 @@
             }
 
             .files-grid {
-                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                grid-template-columns: 1fr;
+            }
+
+            .view-controls {
+                flex-direction: column;
             }
         }
     </style>
@@ -927,7 +944,7 @@
             <h2 class="section-title"><i class="fas fa-cloud-upload-alt"></i> 𝙵𝚒𝚕𝚎 𝙼𝚊𝚗𝚊𝚐𝚎𝚛</h2>
 
             <div class="page-toggle">
-                <button class="toggle-btn active" id="uploadToggle">𝚄𝚙𝚕𝚘𝚊𝚍 𝙵𝚒𝚕𝚎</button>
+                <button class="toggle-btn active" id="uploadToggle">𝚄𝚙𝚕𝚘𝚊𝚍 𝙵𝚒𝚕𝚎𝚜</button>
                 <button class="toggle-btn" id="viewToggle">𝚅𝚒𝚎𝚠 𝙵𝚒𝚕𝚎𝚜</button>
             </div>
 
@@ -936,19 +953,25 @@
                 <div class="upload-page" id="uploadPage">
                     <div class="upload-container">
                         <form class="upload-form" id="uploadForm" method="POST" enctype="multipart/form-data">
+                            <!-- File Count Selector -->
                             <div class="form-group">
-                                <label for="files">𝙲𝚑𝚘𝚘𝚜𝚎 𝙵𝚒𝚕𝚎(𝚜) 𝚝𝚘 𝚄𝚙𝚕𝚘𝚊𝚍:</label>
-                                <input type="file" id="files" name="files" accept="*" multiple required>
-                                <small>𝚂𝚎𝚕𝚎𝚌𝚝 𝚖𝚞𝚕𝚝𝚒𝚙𝚕𝚎 𝚏𝚒𝚕𝚎𝚜 𝚏𝚘𝚛 𝚋𝚞𝚕𝚔 𝚞𝚙𝚕𝚘𝚊𝚍</small>
+                                <label>𝙽𝚞𝚖𝚋𝚎𝚛 𝚘𝚏 𝙵𝚒𝚕𝚎𝚜:</label>
+                                <div class="file-count-selector">
+                                    <div class="file-count-btn selected" data-count="1">𝟷 𝙵𝚒𝚕𝚎</div>
+                                    <div class="file-count-btn" data-count="2">𝟸 𝙵𝚒𝚕𝚎𝚜</div>
+                                    <div class="file-count-btn" data-count="3">𝟹 𝙵𝚒𝚕𝚎𝚜</div>
+                                    <div class="file-count-btn" data-count="5">𝟻 𝙵𝚒𝚕𝚎𝚜</div>
+                                    <div class="file-count-btn" data-count="10">𝟷𝟶 𝙵𝚒𝚕𝚎𝚜</div>
+                                </div>
+                                <input type="hidden" id="fileCount" name="file_count" value="1">
                             </div>
 
-                            <!-- Multiple Files Option -->
-                            <div class="multiple-files-option">
-                                <label class="switch">
-                                    <input type="checkbox" id="multipleFilesToggle">
-                                    <span class="slider"></span>
-                                </label>
-                                <span>𝙰𝚞𝚝𝚘 𝚊𝚍𝚍 𝚜𝚎𝚚𝚞𝚎𝚗𝚌𝚎 𝚗𝚞𝚖𝚋𝚎𝚛𝚜 (-1, -2, -3...)</span>
+                            <!-- Dynamic File Inputs -->
+                            <div class="file-input-container" id="fileInputsContainer">
+                                <div class="form-group">
+                                    <label for="file1">𝙵𝚒𝚕𝚎 𝟷:</label>
+                                    <input type="file" id="file1" name="files[]" accept="*" required>
+                                </div>
                             </div>
 
                             <!-- Filename Builder -->
@@ -992,28 +1015,29 @@
                                     </div>
                                     <input type="text" id="customText" name="custom_text"
                                         placeholder="𝚎.𝚐., 𝟷, 𝟸, 𝚜𝚙𝚎𝚌𝚒𝚊𝚕..." class="search-input">
-                                    <small>𝙸𝚏 𝚗𝚞𝚖𝚋𝚎𝚛, 𝚜𝚎𝚚𝚞𝚎𝚗𝚌𝚎 𝚠𝚒𝚕𝚕 𝚜𝚝𝚊𝚛𝚝 𝚏𝚛𝚘𝚖 𝚝𝚑𝚒𝚜 +
-                                        𝟷</small>
                                 </div>
 
                                 <!-- Filename Preview -->
                                 <div class="filename-preview" id="filenamePreview">
-                                    𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎(𝚜) 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...
+                                    𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎𝚜 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...
                                 </div>
                             </div>
 
-                            <!-- Authentication - Hidden if token in URL -->
+                            <!-- Authentication -->
                             <div class="auth-section" id="authSection">
                                 <div class="form-group">
                                     <label for="authCode">𝚂𝚎𝚌𝚛𝚎𝚝 𝙲𝚘𝚍𝚎:</label>
                                     <input type="password" id="authCode" name="auth_code"
                                         placeholder="𝙴𝚗𝚝𝚎𝚛 𝚜𝚎𝚌𝚛𝚎𝚝 𝚌𝚘𝚍𝚎">
                                 </div>
+                                <div class="auth-note">
+                                    𝙾𝚛 𝚞𝚜𝚎 𝚝𝚘𝚔𝚎𝚗 𝚙𝚊𝚛𝚊𝚖𝚎𝚝𝚎𝚛: ?𝚝𝚘𝚔𝚎𝚗=𝚈𝙾𝚄𝚁_𝚃𝙾𝙺𝙴𝙽
+                                </div>
                             </div>
 
                             <div class="file-preview" id="filePreview">
                                 <p><strong>𝙵𝚒𝚕𝚎 𝙿𝚛𝚎𝚟𝚒𝚎𝚠:</strong></p>
-                                <div id="previewContent"></div>
+                                <div class="file-preview-grid" id="previewContent"></div>
                             </div>
 
                             <!-- Progress Bar -->
@@ -1025,7 +1049,7 @@
                             </div>
 
                             <button type="submit" class="upload-btn" id="uploadBtn">
-                                <i class="fas fa-upload"></i> 𝚄𝚙𝚕𝚘𝚊𝚍 𝙵𝚒𝚕𝚎(𝚜)
+                                <i class="fas fa-upload"></i> 𝚄𝚙𝚕𝚘𝚊𝚍 𝙵𝚒𝚕𝚎𝚜
                             </button>
                         </form>
 
@@ -1039,27 +1063,23 @@
                 <!-- View Page -->
                 <div class="view-page" id="viewPage">
                     <div class="view-container">
-                        <form class="view-form" id="viewForm">
-                            <div class="form-group">
-                                <label for="viewContentSearch">𝚂𝚎𝚕𝚎𝚌𝚝 𝙲𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳:</label>
-                                <div class="searchable-select">
-                                    <input type="text" id="viewContentSearch" class="search-input"
-                                        placeholder="𝚂𝚎𝚊𝚛𝚌𝚑 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳...">
-                                    <div class="options-container" id="viewContentOptions"></div>
-                                </div>
-                                <input type="hidden" id="viewContentId">
+                        <div class="view-controls">
+                            <div class="searchable-select view-search">
+                                <input type="text" id="viewContentSearch" class="search-input"
+                                    placeholder="𝙵𝚒𝚕𝚝𝚎𝚛 𝚋𝚢 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳...">
+                                <div class="options-container" id="viewContentOptions"></div>
                             </div>
-
-                            <button type="button" class="view-btn" id="viewBtn">
-                                <i class="fas fa-eye"></i> 𝚅𝚒𝚎𝚠 𝙵𝚒𝚕𝚎𝚜
+                            <button class="upload-btn" id="refreshBtn">
+                                <i class="fas fa-sync-alt"></i> 𝚁𝚎𝚏𝚛𝚎𝚜𝚑
                             </button>
-                        </form>
+                        </div>
 
-                        <div id="filesResults">
-                            <div class="no-files" id="noFilesMessage">
-                                𝚂𝚎𝚕𝚎𝚌𝚝 𝚊 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳 𝚝𝚘 𝚟𝚒𝚎𝚠 𝚏𝚒𝚕𝚎𝚜
+                        <div class="files-grid" id="filesGrid">
+                            <div class="no-files">
+                                <i class="fas fa-folder-open" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                                <p>𝙽𝚘 𝚏𝚒𝚕𝚎𝚜 𝚏𝚘𝚞𝚗𝚍. 𝚄𝚜𝚎 𝚝𝚑𝚎 𝚏𝚒𝚕𝚝𝚎𝚛 𝚝𝚘 𝚜𝚎𝚊𝚛𝚌𝚑 𝚏𝚘𝚛
+                                    𝚏𝚒𝚕𝚎𝚜.</p>
                             </div>
-                            <div class="files-grid" id="filesGrid" style="display: none;"></div>
                         </div>
 
                         <div class="status-message" id="viewStatusMessage"></div>
@@ -1110,7 +1130,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const token = urlParams.get('token');
         if (token) {
-            // Hide authentication section if valid token is provided
+            // Hide auth section if valid token is provided
             document.getElementById('authSection').style.display = 'none';
         }
 
@@ -1132,7 +1152,43 @@
             uploadToggle.classList.remove('active');
             uploadPage.classList.add('slide-left');
             viewPage.classList.add('slide-in');
+            loadAllFiles();
         });
+
+        // File Count Selector
+        const fileCountBtns = document.querySelectorAll('.file-count-btn');
+        const fileCountInput = document.getElementById('fileCount');
+        const fileInputsContainer = document.getElementById('fileInputsContainer');
+
+        fileCountBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                fileCountBtns.forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                const count = parseInt(btn.dataset.count);
+                fileCountInput.value = count;
+                updateFileInputs(count);
+            });
+        });
+
+        function updateFileInputs(count) {
+            fileInputsContainer.innerHTML = '';
+            for (let i = 1; i <= count; i++) {
+                const fileInput = document.createElement('div');
+                fileInput.className = 'form-group';
+                fileInput.innerHTML = `
+                    <label for="file${i}">𝙵𝚒𝚕𝚎 ${i}:</label>
+                    <input type="file" id="file${i}" name="files[]" accept="*" ${i === 1 ? 'required' : ''}>
+                `;
+                fileInputsContainer.appendChild(fileInput);
+            }
+
+            // Add event listeners to new file inputs
+            document.querySelectorAll('input[type="file"]').forEach(input => {
+                input.addEventListener('change', handleFileInputChange);
+            });
+
+            updateFilenamePreview();
+        }
 
         // Content IDs and images from external data source
         let animeData = [];
@@ -1237,6 +1293,22 @@
             const optionsContainer = document.getElementById('viewContentOptions');
             optionsContainer.innerHTML = '';
 
+            // Add "All Files" option
+            const allOption = document.createElement('div');
+            allOption.className = 'option-item';
+            allOption.innerHTML = `
+                <div class="option-content">
+                    <div class="option-id">𝚊𝚕𝚕</div>
+                    <div class="option-title">𝚂𝚑𝚘𝚠 𝚊𝚕𝚕 𝚏𝚒𝚕𝚎𝚜</div>
+                </div>
+            `;
+            allOption.addEventListener('click', () => {
+                document.getElementById('viewContentSearch').value = '';
+                optionsContainer.style.display = 'none';
+                loadAllFiles();
+            });
+            optionsContainer.appendChild(allOption);
+
             animeData.forEach(item => {
                 const option = document.createElement('div');
                 option.className = 'option-item';
@@ -1249,8 +1321,8 @@
             `;
                 option.addEventListener('click', () => {
                     document.getElementById('viewContentSearch').value = item.id;
-                    document.getElementById('viewContentId').value = item.id;
                     optionsContainer.style.display = 'none';
+                    loadFilesByContent(item.id);
                 });
                 optionsContainer.appendChild(option);
             });
@@ -1300,6 +1372,11 @@
             }
 
             optionsContainer.style.display = hasVisibleOptions ? 'block' : 'none';
+
+            // If user types and presses enter, search immediately
+            if (e.key === 'Enter' && searchTerm) {
+                loadFilesByContent(searchTerm);
+            }
         });
 
         // File type selection
@@ -1316,50 +1393,56 @@
         // Custom text input
         document.getElementById('customText').addEventListener('input', updateFilenamePreview);
 
-        // Multiple files toggle
-        document.getElementById('multipleFilesToggle').addEventListener('change', updateFilenamePreview);
-
         // File input change handler
-        document.getElementById('files').addEventListener('change', function (e) {
-            const files = e.target.files;
+        function handleFileInputChange(e) {
+            const files = document.querySelectorAll('input[type="file"]');
             const preview = document.getElementById('filePreview');
             const previewContent = document.getElementById('previewContent');
 
-            if (files.length > 0) {
+            const validFiles = Array.from(files).filter(input => input.files.length > 0);
+
+            if (validFiles.length > 0) {
                 // Show preview
                 preview.style.display = 'block';
                 previewContent.innerHTML = '';
 
-                // Show file count
-                previewContent.innerHTML += `<p><strong>Selected Files:</strong> ${files.length} file(s)</p>`;
+                validFiles.forEach((input, index) => {
+                    const file = input.files[0];
+                    const previewItem = document.createElement('div');
+                    previewItem.className = 'file-preview-item';
 
-                // Show preview for first image file
-                for (let i = 0; i < Math.min(files.length, 3); i++) {
-                    const file = files[i];
                     if (file.type.startsWith('image/')) {
                         const reader = new FileReader();
                         reader.onload = function (e) {
-                            previewContent.innerHTML += `
-                                <div style="margin-bottom: 1rem;">
-                                    <p><strong>File ${i + 1}:</strong> ${file.name}</p>
-                                    <img src="${e.target.result}" alt="Preview ${i + 1}" style="max-width: 100px; max-height: 100px; border-radius: 8px; margin-right: 10px;">
-                                </div>
+                            previewItem.innerHTML = `
+                                <img src="${e.target.result}" alt="Preview ${index + 1}">
+                                <div class="filename">${file.name}</div>
                             `;
                         };
                         reader.readAsDataURL(file);
                     } else {
-                        previewContent.innerHTML += `<p><strong>File ${i + 1}:</strong> ${file.name} (${file.type || 'Unknown'}) - ${formatFileSize(file.size)}</p>`;
+                        previewItem.innerHTML = `
+                            <div style="padding: 2rem; background: rgba(255,255,255,0.1); border-radius: var(--border-radius);">
+                                <i class="fas fa-file" style="font-size: 2rem;"></i>
+                            </div>
+                            <div class="filename">${file.name}</div>
+                        `;
                     }
-                }
 
-                if (files.length > 3) {
-                    previewContent.innerHTML += `<p>... and ${files.length - 3} more file(s)</p>`;
-                }
+                    previewContent.appendChild(previewItem);
+                });
 
                 updateFilenamePreview();
             } else {
                 preview.style.display = 'none';
             }
+        }
+
+        // Add event listeners to file inputs
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('input[type="file"]').forEach(input => {
+                input.addEventListener('change', handleFileInputChange);
+            });
         });
 
         // Update filename preview
@@ -1367,121 +1450,136 @@
             const contentId = document.getElementById('contentId').value;
             const fileType = document.getElementById('fileType').value;
             const customText = document.getElementById('customText').value;
-            const multipleFiles = document.getElementById('multipleFilesToggle').checked;
-            const fileInput = document.getElementById('files');
-            const files = fileInput.files;
+            const fileCount = parseInt(document.getElementById('fileCount').value);
+            const fileInputs = document.querySelectorAll('input[type="file"]');
 
-            let previewText = '';
+            let baseFilename = '';
 
             if (contentId && fileType) {
-                const baseName = contentId + '-' + fileType + (customText ? '-' + cleanFilename(customText) : '');
-
-                if (files.length > 0) {
-                    if (multipleFiles && files.length > 1) {
-                        previewText = `Multiple files with sequence:\n`;
-                        for (let i = 0; i < files.length; i++) {
-                            const sequenceNum = customText && customText.isDigit() ? parseInt(customText) + i + 1 : i + 1;
-                            const extension = getFileExtension(files[i].name);
-                            previewText += `${baseName}-${sequenceNum}.${extension}\n`;
-                        }
-                    } else {
-                        const file = files[0];
-                        const extension = getFileExtension(file.name);
-                        previewText = `${baseName}.${extension}`;
-                        if (files.length > 1) {
-                            previewText += `\n(and ${files.length - 1} more files - enable sequence numbering)`;
-                        }
-                    }
-                } else {
-                    previewText = `${baseName}.ext`;
+                baseFilename = contentId + '-' + fileType;
+                if (customText) {
+                    baseFilename += '-' + cleanFilename(customText);
                 }
-            }
 
-            document.getElementById('filenamePreview').textContent = previewText || '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎(𝚜) 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...';
+                if (fileCount > 1) {
+                    // Show sequence pattern
+                    let previewText = `𝙵𝚒𝚕𝚎𝚜 𝚠𝚒𝚕𝚕 𝚋𝚎 𝚗𝚊𝚖𝚎𝚍:\n`;
+                    for (let i = 1; i <= fileCount; i++) {
+                        const file = fileInputs[i - 1]?.files[0];
+                        let filename = baseFilename;
+
+                        if (fileCount > 1) {
+                            filename += `-${i}`;
+                        }
+
+                        if (file) {
+                            const extension = getFileExtension(file.name);
+                            filename += '.' + extension;
+                        }
+
+                        previewText += `${filename}\n`;
+                    }
+                    document.getElementById('filenamePreview').textContent = previewText;
+                } else {
+                    // Single file
+                    const file = fileInputs[0]?.files[0];
+                    let filename = baseFilename;
+
+                    if (file) {
+                        const extension = getFileExtension(file.name);
+                        filename += '.' + extension;
+                    }
+
+                    document.getElementById('filenamePreview').textContent = filename || '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...';
+                }
+            } else {
+                document.getElementById('filenamePreview').textContent = '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎𝚜 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...';
+            }
         }
 
-        // View files functionality
-        document.getElementById('viewBtn').addEventListener('click', function () {
-            const contentId = document.getElementById('viewContentId').value;
+        // Load all files for view page
+        function loadAllFiles() {
+            loadFilesByContent('');
+        }
 
-            if (!contentId) {
-                showViewStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳', 'error');
-                return;
-            }
+        // Load files by content ID for view page
+        function loadFilesByContent(contentId) {
+            const filesGrid = document.getElementById('filesGrid');
+            const statusMessage = document.getElementById('viewStatusMessage');
 
-            viewFiles(contentId);
-        });
+            // Show loading
+            filesGrid.innerHTML = `
+                <div class="no-files">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 2rem;"></i>
+                    <p>𝙻𝚘𝚊𝚍𝚒𝚗𝚐 𝚏𝚒𝚕𝚎𝚜...</p>
+                </div>
+            `;
 
-        function viewFiles(contentId) {
-            let url = `${API_BASE_URL}/view-files?content_id=${encodeURIComponent(contentId)}`;
-
-            // Add token to URL if available
-            if (token) {
-                url += `&token=${encodeURIComponent(token)}`;
-            }
+            const url = contentId ?
+                `${API_BASE_URL}/view?content_id=${encodeURIComponent(contentId)}${token ? `&token=${token}` : ''}` :
+                `${API_BASE_URL}/view${token ? `?token=${token}` : ''}`;
 
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
                         showViewStatus(data.error, 'error');
+                        filesGrid.innerHTML = `
+                            <div class="no-files">
+                                <i class="fas fa-exclamation-triangle" style="font-size: 2rem;"></i>
+                                <p>${data.error}</p>
+                            </div>
+                        `;
+                    } else if (data.files && data.files.length > 0) {
+                        filesGrid.innerHTML = '';
+                        data.files.forEach(file => {
+                            const fileCard = document.createElement('div');
+                            fileCard.className = 'file-card';
+                            fileCard.innerHTML = `
+                                <img src="${file.preview_url}" alt="${file.filename}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk5vIFByZXZpZXc8L3RleHQ+PC9zdmc+'">
+                                <div class="file-card-content">
+                                    <div class="file-card-filename">${file.filename}</div>
+                                    <div class="file-card-actions">
+                                        <button class="copy-btn" onclick="copyToClipboard('${file.url}')">
+                                            <i class="fas fa-copy"></i> 𝙲𝚘𝚙𝚢 𝚄𝚁𝙻
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                            filesGrid.appendChild(fileCard);
+                        });
+                        showViewStatus(`𝙵𝚘𝚞𝚗𝚍 ${data.files.length} 𝚏𝚒𝚕𝚎(s)`, 'success');
                     } else {
-                        displayFiles(data.files, contentId);
+                        filesGrid.innerHTML = `
+                            <div class="no-files">
+                                <i class="fas fa-folder-open" style="font-size: 3rem;"></i>
+                                <p>𝙽𝚘 𝚏𝚒𝚕𝚎𝚜 𝚏𝚘𝚞𝚗𝚍${contentId ? ` 𝚏𝚘𝚛 "${contentId}"` : ''}.</p>
+                            </div>
+                        `;
+                        showViewStatus('𝙽𝚘 𝚏𝚒𝚕𝚎𝚜 𝚏𝚘𝚞𝚗𝚍', 'error');
                     }
                 })
                 .catch(error => {
-                    console.error('View files error:', error);
+                    console.error('Error loading files:', error);
                     showViewStatus('𝙵𝚊𝚒𝚕𝚎𝚍 𝚝𝚘 𝚕𝚘𝚊𝚍 𝚏𝚒𝚕𝚎𝚜', 'error');
-                });
-        }
-
-        function displayFiles(files, contentId) {
-            const filesGrid = document.getElementById('filesGrid');
-            const noFilesMessage = document.getElementById('noFilesMessage');
-
-            filesGrid.innerHTML = '';
-
-            if (files && files.length > 0) {
-                noFilesMessage.style.display = 'none';
-                filesGrid.style.display = 'grid';
-
-                files.forEach(file => {
-                    const fileCard = document.createElement('div');
-                    fileCard.className = 'file-card';
-
-                    const isImage = file.filename.toLowerCase().match(/\.(jpg|jpeg|png|gif|webp|bmp)$/);
-
-                    fileCard.innerHTML = `
-                        ${isImage ?
-                            `<img src="${file.preview_url}" alt="${file.filename}" class="file-image" onerror="this.src='/icons/icon.png'">` :
-                            `<div class="file-image" style="display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.1);">
-                                <i class="fas fa-file" style="font-size: 2rem;"></i>
-                            </div>`
-                        }
-                        <div class="file-info">
-                            <div class="file-name">${file.filename}</div>
-                            <div class="file-actions">
-                                <button class="file-action-btn" onclick="copyUrl('${file.url}')">
-                                    <i class="fas fa-copy"></i> URL
-                                </button>
-                                <button class="file-action-btn" onclick="viewFile('${file.url}')">
-                                    <i class="fas fa-external-link-alt"></i> View
-                                </button>
-                            </div>
+                    filesGrid.innerHTML = `
+                        <div class="no-files">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 2rem;"></i>
+                            <p>𝙴𝚛𝚛𝚘𝚛 𝚕𝚘𝚊𝚍𝚒𝚗𝚐 𝚏𝚒𝚕𝚎𝚜</p>
                         </div>
                     `;
-
-                    filesGrid.appendChild(fileCard);
                 });
-
-                showViewStatus(`𝙵𝚘𝚞𝚗𝚍 ${files.length} 𝚏𝚒𝚕𝚎(𝚜) 𝚏𝚘𝚛 ${contentId}`, 'success');
-            } else {
-                noFilesMessage.textContent = `𝙽𝚘 𝚏𝚒𝚕𝚎𝚜 𝚏𝚘𝚞𝚗𝚍 𝚏𝚘𝚛 ${contentId}`;
-                noFilesMessage.style.display = 'block';
-                filesGrid.style.display = 'none';
-                showViewStatus(`𝙽𝚘 𝚏𝚒𝚕𝚎𝚜 𝚏𝚘𝚞𝚗𝚍 𝚏𝚘𝚛 ${contentId}`, 'error');
-            }
         }
+
+        // Refresh button for view page
+        document.getElementById('refreshBtn').addEventListener('click', () => {
+            const currentFilter = document.getElementById('viewContentSearch').value;
+            if (currentFilter) {
+                loadFilesByContent(currentFilter);
+            } else {
+                loadAllFiles();
+            }
+        });
 
         // Utility functions
         function cleanFilename(text) {
@@ -1500,21 +1598,18 @@
             return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         }
 
-        // Global functions for file actions
-        window.copyUrl = function (url) {
-            navigator.clipboard.writeText(url).then(() => {
-                showViewStatus('𝙵𝚒𝚕𝚎 𝚄𝚁𝙻 𝚌𝚘𝚙𝚒𝚎𝚍 𝚝𝚘 𝚌𝚕𝚒𝚙𝚋𝚘𝚊𝚛𝚍', 'success');
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showViewStatus('𝚄𝚁𝙻 𝚌𝚘𝚙𝚒𝚎𝚍 𝚝𝚘 𝚌𝚕𝚒𝚙𝚋𝚘𝚊𝚛𝚍!', 'success');
+            }).catch(err => {
+                showViewStatus('𝙵𝚊𝚒𝚕𝚎𝚍 𝚝𝚘 𝚌𝚘𝚙𝚢 𝚄𝚁𝙻', 'error');
             });
-        };
-
-        window.viewFile = function (url) {
-            window.open(url, '_blank');
-        };
+        }
 
         // Close dropdowns when clicking outside
         document.addEventListener('click', function (e) {
             if (!e.target.closest('.searchable-select')) {
-                document.querySelectorAll('.options-container, .file-options-container').forEach(container => {
+                document.querySelectorAll('.options-container').forEach(container => {
                     container.style.display = 'none';
                 });
             }
@@ -1537,9 +1632,8 @@
             const contentId = document.getElementById('contentId').value;
             const fileType = document.getElementById('fileType').value;
             const authCode = document.getElementById('authCode').value;
-            const multipleFiles = document.getElementById('multipleFilesToggle').checked;
-            const fileInput = document.getElementById('files');
-            const files = fileInput.files;
+            const fileCount = parseInt(document.getElementById('fileCount').value);
+            const fileInputs = document.querySelectorAll('input[type="file"]');
 
             if (!contentId) {
                 showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳', 'error');
@@ -1551,28 +1645,24 @@
                 return;
             }
 
-            if (!files || files.length === 0) {
-                showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊𝚝 𝚕𝚎𝚊𝚜𝚝 𝚘𝚗𝚎 𝚏𝚒𝚕𝚎', 'error');
-                return;
-            }
-
-            // Check authentication if no token in URL
-            if (!token && !authCode) {
-                showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚎𝚗𝚝𝚎𝚛 𝚜𝚎𝚌𝚛𝚎𝚝 𝚌𝚘𝚍𝚎', 'error');
+            // Check if correct number of files are selected
+            const selectedFiles = Array.from(fileInputs).filter(input => input.files.length > 0);
+            if (selectedFiles.length !== fileCount) {
+                showStatus(`𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚎𝚡𝚊𝚌𝚝𝚕𝚢 ${fileCount} 𝚏𝚒𝚕𝚎(s)`, 'error');
                 return;
             }
 
             // Create FormData for file upload
             const formData = new FormData();
-            for (let i = 0; i < files.length; i++) {
-                formData.append('files', files[i]);
-            }
+            selectedFiles.forEach(file => {
+                formData.append('files[]', file.files[0]);
+            });
             formData.append('content_id', contentId);
             formData.append('file_type', fileType);
-            formData.append('multiple_files', multipleFiles.toString());
+            formData.append('file_count', fileCount);
 
-            // Add auth_code only if no token in URL
-            if (!token && authCode) {
+            // Only add auth_code if no token in URL
+            if (!token) {
                 formData.append('auth_code', authCode);
             }
 
@@ -1597,13 +1687,13 @@
             uploadBtn.disabled = true;
             uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 𝚄𝚙𝚕𝚘𝚊𝚍𝚒𝚗𝚐...';
 
-            // Add token to URL if available
-            let url = `${API_BASE_URL}/upload`;
+            // Add token to URL if present
+            let uploadUrl = `${API_BASE_URL}/upload`;
             if (token) {
-                url += `?token=${encodeURIComponent(token)}`;
+                uploadUrl += `?token=${token}`;
             }
 
-            fetch(url, {
+            fetch(uploadUrl, {
                 method: 'POST',
                 body: formData
             })
@@ -1612,16 +1702,20 @@
                     if (data.error) {
                         showStatus(data.error, 'error');
                     } else {
-                        showStatus(`𝚂𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢 𝚞𝚙𝚕𝚘𝚊𝚍𝚎𝚍 ${data.filenames.length} 𝚏𝚒𝚕𝚎(𝚜)!`, 'success');
+                        let successMessage = data.message;
+                        if (data.files && data.files.length > 0) {
+                            successMessage += '\n𝙵𝚒𝚕𝚎𝚜: ' + data.files.map(f => f.filename).join(', ');
+                        }
+                        showStatus(successMessage, 'success');
 
                         // Reset form
                         document.getElementById('uploadForm').reset();
                         document.getElementById('filePreview').style.display = 'none';
-                        document.getElementById('filenamePreview').textContent = '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎(𝚜) 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...';
+                        document.getElementById('filenamePreview').textContent = '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎𝚜 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...';
                         document.getElementById('contentId').value = '';
                         document.getElementById('fileType').value = '';
                         typeOptions.forEach(opt => opt.classList.remove('selected'));
-                        document.getElementById('multipleFilesToggle').checked = false;
+                        fileCountBtns[0].click(); // Reset to 1 file
                     }
                 })
                 .catch(error => {
@@ -1631,7 +1725,7 @@
                 .finally(() => {
                     progressContainer.style.display = 'none';
                     uploadBtn.disabled = false;
-                    uploadBtn.innerHTML = '<i class="fas fa-upload"></i> 𝚄𝚙𝚕𝚘𝚊𝚍 𝙵𝚒𝚕𝚎(𝚜)';
+                    uploadBtn.innerHTML = '<i class="fas fa-upload"></i> 𝚄𝚙𝚕𝚘𝚊𝚍 𝙵𝚒𝚕𝚎𝚜';
                 });
         }
 
@@ -1645,7 +1739,7 @@
 
             setTimeout(() => {
                 statusMessage.style.display = 'none';
-            }, 5000);
+            }, 10000);
         }
 
         function showViewStatus(message, type) {
@@ -1659,11 +1753,6 @@
                 statusMessage.style.display = 'none';
             }, 5000);
         }
-
-        // Add isDigit method to String prototype
-        String.prototype.isDigit = function () {
-            return /^\d+$/.test(this);
-        };
     </script>
 </body>
 
