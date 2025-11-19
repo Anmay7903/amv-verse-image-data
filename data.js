@@ -220,5 +220,10 @@ const images = [
   "fragrant-flower-blooms-with-dignity-screenshot-7.jpg",
   "fragrant-flower-blooms-with-dignity-screenshot-8.jpg",
   "fragrant-flower-blooms-with-dignity-screenshot-9.jpg",
-  "fragrant-flower-blooms-with-dignity-screenshot-10.jpg"
+  "fragrant-flower-blooms-with-dignity-screenshot-10.jpg",
+  "a-couple-of-cuckoos-season-2-screenshot-1.jpg",
+  "a-couple-of-cuckoos-season-2-screenshot-2.jpg",
+  "a-couple-of-cuckoos-season-2-screenshot-3.jpg",
+  "a-couple-of-cuckoos-season-2-screenshot-4.jpg",
+  "a-couple-of-cuckoos-season-2-screenshot-5.jpg"
 ];
