@@ -192,8 +192,5 @@ const images = [
   "new-saga-screenshot-4.jpg",
   "new-saga-screenshot-5.jpg",
   "new-saga-screenshot-6.jpg",
-  "battle-through-the-heavens-character-xiao_yan.jpg",
-  "jujutsu-kaisen-screenshot-1",
-  "jujutsu-kaisen-screenshot-2",
-  "jujutsu-kaisen-screenshot-3"
+  "battle-through-the-heavens-character-xiao_yan.jpg"
 ];
