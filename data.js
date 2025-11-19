@@ -206,9 +206,9 @@ const images = [
   "my-status-as-an-assassin-obviously-exceeds-the-hero-screenshot-8.jpg",
   "my-status-as-an-assassin-obviously-exceeds-the-hero-screenshot-9.jpg",
   "my-status-as-an-assassin-obviously-exceeds-the-hero-screenshot-10.jpg",
-  "jujutsu-kaisen-screenshot-4-1.jpg",
-  "jujutsu-kaisen-screenshot-4-2.jpg",
-  "jujutsu-kaisen-screenshot-4-3.jpg",
-  "jujutsu-kaisen-screenshot-4-4.jpg",
-  "jujutsu-kaisen-screenshot-4-5.png"
+  "jujutsu-kaisen-screenshot-4.jpg",
+  "jujutsu-kaisen-screenshot-5.jpg",
+  "jujutsu-kaisen-screenshot-6.jpg",
+  "jujutsu-kaisen-screenshot-7.jpg",
+  "jujutsu-kaisen-screenshot-8.jpg"
 ];
