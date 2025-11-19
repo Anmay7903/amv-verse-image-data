@@ -4,29 +4,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Uploader | AMV VERSE</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>𝙵𝚒𝚕𝚎 𝙼𝚊𝚗𝚊𝚐𝚎𝚛 | 𝙰𝙼𝚅 𝚅𝙴𝚁𝚂𝙴</title>
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="/manifest.json">
+    <script src="/data.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://animesaga.pages.dev/dxh2jf6f8shlldyq6lpo4exgdq/d2hs6ea0ct0of8shlanv6lpo4eygdq.js"></script>
-    <script src="data.js"></script>
-    <link rel="icon" href="icons/icon.png" type="png/image/x-icon">
-    <link rel="apple-touch-icon" href="icons/icon.png">
+    <link rel="icon" href="/icons/icon.png" type="png/image/x-icon">
+    <link rel="apple-touch-icon" href="/icons/icon.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* CSS Variables from the external style.css */
         :root {
             --primary-color: #e50914;
-            --secondary-color: #e50914a6;
-            --background-color: #141414;
-            --surface-color: #23252a;
+            --background-color: #0f0f0f;
+            --surface-color: #1a1a1a;
             --text-color: #ffffff;
-            --text-color-secondary: #a0a0a0;
+            --text-color-secondary: #b3b3b3;
             --border-radius: 8px;
-            --transition-speed: 0.3s;
-            --font-family: 'Inter', sans-serif;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
 
+        /* Base styles from external CSS */
         * {
             margin: 0;
             padding: 0;
@@ -72,7 +78,7 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: var(--secondary-color);
+            background: var(--text-color-secondary);
             border-radius: 5px;
         }
 
@@ -88,13 +94,6 @@
         .no-double-tap {
             touch-action: manipulation;
             -ms-touch-action: manipulation;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 15px;
         }
 
         /* Header Styles */
@@ -312,555 +311,598 @@
             }
         }
 
-        /* Breadcrumb Styles */
-        .breadcrumb {
-            display: flex;
-            align-items: center;
-            padding: 1rem 0;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .breadcrumb a {
-            color: var(--text-color-secondary);
-            text-decoration: none;
-            transition: color 0.3s;
-            display: flex;
-            align-items: center;
-        }
-
-        .breadcrumb a:hover {
-            color: var(--primary-color);
-        }
-
-        .breadcrumb i {
-            margin: 0 0.5rem;
-            color: var(--text-color-secondary);
-            font-size: 0.8rem;
-        }
-
-        .breadcrumb .current {
-            color: var(--text-color);
-            font-weight: 500;
-        }
-
-        /* File Manager Styles */
-        .file-manager {
-            padding: 1rem 0;
+        /* Gallery page styles */
+        .gallery-page {
             min-height: 100vh;
-            background-color: var(--background-color);
+            padding: 2rem 0;
         }
 
-        .folders-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 2rem;
-        }
-
-        .folder-item {
-            background: var(--surface-color);
-            border-radius: var(--border-radius);
-            padding: 1.5rem;
-            text-align: center;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .folder-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
-        }
-
-        .folder-icon {
-            font-size: 2.5rem;
+        /* Additional base styles that might be in the external CSS */
+        a {
             color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
         }
 
-        .folder-name {
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-align: center;
-            word-break: break-word;
+        a:hover {
+            color: #ff1e2d;
         }
 
-        .folder-count {
-            font-size: 0.8rem;
-            color: var(--text-color-secondary);
+        button {
+            font-family: inherit;
+        }
+
+        /* apply only to interactive controls (recommended), or * for whole page */
+        html,
+        body,
+        button,
+        a,
+        input,
+        .no-double-tap {
+            touch-action: manipulation;
+            -ms-touch-action: manipulation;
+            /* legacy IE/Edge */
+        }
+
+        /* Mobile-first responsive design */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .main-container {
+            padding: 2rem 0;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+
         }
 
         .section-title {
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
         }
 
-        .section-title i {
-            color: var(--primary-color);
-        }
-
-        .subcategory-title {
-            margin: 1.5rem 0 1rem;
-            font-size: 1.2rem;
-            color: var(--text-color-secondary);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 0.5rem;
-        }
-
-        /* Anime Grid Styles */
-        .anime-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .anime-card {
-            position: relative;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            transition: transform var(--transition-speed);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            background: var(--surface-color);
-            cursor: pointer;
-        }
-
-        .anime-card:hover {
-            transform: scale(1.05);
-        }
-
-        .anime-card img {
+        .upload-page,
+        .view-page {
+            transition: transform 0.4s ease-in-out;
             width: 100%;
-            aspect-ratio: 2/3;
-            object-fit: cover;
-            display: block;
         }
 
-        /* New CSS for Landscape Cards (Posters and Screenshots) */
-        .anime-card.landscape {
-            aspect-ratio: 16/9;
-            /* Landscape aspect ratio for auto-fit */
+        .upload-page {
+            transform: translateX(0%);
         }
 
-        .anime-card.landscape img {
-            aspect-ratio: 16/9;
-            object-fit: contain;
-            /* Auto-fit without cropping, maintains aspect ratio */
-            object-position: center;
-            background-color: rgba(35, 37, 42, 0.8);
-            /* Subtle background for letterboxing if needed */
-        }
-
-        .anime-card.landscape .anime-card-overlay {
-            /* Adjust overlay for landscape to ensure text fits better */
-            padding: 0.8rem;
-            justify-content: center;
-            text-align: center;
-        }
-
-        .anime-card.landscape .anime-card-overlay h3 {
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
-            margin-bottom: 0.3rem;
-        }
-
-        .anime-card.landscape .anime-card-overlay p {
-            font-size: clamp(0.7rem, 1.2vw, 0.8rem);
-        }
-
-        .card-image {
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .card-image.loaded {
-            opacity: 1;
-        }
-
-        .anime-card-overlay {
+        .view-page {
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 20%, transparent);
+            transform: translateX(100%);
+        }
+
+        .upload-page.slide-left {
+            transform: translateX(-100%);
+        }
+
+        .view-page.slide-in {
+            transform: translateX(0%);
+        }
+
+        .page-toggle {
             display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
+            justify-content: center;
+            margin-bottom: 2rem;
+            background: var(--surface-color);
+            border-radius: var(--border-radius);
+            padding: 0.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle-btn {
+            flex: 1;
             padding: 1rem;
-            opacity: 0;
-            transition: opacity var(--transition-speed);
-        }
-
-        .anime-card:hover .anime-card-overlay {
-            opacity: 1;
-        }
-
-        .anime-card-overlay .zoom-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(1.5);
-            font-size: 3rem;
-            opacity: 0;
-            transition: transform 0.3s, opacity 0.3s;
-            color: var(--primary-color);
-        }
-
-        .anime-card:hover .zoom-icon {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 1;
-        }
-
-        .anime-card-overlay h3 {
-            font-size: clamp(1rem, 2.5vw, 1.3rem);
-            color: var(--text-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .anime-card-overlay p {
-            font-size: clamp(0.8rem, 1.5vw, 0.95rem);
+            border: none;
+            background: transparent;
             color: var(--text-color-secondary);
-        }
-
-        .card-title {
             font-weight: 600;
-            font-size: 14px;
-            text-align: center;
-            padding: 10px;
-            color: var(--text-color);
-            background: var(--surface-color);
-        }
-
-        .card-meta {
-            font-size: 12px;
-            color: var(--text-color-secondary);
-            text-align: center;
-            padding: 0 10px 10px;
-        }
-
-        /* Skeleton Loading Animation - Portrait Default */
-        .skeleton-card {
-            position: relative;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            aspect-ratio: 2/3;
-            background: var(--surface-color);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .skeleton-image {
-            width: 100%;
-            height: 70%;
-            background: linear-gradient(90deg, #2a2a2a 25%, #333 50%, #2a2a2a 75%);
-            background-size: 200% 100%;
-            animation: skeleton-loading 1.5s infinite;
-        }
-
-        .skeleton-content {
-            padding: 1rem;
-            height: 30%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .skeleton-title {
-            height: 20px;
-            background: linear-gradient(90deg, #2a2a2a 25%, #333 50%, #2a2a2a 75%);
-            background-size: 200% 100%;
-            animation: skeleton-loading 1.5s infinite;
-            border-radius: 4px;
-            margin-bottom: 10px;
-        }
-
-        .skeleton-meta {
-            height: 16px;
-            background: linear-gradient(90deg, #2a2a2a 25%, #333 50%, #2a2a2a 75%);
-            background-size: 200% 100%;
-            animation: skeleton-loading 1.5s infinite;
-            border-radius: 4px;
-            width: 60%;
-        }
-
-        /* New Skeleton for Landscape */
-        .skeleton-card.landscape {
-            aspect-ratio: 16/9;
-        }
-
-        .skeleton-card.landscape .skeleton-image {
-            height: 60%;
-            /* Adjust for landscape proportions */
-        }
-
-        .skeleton-card.landscape .skeleton-content {
-            height: 40%;
-            padding: 0.8rem;
-        }
-
-        @keyframes skeleton-loading {
-            0% {
-                background-position: 200% 0;
-            }
-
-            100% {
-                background-position: -200% 0;
-            }
-        }
-
-        /* Loading indicator */
-        .loading-indicator {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-color-secondary);
-            display: none;
-        }
-
-        .loading-indicator.active {
-            display: block;
-        }
-
-        .loading-indicator .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(229, 9, 20, 0.3);
-            border-radius: 50%;
-            border-top-color: var(--primary-color);
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Back button */
-        .back-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--surface-color);
-            color: var(--text-color);
-            border: none;
-            padding: 0.7rem 1.2rem;
-            border-radius: var(--border-radius);
             cursor: pointer;
-            transition: background-color 0.3s;
-            margin-bottom: 1rem;
-            text-decoration: none;
-        }
-
-        .back-button:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        /* Subfolder grid */
-        .subfolders-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 15px;
-            margin-bottom: 2rem;
-        }
-
-        /* Zoom Modal Styles */
-        .zoom-modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
-            animation: fadeIn 0.3s;
-        }
-
-        .zoom-modal.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .zoom-modal-content {
-            position: relative;
-            max-width: 90%;
-            max-height: 90%;
-            text-align: center;
-        }
-
-        .zoom-modal img {
-            max-width: 100%;
-            max-height: 80vh;
-            object-fit: contain;
             border-radius: var(--border-radius);
+            transition: all 0.3s;
         }
 
-        .modal-actions {
-            position: absolute;
-            bottom: -60px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 1rem;
-        }
-
-        .modal-btn {
+        .toggle-btn.active {
             background: var(--primary-color);
-            color: var(--text-color);
-            border: none;
-            padding: 0.8rem 1.5rem;
+            color: white;
+        }
+
+        .upload-container,
+        .view-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .upload-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--surface-color);
+            padding: 2rem;
             border-radius: var(--border-radius);
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.8rem;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--background-color);
+            color: var(--text-color);
+            font-family: var(--font-family);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .filename-builder {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .filename-step {
+            margin-bottom: 1.5rem;
+        }
+
+        .filename-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
-        .modal-btn:hover {
-            background: #f40610;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: -50px;
-            right: 0;
-            background: rgba(0, 0, 0, 0.5);
-            color: var(--text-color);
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2rem;
-            display: flex;
+        .step-number {
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .close-modal:hover {
+            width: 24px;
+            height: 24px;
             background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.8rem;
+            font-weight: bold;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
+        .searchable-select {
+            position: relative;
         }
 
-        /* Additional Functions: Sort/Filter Controls */
-        .controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .sort-select,
-        .filter-select {
-            background: var(--surface-color);
-            color: var(--text-color);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 0.5rem;
+        .search-input {
+            width: 100%;
+            padding: 0.8rem;
             border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--background-color);
+            color: var(--text-color);
+            font-family: var(--font-family);
+        }
+
+        .options-container {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--surface-color);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .option-item {
+            padding: 0.8rem;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .option-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .option-item:last-child {
+            border-bottom: none;
+        }
+
+        .option-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .option-content {
+            flex: 1;
+        }
+
+        .option-id {
+            font-weight: 600;
             font-size: 0.9rem;
         }
 
-        /* Media Queries for Responsive Header */
+        .option-title {
+            font-size: 0.8rem;
+            color: var(--text-color-secondary);
+            margin-top: 2px;
+        }
+
+        .type-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+
+        .type-option {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid transparent;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .type-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .type-option.selected {
+            border-color: var(--primary-color);
+            background: rgba(229, 9, 20, 0.1);
+        }
+
+        .filename-preview {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin-top: 1rem;
+            text-align: center;
+            font-family: monospace;
+            font-size: 1.1rem;
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .auth-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .auth-note {
+            font-size: 0.8rem;
+            color: var(--text-color-secondary);
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        .upload-btn,
+        .view-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-family: var(--font-family);
+            width: 100%;
+        }
+
+        .upload-btn:hover,
+        .view-btn:hover {
+            background: #c40811;
+        }
+
+        .upload-btn:disabled,
+        .view-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+
+        .status-message {
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .status-success {
+            background: rgba(0, 128, 0, 0.2);
+            border: 1px solid rgba(0, 128, 0, 0.5);
+            color: #4CAF50;
+        }
+
+        .status-error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid rgba(244, 67, 54, 0.5);
+            color: #F44336;
+        }
+
+        .file-preview {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            display: none;
+        }
+
+        .file-preview img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: var(--border-radius);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .progress-container {
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-color);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-color-secondary);
+        }
+
+        .file-options-container {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--surface-color);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* View Page Styles */
+        .search-section {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-end;
+            margin-bottom: 2rem;
+            background: var(--surface-color);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+        }
+
+        .search-section .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .view-btn {
+            width: auto;
+            flex-shrink: 0;
+        }
+
+        .files-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .file-item {
+            background: var(--surface-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .file-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .file-preview-container {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--background-color);
+            overflow: hidden;
+        }
+
+        .file-preview-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .file-preview-container.non-image {
+            flex-direction: column;
+            color: var(--text-color-secondary);
+            font-size: 3rem;
+        }
+
+        .file-preview-container.non-image span {
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .file-info {
+            padding: 1rem;
+        }
+
+        .file-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            word-break: break-all;
+            font-size: 0.9rem;
+        }
+
+        .file-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .file-link:hover {
+            text-decoration: underline;
+        }
+
+        .no-files {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-color-secondary);
+            font-style: italic;
+            background: var(--surface-color);
+            border-radius: var(--border-radius);
+        }
+
+        .filename-warning {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .filename-suggestion {
+            color: #f39c12;
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+        }
+
+        /* Responsive adjustments */
         @media (max-width: 768px) {
 
-            .folders-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            .upload-container,
+            .view-container {
+                padding: 1rem;
             }
 
-            .subfolders-grid {
-                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            .upload-form {
+                padding: 1rem;
             }
 
-            .anime-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-                gap: 1rem;
+            .type-options {
+                grid-template-columns: 1fr;
             }
 
-            /* Responsive adjustments for landscape cards */
-            .anime-card.landscape {
-                aspect-ratio: 3/2;
-                /* Slightly adjusted for mobile */
-            }
-
-            .modal-actions {
+            .page-toggle {
                 flex-direction: column;
-                bottom: -80px;
+            }
+
+            .toggle-btn {
+                margin-bottom: 0.5rem;
+            }
+
+            .toggle-btn:last-child {
+                margin-bottom: 0;
+            }
+
+            .search-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .files-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            .view-btn {
+                width: 100%;
             }
         }
 
         @media (max-width: 480px) {
-            .folders-grid {
-                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            .filename-builder {
+                padding: 1rem;
             }
 
-            .subfolders-grid {
-                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            .auth-section {
+                padding: 1rem;
             }
 
-            .anime-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
+            .files-grid {
+                grid-template-columns: 1fr;
             }
-
-            .controls {
-                flex-direction: column;
-                align-items: stretch;
-            }
-        }
-
-        .premium-tag {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: rgba(0, 0, 0, 0.603);
-            color: #fffdfd;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            z-index: 2;
-        }
-
-        #notFound {
-            display: none;
-            text-align: center;
-            margin-top: 50px;
-            font-size: 20px;
-            color: var(--text-color-secondary);
-        }
-
-        #notFound a {
-            color: var(--primary-color);
-            text-decoration: none;
-            margin-left: 5px;
         }
     </style>
 </head>
@@ -869,17 +911,15 @@
     <!-- Header -->
     <header class="main-header">
         <div class="container">
-            <a href="#" class="logo">𝙰𝙼𝚅 𝚅𝙴𝚁𝚂𝙴</a>
+            <a href="/" class="logo">𝙰𝙼𝚅 𝚅𝙴𝚁𝚂𝙴</a>
             <div class="header-actions">
                 <div class="search-box" id="searchBox">
-                    <input type="text" id="search" placeholder="Search images...">
-                    <button><i class="fas fa-search"></i></button>
+                    <input type="text" id="Search" placeholder="Search id...">
+                    <button id="mobile-menu-toggle" class="mobile-menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
                 </div>
-                <button id="mobile-menu-toggle" class="mobile-menu-toggle">
-                    <i class="fas fa-bars"></i>
-                </button>
             </div>
-        </div>
     </header>
 
     <!-- Side Menu -->
@@ -892,848 +932,736 @@
         </div>
         <ul>
             <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
-            <li><a href="upload.html"><i class="fas fa-upload"></i> Upload</a></li>
+            <li><a href="/upload"><i class="fas fa-upload"></i> Upload</a></li>
         </ul>
     </div>
-
     <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
 
-    <!-- Zoom Modal -->
-    <div class="zoom-modal" id="zoomModal">
-        <div class="zoom-modal-content">
-            <button class="close-modal" id="closeModal"><i class="fas fa-times"></i></button>
-            <img id="modalImage" src="" alt="Zoomed Image">
-            <div class="modal-actions">
-                <button class="modal-btn" id="downloadBtn"><i class="fas fa-download"></i> Download</button>
-                <button class="modal-btn" id="copyBtn"><i class="fas fa-copy"></i> Copy</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- File Manager -->
-    <main class="file-manager">
+    <!-- Main Content -->
+    <main class="gallery-page">
         <div class="container">
-            <div class="breadcrumb" id="breadcrumb">
-                <!-- Breadcrumb will be generated dynamically -->
+            <h2 class="section-title"><i class="fas fa-cloud-upload-alt"></i> 𝙵𝚒𝚕𝚎 𝙼𝚊𝚗𝚊𝚐𝚎𝚛</h2>
+
+            <div class="page-toggle">
+                <button class="toggle-btn active" id="uploadToggle">𝚄𝚙𝚕𝚘𝚊𝚍 𝙵𝚒𝚕𝚎</button>
+                <button class="toggle-btn" id="viewToggle">𝚅𝚒𝚎𝚠 𝙵𝚒𝚕𝚎𝚜</button>
             </div>
 
-            <div id="foldersView">
-                <h2 class="section-title"><i class="fas fa-folder"></i> 𝚂𝚎𝚛𝚒𝚎𝚜</h2>
-                <div class="folders-grid" id="foldersGrid">
-                    <!-- Folders will be generated dynamically -->
-                </div>
-            </div>
+            <div class="main-container">
+                <!-- Upload Page -->
+                <div class="upload-page" id="uploadPage">
+                    <div class="upload-container">
+                        <form class="upload-form" id="uploadForm" method="POST" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="file">𝙲𝚑𝚘𝚘𝚜𝚎 𝙵𝚒𝚕𝚎 𝚝𝚘 𝚄𝚙𝚕𝚘𝚊𝚍:</label>
+                                <input type="file" id="file" name="file" accept="*" required>
+                            </div>
 
-            <div id="subfoldersView" style="display: none;">
-                <a href="#" class="back-button" id="backButton">
-                    <i class="fas fa-arrow-left"></i> Back to Series
-                </a>
-                <div class="controls" id="subfoldersControls" style="display: none;">
-                    <select class="sort-select" id="subfoldersSort">
-                        <option value="name-asc">Sort by Name (A-Z)</option>
-                        <option value="name-desc">Sort by Name (Z-A)</option>
-                        <option value="count-asc">Sort by Count (Low-High)</option>
-                        <option value="count-desc">Sort by Count (High-Low)</option>
-                    </select>
-                </div>
-                <h2 class="section-title" id="subfoldersTitle"></h2>
-                <div class="subfolders-grid" id="subfoldersGrid">
-                    <!-- Subfolders will be generated dynamically -->
-                </div>
-            </div>
+                            <!-- Filename Builder -->
+                            <div class="filename-builder">
+                                <h3>𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎 𝙱𝚞𝚒𝚕𝚍𝚎𝚛</h3>
 
-            <div id="galleryView" style="display: none;">
-                <a href="#" class="back-button" id="backToSubfoldersButton">
-                    <i class="fas fa-arrow-left"></i> Back
-                </a>
-                <div class="controls">
-                    <select class="sort-select" id="gallerySort">
-                        <option value="name-asc">Sort by Name (A-Z)</option>
-                        <option value="name-desc">Sort by Name (Z-A)</option>
-                        <option value="random">Random</option>
-                    </select>
-                    <select class="filter-select" id="galleryFilter">
-                        <option value="all">All Qualities</option>
-                        <option value="1080p">HD 1080p</option>
-                        <option value="720p">HD 720p</option>
-                        <option value="480p">SD 480p</option>
-                    </select>
-                </div>
-                <h2 class="section-title" id="galleryTitle"></h2>
-                <div class="anime-grid" id="gallery"></div>
-                <div id="notFound">No images found. <a href="#" id="goHome">𝙶𝚘 𝙱𝚊𝚌𝚔</a></div>
+                                <!-- Step 1: Content ID -->
+                                <div class="filename-step">
+                                    <div class="step-title">
+                                        <span class="step-number">1</span>
+                                        𝚂𝚎𝚕𝚎𝚌𝚝 𝙲𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳:
+                                    </div>
+                                    <div class="searchable-select">
+                                        <input type="text" id="contentSearch" class="search-input"
+                                            placeholder="𝚂𝚎𝚊𝚛𝚌𝚑 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳...">
+                                        <div class="options-container" id="contentOptions"></div>
+                                    </div>
+                                    <input type="hidden" id="contentId" name="content_id">
+                                </div>
 
-                <!-- Loading Indicator -->
-                <div class="loading-indicator" id="loadingIndicator">
-                    <div class="spinner"></div>
-                    <p>Loading more content...</p>
+                                <!-- Step 2: File Type -->
+                                <div class="filename-step">
+                                    <div class="step-title">
+                                        <span class="step-number">2</span>
+                                        𝚂𝚎𝚕𝚎𝚌𝚝 𝙵𝚒𝚕𝚎 𝚃𝚢𝚙𝚎:
+                                    </div>
+                                    <div class="type-options">
+                                        <div class="type-option" data-type="card">𝙲𝚊𝚛𝚍</div>
+                                        <div class="type-option" data-type="poster">𝙿𝚘𝚜𝚝𝚎𝚛</div>
+                                        <div class="type-option" data-type="character">𝙲𝚑𝚊𝚛𝚊𝚌𝚝𝚎𝚛</div>
+                                        <div class="type-option" data-type="screenshot">𝚂𝚌𝚛𝚎𝚎𝚗𝚜𝚑𝚘𝚝</div>
+                                    </div>
+                                    <input type="hidden" id="fileType" name="file_type">
+                                </div>
+
+                                <!-- Step 3: Custom Text -->
+                                <div class="filename-step">
+                                    <div class="step-title">
+                                        <span class="step_number">3</span>
+                                        𝙰𝚍𝚍 𝙲𝚞𝚜𝚝𝚘𝚖 𝚃𝚎𝚡𝚝 (𝚘𝚙𝚝𝚒𝚘𝚗𝚊𝚕):
+                                    </div>
+                                    <input type="text" id="customText" name="custom_text"
+                                        placeholder="𝚎.𝚐., 𝟷, 𝟸, 𝚜𝚙𝚎𝚌𝚒𝚊𝚕..." class="search-input">
+                                </div>
+
+                                <!-- Filename Preview -->
+                                <div class="filename-preview" id="filenamePreview">
+                                    𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...
+                                </div>
+                            </div>
+
+                            <!-- Authentication -->
+                            <div class="auth-section" id="authSection">
+                                <div class="form-group">
+                                    <label for="authCode">𝚂𝚎𝚌𝚛𝚎𝚝 𝙲𝚘𝚍𝚎:</label>
+                                    <input type="password" id="authCode" name="auth_code"
+                                        placeholder="𝙴𝚗𝚝𝚎𝚛 𝚜𝚎𝚌𝚛𝚎𝚝 𝚌𝚘𝚍𝚎" required>
+                                </div>
+                            </div>
+
+                            <div class="file-preview" id="filePreview">
+                                <p><strong>𝙵𝚒𝚕𝚎 𝙿𝚛𝚎𝚟𝚒𝚎𝚠:</strong></p>
+                                <div id="previewContent"></div>
+                            </div>
+
+                            <!-- Progress Bar -->
+                            <div class="progress-container" id="progressContainer">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="progressFill"></div>
+                                </div>
+                                <div class="progress-text" id="progressText">𝙿𝚛𝚎𝚙𝚊𝚛𝚒𝚗𝚐 𝚞𝚙𝚕𝚘𝚊𝚍...</div>
+                            </div>
+
+                            <button type="submit" class="upload-btn" id="uploadBtn">
+                                <i class="fas fa-upload"></i> 𝚄𝚙𝚕𝚘𝚊𝚍 𝙵𝚒𝚕𝚎
+                            </button>
+                        </form>
+
+                        <div class="status-message" id="statusMessage"></div>
+                        <a href="/" class="back-link">
+                            <i class="fas fa-arrow-left"></i> 𝙱𝚊𝚌𝚔 𝚝𝚘 𝙷𝚘𝚖𝚎
+                        </a>
+                    </div>
+                </div>
+
+                <!-- View Page -->
+                <div class="view-page" id="viewPage">
+                    <div class="view-container">
+                        <div class="search-section">
+                            <div class="form-group">
+                                <label for="viewContentSearch">𝚂𝚎𝚕𝚎𝚌𝚝 𝙲𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳:</label>
+                                <div class="searchable-select">
+                                    <input type="text" id="viewContentSearch" class="search-input"
+                                        placeholder="𝚂𝚎𝚊𝚛𝚌𝚑 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳...">
+                                    <div class="options-container" id="viewContentOptions"></div>
+                                </div>
+                                <input type="hidden" id="viewContentId">
+                            </div>
+                            <button class="view-btn" id="viewBtn">
+                                <i class="fas fa-eye"></i> 𝚅𝚒𝚎𝚠 𝙵𝚒𝚕𝚎𝚜
+                            </button>
+                        </div>
+
+                        <div class="files-grid" id="filesGrid">
+                            <!-- Files will be displayed here -->
+                        </div>
+
+                        <div class="status-message" id="viewStatusMessage"></div>
+
+                        <a href="/" class="back-link">
+                            <i class="fas fa-arrow-left"></i> 𝙱𝚊𝚌𝚔 𝚝𝚘 𝙷𝚘𝚖𝚎
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 
     <script>
-        // Enhanced Configuration with Modern JS
-        class FileManager {
-            constructor() {
-                this.CARDS_PER_PAGE = 20;
-                this.SCROLL_THRESHOLD = 100;
-                this.IMAGE_LOAD_DELAY = 50;
-                this.prefix = "https://d2dx.netlify.app/";
-                this.currentPage = 0;
-                this.isLoading = false;
-                this.imageLoadQueue = [];
-                this.isProcessingQueue = false;
-                this.currentGalleryImages = [];
-                this.loadedCache = {};
-                this.currentPath = [];
-                this.currentSeries = '';
-                this.currentSeriesName = '';
-                this.currentType = '';
-                this.sortOrder = 'name-asc'; // Default sort
-                this.filterValue = 'all'; // Default filter
+        // Menu toggle functionality
+        const menuToggle = document.getElementById('mobile-menu-toggle');
+        const sideMenu = document.getElementById('sideMenu');
+        const closeMenu = document.getElementById('closeMenu');
+        const overlay = document.getElementById('overlay');
 
-                this.initElements();
-                this.bindEvents();
-                this.renderFolders();
+        function openMenu() {
+            sideMenu.classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenuFunc() {
+            sideMenu.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        menuToggle.addEventListener('click', openMenu);
+        closeMenu.addEventListener('click', closeMenuFunc);
+        overlay.addEventListener('click', closeMenuFunc);
+
+        // Close menu when pressing Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeMenuFunc();
             }
+        });
 
-            initElements() {
-                this.foldersView = document.getElementById('foldersView');
-                this.subfoldersView = document.getElementById('subfoldersView');
-                this.galleryView = document.getElementById('galleryView');
-                this.foldersGrid = document.getElementById('foldersGrid');
-                this.subfoldersGrid = document.getElementById('subfoldersGrid');
-                this.gallery = document.getElementById('gallery');
-                this.breadcrumb = document.getElementById('breadcrumb');
-                this.subfoldersTitle = document.getElementById('subfoldersTitle');
-                this.galleryTitle = document.getElementById('galleryTitle');
-                this.backButton = document.getElementById('backButton');
-                this.backToSubfoldersButton = document.getElementById('backToSubfoldersButton');
-                this.searchInput = document.getElementById('search');
-                this.notFound = document.getElementById('notFound');
-                this.goHome = document.getElementById('goHome');
-                this.loadingIndicator = document.getElementById('loadingIndicator');
-                this.zoomModal = document.getElementById('zoomModal');
-                this.modalImage = document.getElementById('modalImage');
-                this.downloadBtn = document.getElementById('downloadBtn');
-                this.copyBtn = document.getElementById('copyBtn');
-                this.closeModal = document.getElementById('closeModal');
-                this.gallerySort = document.getElementById('gallerySort');
-                this.galleryFilter = document.getElementById('galleryFilter');
-                this.subfoldersSort = document.getElementById('subfoldersSort');
-                this.subfoldersControls = document.getElementById('subfoldersControls');
+        // Backend API URL - Update this with your Render URL after deployment
+        const API_BASE_URL = 'https://file-uploader-je1o.onrender.com';
+        const VALID_AUTH_CODES = ['9661', '79033', '8399'];
 
-                // Menu elements
-                this.menuToggle = document.getElementById('mobile-menu-toggle');
-                this.sideMenu = document.getElementById('sideMenu');
-                this.closeMenu = document.getElementById('closeMenu');
-                this.overlay = document.getElementById('overlay');
-            }
+        // Page Toggle Functionality
+        const uploadToggle = document.getElementById('uploadToggle');
+        const viewToggle = document.getElementById('viewToggle');
+        const uploadPage = document.getElementById('uploadPage');
+        const viewPage = document.getElementById('viewPage');
 
-            bindEvents() {
-                // Menu events
-                this.menuToggle.addEventListener('click', () => this.openMenu());
-                this.closeMenu.addEventListener('click', () => this.closeMenuFunc());
-                this.overlay.addEventListener('click', () => this.closeMenuFunc());
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape') {
-                        this.closeMenuFunc();
-                        this.closeZoomModal();
+        uploadToggle.addEventListener('click', () => {
+            uploadToggle.classList.add('active');
+            viewToggle.classList.remove('active');
+            uploadPage.classList.remove('slide-left');
+            viewPage.classList.remove('slide-in');
+        });
+
+        viewToggle.addEventListener('click', () => {
+            viewToggle.classList.add('active');
+            uploadToggle.classList.remove('active');
+            uploadPage.classList.add('slide-left');
+            viewPage.classList.add('slide-in');
+        });
+
+        // Content IDs and images from external data source
+        let animeData = [];
+
+        // Fetch content data from data.js
+        fetch('https://animesaga.pages.dev/dxh2jf6f8shlldyq6lpo4exgdq/d2hs6ea0ct0of8shlanv6lpo4eygdq.js')
+            .then(response => response.text())
+            .then(data => {
+                // Extract animeData array from the data.js file
+                const animeDataMatch = data.match(/const animeData\s*=\s*(\[.*?\]);/s);
+                if (animeDataMatch) {
+                    try {
+                        // Extract the array content and parse it
+                        const arrayContent = animeDataMatch[1];
+                        animeData = eval(arrayContent);
+
+                        // Process the data
+                        animeData = animeData.map(item => ({
+                            id: item.id.toLowerCase(),
+                            title: item.title || item.id,
+                            image: item.img || ''
+                        }));
+
+                        populateContentOptions();
+                        populateViewContentOptions();
+                    } catch (e) {
+                        console.error('Error parsing animeData:', e);
+                        loadFallbackData();
                     }
-                });
-
-                // Navigation events
-                this.backButton.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    this.showFoldersView();
-                });
-                this.backToSubfoldersButton.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    if (this.currentSeries) this.openSeries(this.currentSeries);
-                });
-                this.goHome.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    this.searchInput.value = '';
-                    this.showFoldersView();
-                });
-
-                // Search event
-                this.searchInput.addEventListener('input', () => this.handleSearch());
-
-                // Sort/Filter events
-                this.gallerySort.addEventListener('change', () => this.handleGallerySort());
-                this.galleryFilter.addEventListener('change', () => this.handleGalleryFilter());
-                this.subfoldersSort.addEventListener('change', () => this.handleSubfoldersSort());
-
-                // Modal events
-                this.closeModal.addEventListener('click', () => this.closeZoomModal());
-                this.downloadBtn.addEventListener('click', () => this.downloadCurrentImage());
-                this.copyBtn.addEventListener('click', () => this.copyCurrentUrl());
-                this.zoomModal.addEventListener('click', (e) => {
-                    if (e.target === this.zoomModal) this.closeZoomModal();
-                });
-            }
-
-            // Enhanced categorization with sorting and filtering support
-            categorizeImages(sortBy = 'name-asc') {
-                const categories = {};
-                images.forEach(filename => {
-                    const seriesName = this.getMainFolderName(filename);
-                    const type = this.getImageType(filename);
-
-                    if (!categories[seriesName]) {
-                        categories[seriesName] = { types: {} };
-                    }
-                    if (!categories[seriesName].types[type]) {
-                        categories[seriesName].types[type] = [];
-                    }
-                    categories[seriesName].types[type].push(filename);
-                });
-
-                // Sort series names
-                const sortedSeries = Object.keys(categories).sort((a, b) => {
-                    if (sortBy === 'name-asc') return a.localeCompare(b);
-                    if (sortBy === 'name-desc') return b.localeCompare(a);
-                    // Add more sort options if needed
-                    return 0;
-                });
-
-                const sortedCategories = {};
-                sortedSeries.forEach(series => {
-                    sortedCategories[series] = categories[series];
-                });
-
-                return sortedCategories;
-            }
-
-            // Render main series folders with sorting
-            renderFolders(sortBy = 'name-asc') {
-                this.foldersGrid.innerHTML = '';
-                const categories = this.categorizeImages(sortBy);
-
-                Object.keys(categories).forEach(seriesName => {
-                    const series = categories[seriesName];
-                    const totalImages = Object.values(series.types).reduce((sum, arr) => sum + arr.length, 0);
-
-                    const folderItem = document.createElement('div');
-                    folderItem.className = 'folder-item';
-                    folderItem.setAttribute('data-series', seriesName);
-                    folderItem.innerHTML = `
-                        <i class="fas fa-folder folder-icon"></i>
-                        <div class="folder-name">${seriesName}</div>
-                        <div class="folder-count">${totalImages} images</div>
-                    `;
-                    folderItem.addEventListener('click', () => this.openSeries(seriesName));
-                    this.foldersGrid.appendChild(folderItem);
-                });
-
-                this.updateBreadcrumb();
-            }
-
-            // Open series with enhanced subfolder rendering
-            async openSeries(seriesName) {
-                this.currentSeries = seriesName;
-                this.currentSeriesName = seriesName;
-                this.currentPath = [{
-                    name: 'Home',
-                    action: () => this.showFoldersView()
-                }, {
-                    name: seriesName,
-                    action: null
-                }];
-
-                const categories = this.categorizeImages();
-                const series = categories[seriesName];
-
-                this.foldersView.style.display = 'none';
-                this.subfoldersView.style.display = 'block';
-                this.galleryView.style.display = 'none';
-                this.subfoldersTitle.innerHTML = `<i class="fas fa-folder-open"></i> ${seriesName}`;
-                this.subfoldersControls.style.display = 'block'; // Show controls for subfolders
-
-                await this.renderSubfolders(series.types, seriesName);
-                this.updateBreadcrumb();
-            }
-
-            // Render subfolders with sorting
-            async renderSubfolders(types, seriesName) {
-                this.subfoldersGrid.innerHTML = '';
-                const sortedTypes = this.sortTypes(types, this.sortOrder);
-
-                const typeOrder = ['Cards', 'Posters', 'Characters', 'Screenshots', 'Other'];
-                typeOrder.forEach(type => {
-                    if (sortedTypes[type] && sortedTypes[type].length > 0) {
-                        const subfolderItem = document.createElement('div');
-                        subfolderItem.className = 'folder-item';
-                        subfolderItem.setAttribute('data-type', type);
-                        subfolderItem.innerHTML = `
-                            <i class="fas fa-${this.getTypeIcon(type)} folder-icon"></i>
-                            <div class="folder-name">${type}</div>
-                            <div class="folder-count">${sortedTypes[type].length} images</div>
-                        `;
-                        subfolderItem.addEventListener('click', () => this.openSubfolder(type, sortedTypes[type], seriesName));
-                        this.subfoldersGrid.appendChild(subfolderItem);
-                    }
-                });
-            }
-
-            sortTypes(types, sortBy) {
-                const sorted = { ...types };
-                Object.keys(sorted).forEach(type => {
-                    if (sortBy.startsWith('name-')) {
-                        sorted[type].sort((a, b) => a.localeCompare(b));
-                    } else if (sortBy.startsWith('count-')) {
-                        // Count sort not applicable per type, but could extend
-                    }
-                });
-                return sorted;
-            }
-
-            handleSubfoldersSort() {
-                this.sortOrder = this.subfoldersSort.value;
-                if (this.currentSeries) {
-                    const categories = this.categorizeImages();
-                    const series = categories[this.currentSeries];
-                    this.renderSubfolders(series.types, this.currentSeries);
-                }
-            }
-
-            getTypeIcon(type) {
-                const icons = {
-                    'Cards': 'id-card',
-                    'Posters': 'image',
-                    'Characters': 'user',
-                    'Screenshots': 'camera',
-                    'Other': 'file-image'
-                };
-                return icons[type] || 'file-image';
-            }
-
-            // Open subfolder with enhanced gallery setup
-            openSubfolder(type, images, seriesName) {
-                this.currentType = type;
-                this.currentGalleryImages = this.applyGalleryFiltersAndSort(images);
-                this.currentPage = 0;
-
-                this.currentPath = [{
-                    name: 'Home',
-                    action: () => this.showFoldersView()
-                }, {
-                    name: seriesName,
-                    action: () => this.openSeries(seriesName)
-                }, {
-                    name: type,
-                    action: null
-                }];
-
-                this.foldersView.style.display = 'none';
-                this.subfoldersView.style.display = 'none';
-                this.galleryView.style.display = 'block';
-
-                this.galleryTitle.innerHTML = `<i class="fas fa-${this.getTypeIcon(type)}"></i> ${seriesName} - ${type}`;
-
-                this.gallery.innerHTML = '';
-                this.loadMoreGalleryContent();
-                this.setupGalleryInfiniteScroll();
-
-                this.updateBreadcrumb();
-            }
-
-            // Enhanced gallery sort and filter
-            applyGalleryFiltersAndSort(images) {
-                let filtered = images.filter(img => {
-                    if (this.filterValue === 'all') return true;
-                    const quality = this.getImageQualityInfo(img);
-                    return quality.includes(this.filterValue);
-                });
-
-                switch (this.sortOrder) {
-                    case 'name-asc':
-                        filtered.sort((a, b) => this.getImageDisplayName(a).localeCompare(this.getImageDisplayName(b)));
-                        break;
-                    case 'name-desc':
-                        filtered.sort((a, b) => this.getImageDisplayName(b).localeCompare(this.getImageDisplayName(a)));
-                        break;
-                    case 'random':
-                        filtered = this.shuffleArray(filtered);
-                        break;
-                }
-
-                return filtered;
-            }
-
-            handleGallerySort() {
-                this.sortOrder = this.gallerySort.value;
-                if (this.currentGalleryImages.length > 0) {
-                    this.currentGalleryImages = this.applyGalleryFiltersAndSort(this.currentGalleryImages);
-                    this.gallery.innerHTML = '';
-                    this.currentPage = 0;
-                    this.loadMoreGalleryContent();
-                }
-            }
-
-            handleGalleryFilter() {
-                this.filterValue = this.galleryFilter.value;
-                if (this.currentGalleryImages.length > 0) {
-                    // Re-apply filter on current images
-                    const originalImages = this.currentGalleryImages; // Assume we keep original for re-filter
-                    this.currentGalleryImages = this.applyGalleryFiltersAndSort(originalImages);
-                    this.gallery.innerHTML = '';
-                    this.currentPage = 0;
-                    this.loadMoreGalleryContent();
-                }
-            }
-
-            shuffleArray(array) {
-                for (let i = array.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [array[i], array[j]] = [array[j], array[i]];
-                }
-                return array;
-            }
-
-            // Infinite scroll setup (unchanged but modularized)
-            setupGalleryInfiniteScroll() {
-                let scrollTimeout;
-                window.removeEventListener('scroll', this.scrollHandler); // Prevent duplicates
-                this.scrollHandler = () => {
-                    if (this.isLoading) return;
-                    clearTimeout(scrollTimeout);
-                    scrollTimeout = setTimeout(() => {
-                        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-                        const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
-                        const clientHeight = document.documentElement.clientHeight;
-                        if (scrollTop + clientHeight >= scrollHeight - this.SCROLL_THRESHOLD) {
-                            this.loadMoreGalleryContent();
-                        }
-                    }, 50);
-                };
-                window.addEventListener('scroll', this.scrollHandler);
-            }
-
-            // Load more with better async handling
-            async loadMoreGalleryContent() {
-                if (this.isLoading || !this.currentGalleryImages.length) return;
-
-                const startIndex = this.currentPage * this.CARDS_PER_PAGE;
-                const endIndex = startIndex + this.CARDS_PER_PAGE;
-
-                if (startIndex >= this.currentGalleryImages.length) return;
-
-                this.isLoading = true;
-                this.loadingIndicator.classList.add('active');
-
-                this.addSkeletonCards(Math.min(this.CARDS_PER_PAGE, this.currentGalleryImages.length - startIndex), this.isLandscapeType(this.currentType));
-
-                // Simulate async load for better UX
-                await new Promise(resolve => setTimeout(resolve, 300));
-
-                this.replaceSkeletonsWithGalleryContent(startIndex, endIndex);
-                this.currentPage++;
-                this.isLoading = false;
-                this.loadingIndicator.classList.remove('active');
-            }
-
-            addSkeletonCards(count, isLandscape = false) {
-                for (let i = 0; i < count; i++) {
-                    const skeletonCard = document.createElement('div');
-                    skeletonCard.className = `skeleton-card ${isLandscape ? 'landscape' : ''}`;
-                    skeletonCard.innerHTML = `
-                        <div class="skeleton-image"></div>
-                        <div class="skeleton-content">
-                            <div class="skeleton-title"></div>
-                            <div class="skeleton-meta"></div>
-                        </div>
-                    `;
-                    this.gallery.appendChild(skeletonCard);
-                }
-            }
-
-            replaceSkeletonsWithGalleryContent(startIndex, endIndex) {
-                document.querySelectorAll('#gallery .skeleton-card').forEach(card => card.remove());
-                const itemsToLoad = this.currentGalleryImages.slice(startIndex, endIndex);
-
-                itemsToLoad.forEach((filename, index) => {
-                    const card = this.createImageCard(filename, this.currentType);
-                    this.gallery.appendChild(card);
-
-                    this.imageLoadQueue.push({
-                        element: card.querySelector('.card-image'),
-                        src: this.prefix + filename,
-                        delay: index * this.IMAGE_LOAD_DELAY,
-                        filename // Store for modal
-                    });
-                });
-
-                this.processImageLoadQueue();
-            }
-
-            processImageLoadQueue() {
-                if (this.isProcessingQueue || this.imageLoadQueue.length === 0) return;
-                this.isProcessingQueue = true;
-
-                const processNext = async () => {
-                    if (this.imageLoadQueue.length === 0) {
-                        this.isProcessingQueue = false;
-                        return;
-                    }
-
-                    const { element, src, delay, filename } = this.imageLoadQueue.shift();
-
-                    await new Promise(resolve => setTimeout(resolve, delay));
-
-                    const preloadImg = new Image();
-                    preloadImg.onload = () => {
-                        element.src = src;
-                        element.classList.add('loaded');
-                        this.loadedCache[src] = Date.now();
-                        element.dataset.filename = filename; // Attach for modal
-                        processNext();
-                    };
-                    preloadImg.onerror = () => {
-                        element.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIE5vdCBGb3VuZDwvdGV4dD48L3N2Zz4=';
-                        element.classList.add('loaded');
-                        processNext();
-                    };
-                    preloadImg.src = src;
-                };
-
-                processNext();
-            }
-
-            // Enhanced card creation with zoom instead of copy
-            createImageCard(filename, type) {
-                const url = this.prefix + filename;
-                const isLandscape = this.isLandscapeType(type);
-                const card = document.createElement('div');
-                card.className = `anime-card ${isLandscape ? 'landscape' : ''}`;
-
-                const displayName = this.getImageDisplayName(filename);
-                const qualityInfo = this.getImageQualityInfo(filename);
-
-                card.innerHTML = `
-                    <img src="" alt="${displayName}" loading="lazy" class="card-image" data-filename="${filename}">
-                    <div class="anime-card-overlay">
-                        <div class="zoom-icon"><i class="fas fa-search-plus"></i></div>
-                        <h3 class="card-title">${displayName}</h3>
-                        <p class="card-meta">${qualityInfo}</p>
-                    </div>
-                `;
-
-                // Click to open zoom modal
-                card.addEventListener('click', (e) => {
-                    if (e.target.tagName !== 'IMG') { // Avoid interfering with image load
-                        this.openZoomModal(url, displayName, filename);
-                    }
-                });
-
-                // Context menu for copy (optional)
-                card.addEventListener('contextmenu', (e) => {
-                    e.preventDefault();
-                    navigator.clipboard.writeText(url).then(() => {
-                        // Visual feedback
-                        const icon = card.querySelector('.zoom-icon');
-                        const original = icon.innerHTML;
-                        icon.innerHTML = '<i class="fas fa-check"></i>';
-                        setTimeout(() => { icon.innerHTML = original; }, 1000);
-                    });
-                });
-
-                return card;
-            }
-
-            // Zoom modal functions
-            openZoomModal(imageUrl, title, filename) {
-                this.modalImage.src = imageUrl;
-                this.modalImage.alt = title;
-                this.currentImageUrl = imageUrl;
-                this.currentFilename = filename;
-                this.zoomModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
-
-            closeZoomModal() {
-                this.zoomModal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }
-
-            downloadCurrentImage() {
-                const link = document.createElement('a');
-                link.href = this.currentImageUrl;
-                link.download = this.currentFilename;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            }
-
-            copyCurrentUrl() {
-                navigator.clipboard.writeText(this.currentImageUrl).then(() => {
-                    const originalCopy = this.copyBtn.innerHTML;
-                    this.copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                    setTimeout(() => { this.copyBtn.innerHTML = originalCopy; }, 2000);
-                }).catch(err => console.error('Copy failed:', err));
-            }
-
-            // Utility functions (enhanced with better error handling)
-            getAnimeTitleFromId(animeId) {
-                try {
-                    if (typeof animeData !== 'undefined') {
-                        const anime = animeData.find(a => a.id === animeId);
-                        return anime ? anime.title : animeId;
-                    }
-                } catch (e) {
-                    console.warn('Anime data not available:', e);
-                }
-                return animeId;
-            }
-
-            getMainFolderName(filename) {
-                let nameWithoutExt = filename.replace('.jpg', '');
-                const typeSuffixes = ['-card', '-poster', '-character', '-screenshot'];
-                for (const suffix of typeSuffixes) {
-                    if (nameWithoutExt.includes(suffix)) {
-                        const animeId = nameWithoutExt.split(suffix)[0];
-                        return this.getAnimeTitleFromId(animeId);
-                    }
-                }
-                const parts = nameWithoutExt.split('-');
-                let animeId = nameWithoutExt;
-                for (let i = parts.length - 1; i >= 0; i--) {
-                    if (parts[i].match(/^\d+$/) || parts[i].length <= 2) {
-                        animeId = parts.slice(0, i).join('-');
-                        break;
-                    }
-                }
-                return this.getAnimeTitleFromId(animeId);
-            }
-
-            getImageType(filename) {
-                if (filename.includes('-card')) return 'Cards';
-                if (filename.includes('-poster')) return 'Posters';
-                if (filename.includes('-character')) return 'Characters';
-                if (filename.includes('-screenshot')) return 'Screenshots';
-                return 'Other';
-            }
-
-            isLandscapeType(type) {
-                return type === 'Posters' || type === 'Screenshots';
-            }
-
-            getImageDisplayName(filename) {
-                const nameWithoutExt = filename.replace('.jpg', '');
-                const type = this.getImageType(filename);
-                let displayName = nameWithoutExt;
-                const typeSuffixes = ['-card', '-poster', '-character', '-screenshot'];
-
-                for (const suffix of typeSuffixes) {
-                    if (displayName.includes(suffix)) {
-                        displayName = displayName.replace(suffix, '');
-                        break;
-                    }
-                }
-
-                const animeIdMatch = displayName.match(/^([^-]+-?)+/);
-                if (animeIdMatch) {
-                    displayName = displayName.replace(animeIdMatch[0], '').replace(/^-/, '');
-                }
-
-                if (!displayName || displayName === '') {
-                    return type.slice(0, -1);
-                }
-
-                return displayName.split('-')
-                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                    .join(' ');
-            }
-
-            getImageQualityInfo(filename) {
-                const resolutionMatch = filename.match(/(\d+)x(\d+)/);
-                if (resolutionMatch) {
-                    return `${resolutionMatch[1]}p`;
-                }
-
-                const type = this.getImageType(filename);
-                const qualities = {
-                    'Cards': 'HD 1080p',
-                    'Posters': 'HD 1080p',
-                    'Characters': 'HD 720p',
-                    'Screenshots': 'SD 480p'
-                };
-                return qualities[type] || 'HD';
-            }
-
-            // Search with fuzzy matching (simple implementation)
-            handleSearch() {
-                const searchValue = this.searchInput.value.toLowerCase().trim();
-
-                if (searchValue === '') {
-                    this.showFoldersView();
-                    return;
-                }
-
-                const filtered = images.filter(f =>
-                    this.getImageDisplayName(f).toLowerCase().includes(searchValue) ||
-                    this.getMainFolderName(f).toLowerCase().includes(searchValue) ||
-                    fuzzyMatch(this.getImageDisplayName(f), searchValue) // Enhanced fuzzy
-                );
-
-                if (filtered.length === 0) {
-                    this.foldersView.style.display = 'none';
-                    this.subfoldersView.style.display = 'none';
-                    this.galleryView.style.display = 'block';
-                    this.galleryTitle.innerHTML = `<i class="fas fa-search"></i> Search Results`;
-                    this.gallery.innerHTML = '';
-                    this.notFound.style.display = 'block';
                 } else {
-                    this.currentGalleryImages = filtered;
-                    this.currentPage = 0;
-                    this.foldersView.style.display = 'none';
-                    this.subfoldersView.style.display = 'none';
-                    this.galleryView.style.display = 'block';
-                    this.galleryTitle.innerHTML = `<i class="fas fa-search"></i> Search Results (${filtered.length})`;
-                    this.gallery.innerHTML = '';
-                    this.loadMoreGalleryContent();
-                    this.notFound.style.display = 'none';
-                    this.setupGalleryInfiniteScroll();
+                    loadFallbackData();
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching content data:', error);
+                loadFallbackData();
+            });
+
+        function loadFallbackData() {
+            // Try to get content from backend API
+            fetch(`${API_BASE_URL}/content`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.content_ids) {
+                        animeData = data.content_ids.map(id => ({
+                            id: id,
+                            title: id,
+                            image: ''
+                        }));
+                    } else {
+                        // Fallback data
+                        animeData = [
+                            { id: 'maha-narsimha', title: 'Maha Narsimha', image: '' },
+                            { id: 'solo-leveling', title: 'Solo Leveling', image: '' },
+                            { id: 'jujutsu-kaisen', title: 'Jujutsu Kaisen', image: '' },
+                            { id: 'soul-land', title: 'Soul Land', image: '' },
+                            { id: 'your-name', title: 'Your Name', image: '' }
+                        ];
+                    }
+                    populateContentOptions();
+                    populateViewContentOptions();
+                })
+                .catch(error => {
+                    console.error('Error fetching content from backend:', error);
+                    animeData = [
+                        { id: 'maha-narsimha', title: 'Maha Narsimha', image: '' },
+                        { id: 'solo-leveling', title: 'Solo Leveling', image: '' },
+                        { id: 'jujutsu-kaisen', title: 'Jujutsu Kaisen', image: '' },
+                        { id: 'soul-land', title: 'Soul Land', image: '' },
+                        { id: 'your-name', title: 'Your Name', image: '' }
+                    ];
+                    populateContentOptions();
+                    populateViewContentOptions();
+                });
+        }
+
+        function populateContentOptions() {
+            const optionsContainer = document.getElementById('contentOptions');
+            optionsContainer.innerHTML = '';
+
+            animeData.forEach(item => {
+                const option = document.createElement('div');
+                option.className = 'option-item';
+                option.innerHTML = `
+                ${item.image ? `<img src="${item.image}" alt="${item.id}" class="option-image" onerror="this.style.display='none'">` : ''}
+                <div class="option-content">
+                    <div class="option-id">${item.id}</div>
+                    ${item.title !== item.id ? `<div class="option-title">${item.title}</div>` : ''}
+                </div>
+            `;
+                option.addEventListener('click', () => {
+                    document.getElementById('contentSearch').value = item.id;
+                    document.getElementById('contentId').value = item.id;
+                    optionsContainer.style.display = 'none';
+                    updateFilenamePreview();
+                });
+                optionsContainer.appendChild(option);
+            });
+        }
+
+        function populateViewContentOptions() {
+            const optionsContainer = document.getElementById('viewContentOptions');
+            optionsContainer.innerHTML = '';
+
+            animeData.forEach(item => {
+                const option = document.createElement('div');
+                option.className = 'option-item';
+                option.innerHTML = `
+                ${item.image ? `<img src="${item.image}" alt="${item.id}" class="option-image" onerror="this.style.display='none'">` : ''}
+                <div class="option-content">
+                    <div class="option-id">${item.id}</div>
+                    ${item.title !== item.id ? `<div class="option-title">${item.title}</div>` : ''}
+                </div>
+            `;
+                option.addEventListener('click', () => {
+                    document.getElementById('viewContentSearch').value = item.id;
+                    document.getElementById('viewContentId').value = item.id;
+                    optionsContainer.style.display = 'none';
+                });
+                optionsContainer.appendChild(option);
+            });
+        }
+
+        // Search functionality for content IDs (Upload page)
+        document.getElementById('contentSearch').addEventListener('input', function (e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const optionsContainer = document.getElementById('contentOptions');
+            const options = optionsContainer.getElementsByClassName('option-item');
+
+            let hasVisibleOptions = false;
+
+            for (let option of options) {
+                const id = option.querySelector('.option-id').textContent.toLowerCase();
+                const title = option.querySelector('.option-title') ? option.querySelector('.option-title').textContent.toLowerCase() : '';
+
+                if (id.includes(searchTerm) || title.includes(searchTerm)) {
+                    option.style.display = 'flex';
+                    hasVisibleOptions = true;
+                } else {
+                    option.style.display = 'none';
+                }
+            }
+
+            optionsContainer.style.display = hasVisibleOptions ? 'block' : 'none';
+        });
+
+        // Search functionality for content IDs (View page)
+        document.getElementById('viewContentSearch').addEventListener('input', function (e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const optionsContainer = document.getElementById('viewContentOptions');
+            const options = optionsContainer.getElementsByClassName('option-item');
+
+            let hasVisibleOptions = false;
+
+            for (let option of options) {
+                const id = option.querySelector('.option-id').textContent.toLowerCase();
+                const title = option.querySelector('.option-title') ? option.querySelector('.option-title').textContent.toLowerCase() : '';
+
+                if (id.includes(searchTerm) || title.includes(searchTerm)) {
+                    option.style.display = 'flex';
+                    hasVisibleOptions = true;
+                } else {
+                    option.style.display = 'none';
+                }
+            }
+
+            optionsContainer.style.display = hasVisibleOptions ? 'block' : 'none';
+        });
+
+        // File type selection
+        const typeOptions = document.querySelectorAll('.type-option');
+        typeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                typeOptions.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                document.getElementById('fileType').value = option.dataset.type;
+                updateFilenamePreview();
+            });
+        });
+
+        // Custom text input
+        document.getElementById('customText').addEventListener('input', updateFilenamePreview);
+
+        // File input change handler
+        document.getElementById('file').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            const preview = document.getElementById('filePreview');
+            const previewContent = document.getElementById('previewContent');
+
+            if (file) {
+                // Show preview
+                preview.style.display = 'block';
+
+                // Check if file is an image
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        previewContent.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    previewContent.innerHTML = `<p><strong>File Name:</strong> ${file.name}</p>
+                                          <p><strong>File Type:</strong> ${file.type || 'Unknown'}</p>
+                                          <p><strong>File Size:</strong> ${formatFileSize(file.size)}</p>`;
                 }
 
-                this.currentPath = [{
-                    name: 'Home',
-                    action: () => {
-                        this.showFoldersView();
-                        this.searchInput.value = '';
+                updateFilenamePreview();
+            } else {
+                preview.style.display = 'none';
+            }
+        });
+
+        // Update filename preview with auto-rename feature
+        async function updateFilenamePreview() {
+            const contentId = document.getElementById('contentId').value;
+            const fileType = document.getElementById('fileType').value;
+            const customText = document.getElementById('customText').value;
+            const fileInput = document.getElementById('file');
+            const file = fileInput.files[0];
+            const preview = document.getElementById('filenamePreview');
+
+            let filename = '';
+
+            if (contentId && fileType) {
+                filename = contentId + '-' + fileType;
+                if (customText) {
+                    filename += '-' + cleanFilename(customText);
+                }
+
+                if (file) {
+                    const extension = getFileExtension(file.name);
+                    filename += '.' + extension;
+
+                    // Check if file exists and show auto-rename info
+                    try {
+                        const response = await fetch(`${API_BASE_URL}/all-files`);
+                        const data = await response.json();
+                        const existingFiles = data.files || [];
+
+                        if (existingFiles.includes(filename)) {
+                            const uniqueName = generateUniqueFilename(filename, existingFiles);
+                            preview.innerHTML = `
+                                <span class="filename-warning">${filename} (already exists!)</span>
+                                <span class="filename-suggestion">Will be saved as: ${uniqueName}</span>
+                            `;
+                        } else {
+                            preview.textContent = filename;
+                        }
+                    } catch (error) {
+                        console.error('Error checking file existence:', error);
+                        preview.textContent = filename;
                     }
-                }, {
-                    name: `Search: "${searchValue}"`,
-                    action: null
-                }];
-                this.updateBreadcrumb();
-            }
-
-            // Simple fuzzy match helper
-            fuzzyMatch(str, query) {
-                return str.toLowerCase().split('').filter(char => query.includes(char)).join('') === query;
-            }
-
-            showFoldersView() {
-                this.currentPath = [{ name: 'Home', action: null }];
-                this.foldersView.style.display = 'block';
-                this.subfoldersView.style.display = 'none';
-                this.galleryView.style.display = 'none';
-                this.updateBreadcrumb();
-                this.currentPage = 0;
-                this.currentGalleryImages = [];
-                this.imageLoadQueue = [];
-                window.removeEventListener('scroll', this.scrollHandler);
-            }
-
-            updateBreadcrumb() {
-                this.breadcrumb.innerHTML = '';
-
-                this.currentPath.forEach((item, index) => {
-                    if (index > 0) {
-                        const separator = document.createElement('i');
-                        separator.className = 'fas fa-chevron-right';
-                        this.breadcrumb.appendChild(separator);
-                    }
-
-                    const crumb = document.createElement('a');
-                    crumb.href = '#';
-                    crumb.textContent = item.name;
-
-                    if (index === this.currentPath.length - 1) {
-                        crumb.className = 'current';
-                    } else {
-                        crumb.addEventListener('click', (e) => {
-                            e.preventDefault();
-                            if (item.action) item.action();
-                        });
-                    }
-
-                    this.breadcrumb.appendChild(crumb);
-                });
-            }
-
-            // Menu functions
-            openMenu() {
-                this.sideMenu.classList.add('active');
-                this.overlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
-
-            closeMenuFunc() {
-                this.sideMenu.classList.remove('active');
-                this.overlay.classList.remove('active');
-                document.body.style.overflow = 'auto';
+                } else {
+                    preview.textContent = filename || '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...';
+                }
+            } else {
+                preview.textContent = '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...';
             }
         }
 
-        // Initialize on DOM load
-        document.addEventListener('DOMContentLoaded', () => {
-            new FileManager();
+        // Generate unique filename
+        function generateUniqueFilename(baseFilename, existingFiles) {
+            const name = baseFilename.replace(/\.[^/.]+$/, "");
+            const ext = baseFilename.split('.').pop();
+            let counter = 1;
+            let newFilename = baseFilename;
 
-            // Register Service Worker for offline support
-            if ('serviceWorker' in navigator) {
-                const swCode = `
-                    const CACHE_NAME = 'amvverse-v1';
-                    const urlsToCache = [
-                        '/',
-                        '/index.html',
-                        '/manifest.json',
-                        '/icons/icon.png',
-                        '/data.js'
-                    ];
+            while (existingFiles.includes(newFilename)) {
+                newFilename = `${name}-${counter}.${ext}`;
+                counter++;
+            }
 
-                    self.addEventListener('install', function(event) {
-                        event.waitUntil(
-                            caches.open(CACHE_NAME)
-                                .then(function(cache) {
-                                    console.log('Opened cache');
-                                    return cache.addAll(urlsToCache);
-                                })
-                        );
-                    });
+            return newFilename;
+        }
 
-                    self.addEventListener('fetch', function(event) {
-                        event.respondWith(
-                            caches.open(CACHE_NAME).then(function(cache) {
-                                return caches.match(event.request).then(function(response) {
-                                    return response || fetch(event.request).then(function(response) {
-                                        // Cache successful network requests (including images)
-                                        if (response && response.status === 200) {
-                                            cache.put(event.request, response.clone());
-                                        }
-                                        return response;
-                                    }).catch(function() {
-                                        // Offline fallback: for images, serve a placeholder
-                                        if (event.request.destination === 'image') {
-                                            return new Response('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk9mZmxpbmU8L3RleHQ+PC9zdmc+');
-                                        }
-                                        return caches.match('/');
-                                    });
-                                });
-                            })
-                        );
-                    });
-                `;
-                const blob = new Blob([swCode], { type: 'application/javascript' });
-                const swUrl = URL.createObjectURL(blob);
-                navigator.serviceWorker.register(swUrl).then(function (registration) {
-                    console.log('ServiceWorker registered: ', registration);
-                }).catch(function (error) {
-                    console.log('ServiceWorker registration failed: ', error);
+        // View files functionality
+        document.getElementById('viewBtn').addEventListener('click', function () {
+            const contentId = document.getElementById('viewContentId').value;
+
+            if (!contentId) {
+                showViewStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳', 'error');
+                return;
+            }
+
+            viewFiles(contentId);
+        });
+
+        // View files function
+        function viewFiles(contentId) {
+            const viewBtn = document.getElementById('viewBtn');
+            const filesGrid = document.getElementById('filesGrid');
+
+            viewBtn.disabled = true;
+            viewBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 𝙻𝚘𝚊𝚍𝚒𝚗𝚐...';
+            filesGrid.innerHTML = '';
+
+            fetch(`${API_BASE_URL}/view/${contentId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        showViewStatus(data.error, 'error');
+                    } else {
+                        showViewStatus(`𝙵𝚘𝚞𝚗𝚍 ${data.files.length} 𝚏𝚒𝚕𝚎𝚜 𝚏𝚘𝚛 ${data.content_id}`, 'success');
+                        displayFilesGrid(data.files);
+                    }
+                })
+                .catch(error => {
+                    console.error('View files error:', error);
+                    showViewStatus('𝙵𝚊𝚒𝚕𝚎𝚍 𝚝𝚘 𝚕𝚘𝚊𝚍 𝚏𝚒𝚕𝚎𝚜', 'error');
+                })
+                .finally(() => {
+                    viewBtn.disabled = false;
+                    viewBtn.innerHTML = '<i class="fas fa-eye"></i> 𝚅𝚒𝚎𝚠 𝙵𝚒𝚕𝚎𝚜';
+                });
+        }
+
+        // Display files in grid
+        function displayFilesGrid(files) {
+            const filesGrid = document.getElementById('filesGrid');
+
+            if (files.length === 0) {
+                filesGrid.innerHTML = '<div class="no-files">𝙽𝚘 𝚏𝚒𝚕𝚎𝚜 𝚏𝚘𝚞𝚗𝚍 𝚏𝚘𝚛 𝚝𝚑𝚒𝚜 𝚌𝚘𝚗𝚝𝚎𝚗𝚝</div>';
+                return;
+            }
+
+            let html = '';
+            files.forEach(file => {
+                if (file.is_image) {
+                    html += `
+                        <div class="file-item">
+                            <div class="file-preview-container">
+                                <img src="${file.url}" alt="${file.filename}" loading="lazy">
+                            </div>
+                            <div class="file-info">
+                                <div class="file-name">${file.filename}</div>
+                                <a href="${file.url}" target="_blank" class="file-link">
+                                    <i class="fas fa-external-link-alt"></i> 𝙾𝚙𝚎𝚗
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div class="file-item">
+                            <div class="file-preview-container non-image">
+                                <i class="fas fa-file"></i>
+                                <span>${getFileExtension(file.filename).toUpperCase()}</span>
+                            </div>
+                            <div class="file-info">
+                                <div class="file-name">${file.filename}</div>
+                                <a href="${file.url}" target="_blank" class="file-link">
+                                    <i class="fas fa-download"></i> 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            filesGrid.innerHTML = html;
+        }
+
+        // Utility functions
+        function cleanFilename(text) {
+            return text.replace(/[^a-zA-Z0-9\-_]/g, '-').toLowerCase();
+        }
+
+        function getFileExtension(filename) {
+            return filename.slice((filename.lastIndexOf(".") + 1));
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function (e) {
+            if (!e.target.closest('.searchable-select')) {
+                document.querySelectorAll('.options-container').forEach(container => {
+                    container.style.display = 'none';
                 });
             }
         });
 
-        // Global fuzzyMatch for search (if needed outside class)
-        function fuzzyMatch(str, query) {
-            return str.toLowerCase().split('').filter(char => query.includes(char)).join('') === query;
+        // Show dropdowns when clicking on search inputs
+        document.querySelectorAll('.search-input').forEach(input => {
+            input.addEventListener('click', function (e) {
+                const container = this.nextElementSibling;
+                if (container && container.classList.contains('options-container')) {
+                    container.style.display = 'block';
+                }
+            });
+        });
+
+        // Token-based authentication
+        function checkTokenAuth() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
+
+            if (token && VALID_AUTH_CODES.includes(token)) {
+                // Hide authentication sections
+                document.getElementById('authSection').style.display = 'none';
+                return true;
+            }
+            return false;
+        }
+
+        // Initialize token authentication on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            checkTokenAuth();
+        });
+
+        // Form submission handlers
+        document.getElementById('uploadForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const contentId = document.getElementById('contentId').value;
+            const fileType = document.getElementById('fileType').value;
+            const authCode = document.getElementById('authCode').value;
+            const fileInput = document.getElementById('file');
+            const file = fileInput.files[0];
+
+            // Check if authentication is required
+            if (!checkTokenAuth() && !authCode) {
+                showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚎𝚗𝚝𝚎𝚛 𝚊𝚞𝚝𝚑𝚎𝚗𝚝𝚒𝚌𝚊𝚝𝚒𝚘𝚗 𝚌𝚘𝚍𝚎', 'error');
+                return;
+            }
+
+            if (!contentId) {
+                showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳', 'error');
+                return;
+            }
+
+            if (!fileType) {
+                showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚏𝚒𝚕𝚎 𝚝𝚢𝚙𝚎', 'error');
+                return;
+            }
+
+            if (!file) {
+                showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚏𝚒𝚕𝚎', 'error');
+                return;
+            }
+
+            // Create FormData for file upload
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('content_id', contentId);
+            formData.append('file_type', fileType);
+
+            // Only add auth_code if not using token authentication
+            if (!checkTokenAuth()) {
+                formData.append('auth_code', authCode);
+            }
+
+            const customText = document.getElementById('customText').value;
+            if (customText) {
+                formData.append('custom_text', customText);
+            }
+
+            // Upload file
+            uploadFile(formData);
+        });
+
+        // Upload file to backend
+        function uploadFile(formData) {
+            const progressContainer = document.getElementById('progressContainer');
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            const uploadBtn = document.getElementById('uploadBtn');
+
+            // Show progress bar
+            progressContainer.style.display = 'block';
+            uploadBtn.disabled = true;
+            uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 𝚄𝚙𝚕𝚘𝚊𝚍𝚒𝚗𝚐...';
+
+            fetch(`${API_BASE_URL}/upload`, {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        showStatus(data.error, 'error');
+                    } else {
+                        showStatus(`𝙵𝚒𝚕𝚎 "${data.filename}" 𝚞𝚙𝚕𝚘𝚊𝚍𝚎𝚍 𝚜𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢!`, 'success');
+
+                        // Reset form
+                        document.getElementById('uploadForm').reset();
+                        document.getElementById('filePreview').style.display = 'none';
+                        document.getElementById('filenamePreview').textContent = '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...';
+                        document.getElementById('contentId').value = '';
+                        document.getElementById('fileType').value = '';
+                        typeOptions.forEach(opt => opt.classList.remove('selected'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Upload error:', error);
+                    showStatus('𝙵𝚊𝚒𝚕𝚎𝚍 𝚝𝚘 𝚞𝚙𝚕𝚘𝚊𝚍 𝚏𝚒𝚕𝚎', 'error');
+                })
+                .finally(() => {
+                    progressContainer.style.display = 'none';
+                    uploadBtn.disabled = false;
+                    uploadBtn.innerHTML = '<i class="fas fa-upload"></i> 𝚄𝚙𝚕𝚘𝚊𝚍 𝙵𝚒𝚕𝚎';
+                });
+        }
+
+        // Status message functions
+        function showStatus(message, type) {
+            const statusMessage = document.getElementById('statusMessage');
+            statusMessage.textContent = message;
+            statusMessage.className = 'status-message';
+            statusMessage.classList.add(`status-${type}`);
+            statusMessage.style.display = 'block';
+
+            setTimeout(() => {
+                statusMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        function showViewStatus(message, type) {
+            const statusMessage = document.getElementById('viewStatusMessage');
+            statusMessage.textContent = message;
+            statusMessage.className = 'status-message';
+            statusMessage.classList.add(`status-${type}`);
+            statusMessage.style.display = 'block';
+
+            setTimeout(() => {
+                statusMessage.style.display = 'none';
+            }, 5000);
         }
     </script>
 </body>
-
 
 </html>
