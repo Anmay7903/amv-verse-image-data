@@ -195,5 +195,15 @@ const images = [
   "battle-through-the-heavens-character-xiao_yan.jpg",
   "jujutsu-kaisen-screenshot-1.jpg",
   "jujutsu-kaisen-screenshot-2.jpg",
-  "jujutsu-kaisen-screenshot-3.jpg"
+  "jujutsu-kaisen-screenshot-3.jpg",
+  "my-status-as-an-assassin-obviously-exceeds-the-hero-screenshot-1.jpg",
+  "my-status-as-an-assassin-obviously-exceeds-the-hero-screenshot-2.jpg",
+  "my-status-as-an-assassin-obviously-exceeds-the-hero-screenshot-3.jpg",
+  "my-status-as-an-assassin-obviously-exceeds-the-hero-screenshot-4.jpg",
+  "my-status-as-an-assassin-obviously-exceeds-the-hero-screenshot-5.jpg",
+  "my-status-as-an-assassin-obviously-exceeds-the-hero-screenshot-6.jpg",
+  "my-status-as-an-assassin-obviously-exceeds-the-hero-screenshot-7.jpg",
+  "my-status-as-an-assassin-obviously-exceeds-the-hero-screenshot-8.jpg",
+  "my-status-as-an-assassin-obviously-exceeds-the-hero-screenshot-9.jpg",
+  "my-status-as-an-assassin-obviously-exceeds-the-hero-screenshot-10.jpg"
 ];
