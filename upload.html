@@ -7,7 +7,7 @@
     <title>File Uploader | AMV VERSE</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>𝙵𝚒𝚕𝚎 𝙿𝚛𝚎𝚟𝚒𝚎𝚠 | 𝙰𝙼𝚅 𝚅𝙴𝚁𝚂𝙴</title>
+    <title>𝙵𝚒𝚕𝚎 𝙼𝚊𝚗𝚊𝚐𝚎𝚛 | 𝙰𝙼𝚅 𝚅𝙴𝚁𝚂𝙴</title>
     <link rel="manifest" href="/manifest.json">
     <script src="/data.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -369,7 +369,7 @@
         }
 
         .upload-page,
-        .delete-page {
+        .view-page {
             transition: transform 0.4s ease-in-out;
             width: 100%;
         }
@@ -378,7 +378,7 @@
             transform: translateX(0%);
         }
 
-        .delete-page {
+        .view-page {
             position: absolute;
             top: 0;
             left: 0;
@@ -389,7 +389,7 @@
             transform: translateX(-100%);
         }
 
-        .delete-page.slide-in {
+        .view-page.slide-in {
             transform: translateX(0%);
         }
 
@@ -421,26 +421,26 @@
         }
 
         .upload-container,
-        .delete-container {
-            max-width: 600px;
+        .view-container {
+            max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
-            background: var(--surface-color);
-            border-radius: var(--border-radius);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
-        .upload-form,
-        .delete-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
+        .upload-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--surface-color);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
+            margin-bottom: 1.5rem;
         }
 
         .form-group label {
@@ -606,6 +606,11 @@
             font-family: monospace;
             font-size: 1.1rem;
             border: 1px dashed rgba(255, 255, 255, 0.2);
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
         }
 
         .auth-section {
@@ -623,7 +628,7 @@
         }
 
         .upload-btn,
-        .delete-btn {
+        .view-btn {
             background: var(--primary-color);
             color: white;
             border: none;
@@ -633,15 +638,16 @@
             cursor: pointer;
             transition: background 0.3s;
             font-family: var(--font-family);
+            width: 100%;
         }
 
         .upload-btn:hover,
-        .delete-btn:hover {
+        .view-btn:hover {
             background: #c40811;
         }
 
         .upload-btn:disabled,
-        .delete-btn:disabled {
+        .view-btn:disabled {
             background: #666;
             cursor: not-allowed;
         }
@@ -732,11 +738,126 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
+        /* View Page Styles */
+        .search-section {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-end;
+            margin-bottom: 2rem;
+            background: var(--surface-color);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+        }
+
+        .search-section .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .view-btn {
+            width: auto;
+            flex-shrink: 0;
+        }
+
+        .files-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .file-item {
+            background: var(--surface-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .file-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .file-preview-container {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--background-color);
+            overflow: hidden;
+        }
+
+        .file-preview-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .file-preview-container.non-image {
+            flex-direction: column;
+            color: var(--text-color-secondary);
+            font-size: 3rem;
+        }
+
+        .file-preview-container.non-image span {
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .file-info {
+            padding: 1rem;
+        }
+
+        .file-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            word-break: break-all;
+            font-size: 0.9rem;
+        }
+
+        .file-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .file-link:hover {
+            text-decoration: underline;
+        }
+
+        .no-files {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-color-secondary);
+            font-style: italic;
+            background: var(--surface-color);
+            border-radius: var(--border-radius);
+        }
+
+        .filename-warning {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .filename-suggestion {
+            color: #f39c12;
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
 
             .upload-container,
-            .delete-container {
+            .view-container {
+                padding: 1rem;
+            }
+
+            .upload-form {
                 padding: 1rem;
             }
 
@@ -755,6 +876,19 @@
             .toggle-btn:last-child {
                 margin-bottom: 0;
             }
+
+            .search-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .files-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            .view-btn {
+                width: 100%;
+            }
         }
 
         @media (max-width: 480px) {
@@ -764,6 +898,10 @@
 
             .auth-section {
                 padding: 1rem;
+            }
+
+            .files-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -777,11 +915,11 @@
             <div class="header-actions">
                 <div class="search-box" id="searchBox">
                     <input type="text" id="Search" placeholder="Search id...">
-                   <button id="mobile-menu-toggle" class="mobile-menu-toggle">
-                    <i class="fas fa-bars"></i>
-                </button>
+                    <button id="mobile-menu-toggle" class="mobile-menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
             </div>
-        </div>
     </header>
 
     <!-- Side Menu -->
@@ -807,7 +945,7 @@
 
             <div class="page-toggle">
                 <button class="toggle-btn active" id="uploadToggle">𝚄𝚙𝚕𝚘𝚊𝚍 𝙵𝚒𝚕𝚎</button>
-                <button class="toggle-btn" id="deleteToggle">𝙳𝚎𝚕𝚎𝚝𝚎 𝙵𝚒𝚕𝚎</button>
+                <button class="toggle-btn" id="viewToggle">𝚅𝚒𝚎𝚠 𝙵𝚒𝚕𝚎𝚜</button>
             </div>
 
             <div class="main-container">
@@ -856,7 +994,7 @@
                                 <!-- Step 3: Custom Text -->
                                 <div class="filename-step">
                                     <div class="step-title">
-                                        <span class="step-number">3</span>
+                                        <span class="step_number">3</span>
                                         𝙰𝚍𝚍 𝙲𝚞𝚜𝚝𝚘𝚖 𝚃𝚎𝚡𝚝 (𝚘𝚙𝚝𝚒𝚘𝚗𝚊𝚕):
                                     </div>
                                     <input type="text" id="customText" name="custom_text"
@@ -870,7 +1008,7 @@
                             </div>
 
                             <!-- Authentication -->
-                            <div class="auth-section">
+                            <div class="auth-section" id="authSection">
                                 <div class="form-group">
                                     <label for="authCode">𝚂𝚎𝚌𝚛𝚎𝚝 𝙲𝚘𝚍𝚎:</label>
                                     <input type="password" id="authCode" name="auth_code"
@@ -903,45 +1041,29 @@
                     </div>
                 </div>
 
-                <!-- Delete Page -->
-                <div class="delete-page" id="deletePage">
-                    <div class="delete-container">
-                        <form class="delete-form" id="deleteForm" method="POST">
+                <!-- View Page -->
+                <div class="view-page" id="viewPage">
+                    <div class="view-container">
+                        <div class="search-section">
                             <div class="form-group">
-                                <label for="deleteContentSearch">𝚂𝚎𝚕𝚎𝚌𝚝 𝙲𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳:</label>
+                                <label for="viewContentSearch">𝚂𝚎𝚕𝚎𝚌𝚝 𝙲𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳:</label>
                                 <div class="searchable-select">
-                                    <input type="text" id="deleteContentSearch" class="search-input"
+                                    <input type="text" id="viewContentSearch" class="search-input"
                                         placeholder="𝚂𝚎𝚊𝚛𝚌𝚑 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳...">
-                                    <div class="options-container" id="deleteContentOptions"></div>
+                                    <div class="options-container" id="viewContentOptions"></div>
                                 </div>
-                                <input type="hidden" id="deleteContentId" name="content_id">
+                                <input type="hidden" id="viewContentId">
                             </div>
-
-                            <div class="form-group">
-                                <label for="deleteFileSearch">𝚂𝚎𝚊𝚛𝚌𝚑 𝙵𝚒𝚕𝚎𝚜:</label>
-                                <div class="searchable-select">
-                                    <input type="text" id="deleteFileSearch" class="search-input"
-                                        placeholder="𝚂𝚎𝚊𝚛𝚌𝚑 𝚏𝚒𝚕𝚎𝚜...">
-                                    <div class="file-options-container" id="fileOptions"></div>
-                                </div>
-                                <input type="hidden" id="deleteFilename" name="filename">
-                            </div>
-
-                            <!-- Authentication -->
-                            <div class="auth-section">
-                                <div class="form-group">
-                                    <label for="deleteAuthCode">𝚂𝚎𝚌𝚛𝚎𝚝 𝙲𝚘𝚍𝚎:</label>
-                                    <input type="password" id="deleteAuthCode" name="auth_code"
-                                        placeholder="𝙴𝚗𝚝𝚎𝚛 𝚜𝚎𝚌𝚛𝚎𝚝 𝚌𝚘𝚍𝚎" required>
-                                </div>
-                            </div>
-
-                            <button type="submit" class="delete-btn" id="deleteBtn">
-                                <i class="fas fa-trash"></i> 𝙳𝚎𝚕𝚎𝚝𝚎 𝙵𝚒𝚕𝚎
+                            <button class="view-btn" id="viewBtn">
+                                <i class="fas fa-eye"></i> 𝚅𝚒𝚎𝚠 𝙵𝚒𝚕𝚎𝚜
                             </button>
-                        </form>
+                        </div>
 
-                        <div class="status-message" id="deleteStatusMessage"></div>
+                        <div class="files-grid" id="filesGrid">
+                            <!-- Files will be displayed here -->
+                        </div>
+
+                        <div class="status-message" id="viewStatusMessage"></div>
 
                         <a href="/" class="back-link">
                             <i class="fas fa-arrow-left"></i> 𝙱𝚊𝚌𝚔 𝚝𝚘 𝙷𝚘𝚖𝚎
@@ -984,32 +1106,33 @@
 
         // Backend API URL - Update this with your Render URL after deployment
         const API_BASE_URL = 'https://file-uploader-je1o.onrender.com';
+        const VALID_AUTH_CODES = ['9661', '79033', '8399'];
 
         // Page Toggle Functionality
         const uploadToggle = document.getElementById('uploadToggle');
-        const deleteToggle = document.getElementById('deleteToggle');
+        const viewToggle = document.getElementById('viewToggle');
         const uploadPage = document.getElementById('uploadPage');
-        const deletePage = document.getElementById('deletePage');
+        const viewPage = document.getElementById('viewPage');
 
         uploadToggle.addEventListener('click', () => {
             uploadToggle.classList.add('active');
-            deleteToggle.classList.remove('active');
+            viewToggle.classList.remove('active');
             uploadPage.classList.remove('slide-left');
-            deletePage.classList.remove('slide-in');
+            viewPage.classList.remove('slide-in');
         });
 
-        deleteToggle.addEventListener('click', () => {
-            deleteToggle.classList.add('active');
+        viewToggle.addEventListener('click', () => {
+            viewToggle.classList.add('active');
             uploadToggle.classList.remove('active');
             uploadPage.classList.add('slide-left');
-            deletePage.classList.add('slide-in');
+            viewPage.classList.add('slide-in');
         });
 
         // Content IDs and images from external data source
         let animeData = [];
 
         // Fetch content data from data.js
-        fetch('https://amvversex.netlify.app/dxh2jf6f8shlldyq6lpo4exgdq/d2hs6ea0ct0of8shlanv6lpo4eygdq.js')
+        fetch('https://animesaga.pages.dev/dxh2jf6f8shlldyq6lpo4exgdq/d2hs6ea0ct0of8shlanv6lpo4eygdq.js')
             .then(response => response.text())
             .then(data => {
                 // Extract animeData array from the data.js file
@@ -1028,7 +1151,7 @@
                         }));
 
                         populateContentOptions();
-                        populateDeleteContentOptions();
+                        populateViewContentOptions();
                     } catch (e) {
                         console.error('Error parsing animeData:', e);
                         loadFallbackData();
@@ -1064,7 +1187,7 @@
                         ];
                     }
                     populateContentOptions();
-                    populateDeleteContentOptions();
+                    populateViewContentOptions();
                 })
                 .catch(error => {
                     console.error('Error fetching content from backend:', error);
@@ -1076,7 +1199,7 @@
                         { id: 'your-name', title: 'Your Name', image: '' }
                     ];
                     populateContentOptions();
-                    populateDeleteContentOptions();
+                    populateViewContentOptions();
                 });
         }
 
@@ -1104,8 +1227,8 @@
             });
         }
 
-        function populateDeleteContentOptions() {
-            const optionsContainer = document.getElementById('deleteContentOptions');
+        function populateViewContentOptions() {
+            const optionsContainer = document.getElementById('viewContentOptions');
             optionsContainer.innerHTML = '';
 
             animeData.forEach(item => {
@@ -1119,10 +1242,9 @@
                 </div>
             `;
                 option.addEventListener('click', () => {
-                    document.getElementById('deleteContentSearch').value = item.id;
-                    document.getElementById('deleteContentId').value = item.id;
+                    document.getElementById('viewContentSearch').value = item.id;
+                    document.getElementById('viewContentId').value = item.id;
                     optionsContainer.style.display = 'none';
-                    loadFilesForContent(item.id);
                 });
                 optionsContainer.appendChild(option);
             });
@@ -1151,10 +1273,10 @@
             optionsContainer.style.display = hasVisibleOptions ? 'block' : 'none';
         });
 
-        // Search functionality for content IDs (Delete page)
-        document.getElementById('deleteContentSearch').addEventListener('input', function (e) {
+        // Search functionality for content IDs (View page)
+        document.getElementById('viewContentSearch').addEventListener('input', function (e) {
             const searchTerm = e.target.value.toLowerCase();
-            const optionsContainer = document.getElementById('deleteContentOptions');
+            const optionsContainer = document.getElementById('viewContentOptions');
             const options = optionsContainer.getElementsByClassName('option-item');
 
             let hasVisibleOptions = false;
@@ -1164,28 +1286,6 @@
                 const title = option.querySelector('.option-title') ? option.querySelector('.option-title').textContent.toLowerCase() : '';
 
                 if (id.includes(searchTerm) || title.includes(searchTerm)) {
-                    option.style.display = 'flex';
-                    hasVisibleOptions = true;
-                } else {
-                    option.style.display = 'none';
-                }
-            }
-
-            optionsContainer.style.display = hasVisibleOptions ? 'block' : 'none';
-        });
-
-        // Search functionality for files (Delete page)
-        document.getElementById('deleteFileSearch').addEventListener('input', function (e) {
-            const searchTerm = e.target.value.toLowerCase();
-            const optionsContainer = document.getElementById('fileOptions');
-            const options = optionsContainer.getElementsByClassName('option-item');
-
-            let hasVisibleOptions = false;
-
-            for (let option of options) {
-                const filename = option.querySelector('.option-id').textContent.toLowerCase();
-
-                if (filename.includes(searchTerm)) {
                     option.style.display = 'flex';
                     hasVisibleOptions = true;
                 } else {
@@ -1239,67 +1339,14 @@
             }
         });
 
-        // Load files for selected content (Delete page)
-        function loadFilesForContent(contentId) {
-            const fileSearch = document.getElementById('deleteFileSearch');
-            const fileOptions = document.getElementById('fileOptions');
-
-            fileSearch.value = '';
-            fileOptions.innerHTML = '';
-            document.getElementById('deleteFilename').value = '';
-
-            // Fetch actual files from backend
-            fetch(`${API_BASE_URL}/files/${contentId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.files && data.files.length > 0) {
-                        data.files.forEach(filename => {
-                            const option = document.createElement('div');
-                            option.className = 'option-item';
-                            option.innerHTML = `
-                            <div class="option-content">
-                                <div class="option-id">${filename}</div>
-                            </div>
-                        `;
-                            option.addEventListener('click', () => {
-                                fileSearch.value = filename;
-                                document.getElementById('deleteFilename').value = filename;
-                                fileOptions.style.display = 'none';
-                            });
-                            fileOptions.appendChild(option);
-                        });
-                    } else {
-                        // Show message if no files found
-                        const option = document.createElement('div');
-                        option.className = 'option-item';
-                        option.innerHTML = `
-                        <div class="option-content">
-                            <div class="option-id">No files found for this content</div>
-                        </div>
-                    `;
-                        fileOptions.appendChild(option);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching files:', error);
-                    const option = document.createElement('div');
-                    option.className = 'option-item';
-                    option.innerHTML = `
-                    <div class="option-content">
-                        <div class="option-id">Error loading files</div>
-                    </div>
-                `;
-                    fileOptions.appendChild(option);
-                });
-        }
-
-        // Update filename preview
-        function updateFilenamePreview() {
+        // Update filename preview with auto-rename feature
+        async function updateFilenamePreview() {
             const contentId = document.getElementById('contentId').value;
             const fileType = document.getElementById('fileType').value;
             const customText = document.getElementById('customText').value;
             const fileInput = document.getElementById('file');
             const file = fileInput.files[0];
+            const preview = document.getElementById('filenamePreview');
 
             let filename = '';
 
@@ -1312,10 +1359,134 @@
                 if (file) {
                     const extension = getFileExtension(file.name);
                     filename += '.' + extension;
+
+                    // Check if file exists and show auto-rename info
+                    try {
+                        const response = await fetch(`${API_BASE_URL}/all-files`);
+                        const data = await response.json();
+                        const existingFiles = data.files || [];
+
+                        if (existingFiles.includes(filename)) {
+                            const uniqueName = generateUniqueFilename(filename, existingFiles);
+                            preview.innerHTML = `
+                                <span class="filename-warning">${filename} (already exists!)</span>
+                                <span class="filename-suggestion">Will be saved as: ${uniqueName}</span>
+                            `;
+                        } else {
+                            preview.textContent = filename;
+                        }
+                    } catch (error) {
+                        console.error('Error checking file existence:', error);
+                        preview.textContent = filename;
+                    }
+                } else {
+                    preview.textContent = filename || '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...';
                 }
+            } else {
+                preview.textContent = '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...';
+            }
+        }
+
+        // Generate unique filename
+        function generateUniqueFilename(baseFilename, existingFiles) {
+            const name = baseFilename.replace(/\.[^/.]+$/, "");
+            const ext = baseFilename.split('.').pop();
+            let counter = 1;
+            let newFilename = baseFilename;
+
+            while (existingFiles.includes(newFilename)) {
+                newFilename = `${name}-${counter}.${ext}`;
+                counter++;
             }
 
-            document.getElementById('filenamePreview').textContent = filename || '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...';
+            return newFilename;
+        }
+
+        // View files functionality
+        document.getElementById('viewBtn').addEventListener('click', function () {
+            const contentId = document.getElementById('viewContentId').value;
+
+            if (!contentId) {
+                showViewStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳', 'error');
+                return;
+            }
+
+            viewFiles(contentId);
+        });
+
+        // View files function
+        function viewFiles(contentId) {
+            const viewBtn = document.getElementById('viewBtn');
+            const filesGrid = document.getElementById('filesGrid');
+
+            viewBtn.disabled = true;
+            viewBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 𝙻𝚘𝚊𝚍𝚒𝚗𝚐...';
+            filesGrid.innerHTML = '';
+
+            fetch(`${API_BASE_URL}/view/${contentId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        showViewStatus(data.error, 'error');
+                    } else {
+                        showViewStatus(`𝙵𝚘𝚞𝚗𝚍 ${data.files.length} 𝚏𝚒𝚕𝚎𝚜 𝚏𝚘𝚛 ${data.content_id}`, 'success');
+                        displayFilesGrid(data.files);
+                    }
+                })
+                .catch(error => {
+                    console.error('View files error:', error);
+                    showViewStatus('𝙵𝚊𝚒𝚕𝚎𝚍 𝚝𝚘 𝚕𝚘𝚊𝚍 𝚏𝚒𝚕𝚎𝚜', 'error');
+                })
+                .finally(() => {
+                    viewBtn.disabled = false;
+                    viewBtn.innerHTML = '<i class="fas fa-eye"></i> 𝚅𝚒𝚎𝚠 𝙵𝚒𝚕𝚎𝚜';
+                });
+        }
+
+        // Display files in grid
+        function displayFilesGrid(files) {
+            const filesGrid = document.getElementById('filesGrid');
+
+            if (files.length === 0) {
+                filesGrid.innerHTML = '<div class="no-files">𝙽𝚘 𝚏𝚒𝚕𝚎𝚜 𝚏𝚘𝚞𝚗𝚍 𝚏𝚘𝚛 𝚝𝚑𝚒𝚜 𝚌𝚘𝚗𝚝𝚎𝚗𝚝</div>';
+                return;
+            }
+
+            let html = '';
+            files.forEach(file => {
+                if (file.is_image) {
+                    html += `
+                        <div class="file-item">
+                            <div class="file-preview-container">
+                                <img src="${file.url}" alt="${file.filename}" loading="lazy">
+                            </div>
+                            <div class="file-info">
+                                <div class="file-name">${file.filename}</div>
+                                <a href="${file.url}" target="_blank" class="file-link">
+                                    <i class="fas fa-external-link-alt"></i> 𝙾𝚙𝚎𝚗
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div class="file-item">
+                            <div class="file-preview-container non-image">
+                                <i class="fas fa-file"></i>
+                                <span>${getFileExtension(file.filename).toUpperCase()}</span>
+                            </div>
+                            <div class="file-info">
+                                <div class="file-name">${file.filename}</div>
+                                <a href="${file.url}" target="_blank" class="file-link">
+                                    <i class="fas fa-download"></i> 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            filesGrid.innerHTML = html;
         }
 
         // Utility functions
@@ -1338,7 +1509,7 @@
         // Close dropdowns when clicking outside
         document.addEventListener('click', function (e) {
             if (!e.target.closest('.searchable-select')) {
-                document.querySelectorAll('.options-container, .file-options-container').forEach(container => {
+                document.querySelectorAll('.options-container').forEach(container => {
                     container.style.display = 'none';
                 });
             }
@@ -1354,6 +1525,24 @@
             });
         });
 
+        // Token-based authentication
+        function checkTokenAuth() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
+
+            if (token && VALID_AUTH_CODES.includes(token)) {
+                // Hide authentication sections
+                document.getElementById('authSection').style.display = 'none';
+                return true;
+            }
+            return false;
+        }
+
+        // Initialize token authentication on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            checkTokenAuth();
+        });
+
         // Form submission handlers
         document.getElementById('uploadForm').addEventListener('submit', function (e) {
             e.preventDefault();
@@ -1363,6 +1552,12 @@
             const authCode = document.getElementById('authCode').value;
             const fileInput = document.getElementById('file');
             const file = fileInput.files[0];
+
+            // Check if authentication is required
+            if (!checkTokenAuth() && !authCode) {
+                showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚎𝚗𝚝𝚎𝚛 𝚊𝚞𝚝𝚑𝚎𝚗𝚝𝚒𝚌𝚊𝚝𝚒𝚘𝚗 𝚌𝚘𝚍𝚎', 'error');
+                return;
+            }
 
             if (!contentId) {
                 showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳', 'error');
@@ -1384,7 +1579,11 @@
             formData.append('file', file);
             formData.append('content_id', contentId);
             formData.append('file_type', fileType);
-            formData.append('auth_code', authCode);
+
+            // Only add auth_code if not using token authentication
+            if (!checkTokenAuth()) {
+                formData.append('auth_code', authCode);
+            }
 
             const customText = document.getElementById('customText').value;
             if (customText) {
@@ -1393,27 +1592,6 @@
 
             // Upload file
             uploadFile(formData);
-        });
-
-        document.getElementById('deleteForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const contentId = document.getElementById('deleteContentId').value;
-            const filename = document.getElementById('deleteFilename').value;
-            const authCode = document.getElementById('deleteAuthCode').value;
-
-            if (!contentId) {
-                showDeleteStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳', 'error');
-                return;
-            }
-
-            if (!filename) {
-                showDeleteStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚏𝚒𝚕𝚎', 'error');
-                return;
-            }
-
-            // Delete file
-            deleteFile(filename, authCode);
         });
 
         // Upload file to backend
@@ -1459,44 +1637,6 @@
                 });
         }
 
-        // Delete file via backend
-        function deleteFile(filename, authCode) {
-            const deleteBtn = document.getElementById('deleteBtn');
-
-            deleteBtn.disabled = true;
-            deleteBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 𝙳𝚎𝚕𝚎𝚝𝚒𝚗𝚐...';
-
-            fetch(`${API_BASE_URL}/delete`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: `filename=${encodeURIComponent(filename)}&auth_code=${encodeURIComponent(authCode)}`
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.error) {
-                        showDeleteStatus(data.error, 'error');
-                    } else {
-                        showDeleteStatus(`𝙵𝚒𝚕𝚎 "${data.filename}" 𝚍𝚎𝚕𝚎𝚝𝚎𝚍 𝚜𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢!`, 'success');
-
-                        // Reset form
-                        document.getElementById('deleteForm').reset();
-                        document.getElementById('deleteContentId').value = '';
-                        document.getElementById('deleteFilename').value = '';
-                        document.getElementById('fileOptions').innerHTML = '';
-                    }
-                })
-                .catch(error => {
-                    console.error('Delete error:', error);
-                    showDeleteStatus('𝙵𝚊𝚒𝚕𝚎𝚍 𝚝𝚘 𝚍𝚎𝚕𝚎𝚝𝚎 𝚏𝚒𝚕𝚎', 'error');
-                })
-                .finally(() => {
-                    deleteBtn.disabled = false;
-                    deleteBtn.innerHTML = '<i class="fas fa-trash"></i> 𝙳𝚎𝚕𝚎𝚝𝚎 𝙵𝚒𝚕𝚎';
-                });
-        }
-
         // Status message functions
         function showStatus(message, type) {
             const statusMessage = document.getElementById('statusMessage');
@@ -1510,8 +1650,8 @@
             }, 5000);
         }
 
-        function showDeleteStatus(message, type) {
-            const statusMessage = document.getElementById('deleteStatusMessage');
+        function showViewStatus(message, type) {
+            const statusMessage = document.getElementById('viewStatusMessage');
             statusMessage.textContent = message;
             statusMessage.className = 'status-message';
             statusMessage.classList.add(`status-${type}`);
