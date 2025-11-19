@@ -4,10 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Manager | AMV VERSE</title>
+    <title>File Uploader | AMV VERSE</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>𝙵𝚒𝚕𝚎 𝙿𝚛𝚎𝚟𝚒𝚎𝚠 | 𝙰𝙼𝚅 𝚅𝙴𝚁𝚂𝙴</title>
+    <link rel="manifest" href="/manifest.json">
+    <script src="/data.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="/icons/icon.png" type="png/image/x-icon">
+    <link rel="apple-touch-icon" href="/icons/icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* CSS Variables from the external style.css */
         :root {
             --primary-color: #e50914;
             --background-color: #0f0f0f;
@@ -18,6 +32,7 @@
             --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
 
+        /* Base styles from external CSS */
         * {
             margin: 0;
             padding: 0;
@@ -34,13 +49,54 @@
             overflow-x: hidden;
         }
 
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
+        ::selection {
+            background: rgba(255, 0, 0, 0.452);
+            color: white;
         }
 
+        /* Remove all tap highlights on mobile devices */
+        button,
+        button.filter-btn,
+        [role="button"],
+        input[type="button"],
+        input[type="submit"],
+        input[type="reset"] {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+            outline: none !important;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--surface-color);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--text-color-secondary);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color);
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .no-double-tap {
+            touch-action: manipulation;
+            -ms-touch-action: manipulation;
+        }
+
+        /* Header Styles */
         .main-header {
             background-color: var(--surface-color);
             padding: 0.8rem 0;
@@ -54,6 +110,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 15px;
         }
 
         .logo {
@@ -61,6 +118,246 @@
             font-weight: 700;
             color: var(--text-color);
             text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+            justify-content: flex-end;
+            max-width: 600px;
+        }
+
+        .search-box {
+            display: flex;
+            background: var(--background-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            flex: 1;
+            max-width: 500px;
+            min-width: 150px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus-within {
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            padding: 0.8rem 1rem;
+            color: var(--text-color);
+            flex: 1;
+            outline: none;
+            width: 100%;
+            min-width: 0;
+        }
+
+        .search-box button {
+            background: var(--primary-color);
+            border: none;
+            color: var(--text-color);
+            padding: 0.8rem 1rem;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .mobile-menu-toggle {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* Side Menu */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100%;
+            background-color: var(--surface-color);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            transition: right 0.3s ease;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .side-menu.active {
+            right: 0;
+        }
+
+        .side-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .side-menu-logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .close-menu {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .side-menu ul {
+            list-style: none;
+            padding: 1.5rem;
+            flex: 1;
+        }
+
+        .side-menu li {
+            margin: 1rem 0;
+        }
+
+        .side-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            transition: color 0.3s, background-color 0.3s;
+            border-radius: var(--border-radius);
+        }
+
+        .side-menu a:hover {
+            color: var(--primary-color);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .side-menu a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Media Queries for Responsive Header */
+        @media (max-width: 768px) {
+            .main-header .container {
+                gap: 10px;
+            }
+
+            .logo {
+                font-size: 1.3rem;
+            }
+
+            .header-actions {
+                gap: 10px;
+            }
+
+            .search-box {
+                min-width: 120px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-header {
+                padding: 0.6rem 0;
+            }
+
+            .logo {
+                font-size: 1.1rem;
+            }
+
+            .search-box input {
+                padding: 0.6rem 0.8rem;
+            }
+
+            .search-box button {
+                padding: 0.6rem 0.8rem;
+            }
+
+            .mobile-menu-toggle {
+                font-size: 1.3rem;
+                padding: 0.4rem;
+            }
+        }
+
+        /* Gallery page styles */
+        .gallery-page {
+            min-height: 100vh;
+            padding: 2rem 0;
+        }
+
+        /* Additional base styles that might be in the external CSS */
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #ff1e2d;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        /* apply only to interactive controls (recommended), or * for whole page */
+        html,
+        body,
+        button,
+        a,
+        input,
+        .no-double-tap {
+            touch-action: manipulation;
+            -ms-touch-action: manipulation;
+            /* legacy IE/Edge */
+        }
+
+        /* Mobile-first responsive design */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .main-container {
+            padding: 2rem 0;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+
         }
 
         .section-title {
@@ -69,6 +366,31 @@
             color: var(--text-color);
             border-left: 4px solid var(--primary-color);
             padding-left: 1rem;
+        }
+
+        .upload-page,
+        .delete-page {
+            transition: transform 0.4s ease-in-out;
+            width: 100%;
+        }
+
+        .upload-page {
+            transform: translateX(0%);
+        }
+
+        .delete-page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: translateX(100%);
+        }
+
+        .upload-page.slide-left {
+            transform: translateX(-100%);
+        }
+
+        .delete-page.slide-in {
+            transform: translateX(0%);
         }
 
         .page-toggle {
@@ -98,59 +420,27 @@
             color: white;
         }
 
-        .main-container {
-            padding: 2rem 0;
-            min-height: 100vh;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .upload-page,
-        .view-page {
-            transition: transform 0.4s ease-in-out;
-            width: 100%;
-        }
-
-        .upload-page {
-            transform: translateX(0%);
-        }
-
-        .view-page {
-            position: absolute;
-            top: 0;
-            left: 0;
-            transform: translateX(100%);
-        }
-
-        .upload-page.slide-left {
-            transform: translateX(-100%);
-        }
-
-        .view-page.slide-in {
-            transform: translateX(0%);
-        }
-
         .upload-container,
-        .view-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .upload-form {
+        .delete-container {
             max-width: 600px;
             margin: 0 auto;
-            background: var(--surface-color);
             padding: 2rem;
+            background: var(--surface-color);
             border-radius: var(--border-radius);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .upload-form,
+        .delete-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
-            margin-bottom: 1.5rem;
         }
 
         .form-group label {
@@ -159,13 +449,21 @@
         }
 
         .form-group input,
-        .form-group select {
+        .form-group select,
+        .form-group textarea {
             padding: 0.8rem;
             border-radius: var(--border-radius);
             border: 1px solid rgba(255, 255, 255, 0.1);
             background: var(--background-color);
             color: var(--text-color);
             font-family: var(--font-family);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
         }
 
         .filename-builder {
@@ -177,6 +475,10 @@
 
         .filename-step {
             margin-bottom: 1.5rem;
+        }
+
+        .filename-step:last-child {
+            margin-bottom: 0;
         }
 
         .step-title {
@@ -243,6 +545,33 @@
             background: rgba(255, 255, 255, 0.05);
         }
 
+        .option-item:last-child {
+            border-bottom: none;
+        }
+
+        .option-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .option-content {
+            flex: 1;
+        }
+
+        .option-id {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .option-title {
+            font-size: 0.8rem;
+            color: var(--text-color-secondary);
+            margin-top: 2px;
+        }
+
         .type-options {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -259,6 +588,10 @@
             transition: all 0.3s;
         }
 
+        .type-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
         .type-option.selected {
             border-color: var(--primary-color);
             background: rgba(229, 9, 20, 0.1);
@@ -273,11 +606,6 @@
             font-family: monospace;
             font-size: 1.1rem;
             border: 1px dashed rgba(255, 255, 255, 0.2);
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
         }
 
         .auth-section {
@@ -287,8 +615,15 @@
             margin: 1rem 0;
         }
 
+        .auth-note {
+            font-size: 0.8rem;
+            color: var(--text-color-secondary);
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
         .upload-btn,
-        .view-btn {
+        .delete-btn {
             background: var(--primary-color);
             color: white;
             border: none;
@@ -298,14 +633,15 @@
             cursor: pointer;
             transition: background 0.3s;
             font-family: var(--font-family);
-            width: 100%;
         }
 
-        .upload-btn:hover {
+        .upload-btn:hover,
+        .delete-btn:hover {
             background: #c40811;
         }
 
-        .upload-btn:disabled {
+        .upload-btn:disabled,
+        .delete-btn:disabled {
             background: #666;
             cursor: not-allowed;
         }
@@ -337,11 +673,21 @@
             display: none;
         }
 
+        .file-preview img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: var(--border-radius);
+        }
+
         .back-link {
             display: inline-block;
             margin-top: 1rem;
             color: var(--primary-color);
             text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
         }
 
         .progress-container {
@@ -364,115 +710,33 @@
             transition: width 0.3s;
         }
 
-        /* View Page Styles */
-        .search-section {
-            display: flex;
-            gap: 1rem;
-            align-items: flex-end;
-            margin-bottom: 2rem;
-            background: var(--surface-color);
-            padding: 1.5rem;
-            border-radius: var(--border-radius);
-        }
-
-        .search-section .form-group {
-            flex: 1;
-            margin-bottom: 0;
-        }
-
-        .view-btn {
-            width: auto;
-            flex-shrink: 0;
-        }
-
-        .files-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .file-item {
-            background: var(--surface-color);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s;
-        }
-
-        .file-item:hover {
-            transform: translateY(-5px);
-        }
-
-        .file-preview-container {
-            height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--background-color);
-            overflow: hidden;
-        }
-
-        .file-preview-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .file-preview-container.non-image {
-            flex-direction: column;
-            color: var(--text-color-secondary);
-            font-size: 3rem;
-        }
-
-        .file-info {
-            padding: 1rem;
-        }
-
-        .file-name {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            word-break: break-all;
-            font-size: 0.9rem;
-        }
-
-        .file-link {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-size: 0.9rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-
-        .no-files {
+        .progress-text {
             text-align: center;
-            padding: 3rem;
-            color: var(--text-color-secondary);
-            font-style: italic;
-            background: var(--surface-color);
-            border-radius: var(--border-radius);
-        }
-
-        .filename-warning {
-            color: #ff6b6b;
-            font-size: 0.9rem;
             margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-color-secondary);
         }
 
-        .filename-suggestion {
-            color: #f39c12;
-            font-size: 0.8rem;
-            margin-top: 0.3rem;
+        .file-options-container {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--surface-color);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
+        /* Responsive adjustments */
         @media (max-width: 768px) {
-            .upload-container,
-            .view-container {
-                padding: 1rem;
-            }
 
-            .upload-form {
+            .upload-container,
+            .delete-container {
                 padding: 1rem;
             }
 
@@ -484,18 +748,80 @@
                 flex-direction: column;
             }
 
-            .search-section {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .files-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            .toggle-btn {
+                margin-bottom: 0.5rem;
             }
 
-            .view-btn {
-                width: 100%;
+            .toggle-btn:last-child {
+                margin-bottom: 0;
             }
+        }
+
+        @media (max-width: 480px) {
+            .filename-builder {
+                padding: 1rem;
+            }
+
+            .auth-section {
+                padding: 1rem;
+            }
+        }
+
+        .files-grid {
+            margin-top: 1.5rem;
+        }
+
+        .files-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .file-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            text-align: center;
+            transition: transform 0.3s, background-color 0.3s;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .file-item:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .file-preview-img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+            margin-bottom: 0.5rem;
+            background: var(--background-color);
+        }
+
+        .file-icon {
+            font-size: 3rem;
+            color: var(--text-color-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .file-name {
+            font-size: 0.8rem;
+            word-break: break-all;
+            color: var(--text-color);
+        }
+
+        .file-type {
+            font-size: 0.7rem;
+            color: var(--text-color-secondary);
+            margin-top: 0.25rem;
+        }
+
+        .no-files {
+            color: var(--text-color-secondary);
         }
     </style>
 </head>
@@ -505,8 +831,31 @@
     <header class="main-header">
         <div class="container">
             <a href="/" class="logo">𝙰𝙼𝚅 𝚅𝙴𝚁𝚂𝙴</a>
-        </div>
+            <div class="header-actions">
+                <div class="search-box" id="searchBox">
+                    <input type="text" id="Search" placeholder="Search id...">
+                    <button id="mobile-menu-toggle" class="mobile-menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
     </header>
+
+    <!-- Side Menu -->
+    <div class="side-menu" id="sideMenu">
+        <div class="side-menu-header">
+            <div class="side-menu-logo">𝙰𝙼𝚅 𝚅𝙴𝚁𝚂𝙴</div>
+            <button class="close-menu" id="closeMenu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <ul>
+            <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="/upload"><i class="fas fa-upload"></i> Upload</a></li>
+        </ul>
+    </div>
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
 
     <!-- Main Content -->
     <main class="gallery-page">
@@ -515,14 +864,14 @@
 
             <div class="page-toggle">
                 <button class="toggle-btn active" id="uploadToggle">𝚄𝚙𝚕𝚘𝚊𝚍 𝙵𝚒𝚕𝚎</button>
-                <button class="toggle-btn" id="viewToggle">𝚅𝚒𝚎𝚠 𝙵𝚒𝚕𝚎𝚜</button>
+                <button class="toggle-btn" id="deleteToggle">𝙳𝚎𝚕𝚎𝚝𝚎 𝙵𝚒𝚕𝚎</button>
             </div>
 
             <div class="main-container">
                 <!-- Upload Page -->
                 <div class="upload-page" id="uploadPage">
                     <div class="upload-container">
-                        <form class="upload-form" id="uploadForm" enctype="multipart/form-data">
+                        <form class="upload-form" id="uploadForm" method="POST" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="file">𝙲𝚑𝚘𝚘𝚜𝚎 𝙵𝚒𝚕𝚎 𝚝𝚘 𝚄𝚙𝚕𝚘𝚊𝚍:</label>
                                 <input type="file" id="file" name="file" accept="*" required>
@@ -568,7 +917,7 @@
                                         𝙰𝚍𝚍 𝙲𝚞𝚜𝚝𝚘𝚖 𝚃𝚎𝚡𝚝 (𝚘𝚙𝚝𝚒𝚘𝚗𝚊𝚕):
                                     </div>
                                     <input type="text" id="customText" name="custom_text"
-                                        placeholder="𝚎.𝚐., 𝟷, 𝟸, 𝚜𝚙𝚎𝚌𝚒𝚊𝚕...">
+                                        placeholder="𝚎.𝚐., 𝟷, 𝟸, 𝚜𝚙𝚎𝚌𝚒𝚊𝚕..." class="search-input">
                                 </div>
 
                                 <!-- Filename Preview -->
@@ -578,11 +927,11 @@
                             </div>
 
                             <!-- Authentication -->
-                            <div class="auth-section" id="authSection">
+                            <div class="auth-section">
                                 <div class="form-group">
                                     <label for="authCode">𝚂𝚎𝚌𝚛𝚎𝚝 𝙲𝚘𝚍𝚎:</label>
                                     <input type="password" id="authCode" name="auth_code"
-                                        placeholder="𝙴𝚗𝚝𝚎𝚛 𝚜𝚎𝚌𝚛𝚎𝚝 𝚌𝚘𝚍𝚎">
+                                        placeholder="𝙴𝚗𝚝𝚎𝚛 𝚜𝚎𝚌𝚛𝚎𝚝 𝚌𝚘𝚍𝚎" required>
                                 </div>
                             </div>
 
@@ -611,10 +960,14 @@
                     </div>
                 </div>
 
-                <!-- View Page -->
-                <div class="view-page" id="viewPage">
-                    <div class="view-container">
-                        <div class="search-section">
+                <!-- File Viewer Page -->
+                <div class="delete-page" id="deletePage">
+                    <div class="delete-container">
+                        <div class="file-viewer">
+                            <h3 style="margin-bottom: 1.5rem; text-align: center;">
+                                <i class="fas fa-eye"></i> 𝚅𝚒𝚎𝚠 𝙵𝚒𝚕𝚎𝚜
+                            </h3>
+
                             <div class="form-group">
                                 <label for="viewContentSearch">𝚂𝚎𝚕𝚎𝚌𝚝 𝙲𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳:</label>
                                 <div class="searchable-select">
@@ -622,18 +975,21 @@
                                         placeholder="𝚂𝚎𝚊𝚛𝚌𝚑 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳...">
                                     <div class="options-container" id="viewContentOptions"></div>
                                 </div>
-                                <input type="hidden" id="viewContentId">
+                                <input type="hidden" id="viewContentId" name="content_id">
                             </div>
-                            <button type="button" class="view-btn" id="viewBtn">
-                                <i class="fas fa-eye"></i> 𝚅𝚒𝚎𝚠 𝙵𝚒𝚕𝚎𝚜
-                            </button>
-                        </div>
 
-                        <div class="files-grid" id="filesGrid">
-                            <!-- Files will be displayed here -->
-                        </div>
+                            <div class="files-grid" id="filesGrid" style="display: none;">
+                                <h4 style="margin: 1rem 0;">𝙰𝚟𝚊𝚒𝚕𝚊𝚋𝚕𝚎 𝙵𝚒𝚕𝚎𝚜:</h4>
+                                <div class="files-list" id="filesList"></div>
+                            </div>
 
-                        <div class="status-message" id="viewStatusMessage"></div>
+                            <div class="no-files" id="noFiles"
+                                style="display: none; text-align: center; padding: 2rem;">
+                                <i class="fas fa-folder-open"
+                                    style="font-size: 3rem; color: var(--text-color-secondary); margin-bottom: 1rem;"></i>
+                                <p>𝙽𝚘 𝚏𝚒𝚕𝚎𝚜 𝚏𝚘𝚞𝚗𝚍 𝚏𝚘𝚛 𝚝𝚑𝚒𝚜 𝚌𝚘𝚗𝚝𝚎𝚗𝚝</p>
+                            </div>
+                        </div>
 
                         <a href="/" class="back-link">
                             <i class="fas fa-arrow-left"></i> 𝙱𝚊𝚌𝚔 𝚝𝚘 𝙷𝚘𝚖𝚎
@@ -644,518 +1000,621 @@
         </div>
     </main>
 
-    <script>
-        // Backend API URL
-        const API_BASE_URL = 'https://file-uploader-je1o.onrender.com';
-        const VALID_AUTH_CODES = ['9661', '79033', '8399'];
+    ript>
+    // Menu toggle functionality
+    const menuToggle = document.getElementById('mobile-menu-toggle');
+    const sideMenu = document.getElementById('sideMenu');
+    const closeMenu = document.getElementById('closeMenu');
+    const overlay = document.getElementById('overlay');
 
-        // Check if token authentication is enabled
-        function hasValidToken() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const token = urlParams.get('token');
-            return token && VALID_AUTH_CODES.includes(token);
-        }
+    function openMenu() {
+    sideMenu.classList.add('active');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    }
 
-        // Initialize token authentication
-        function initTokenAuth() {
-            if (hasValidToken()) {
-                document.getElementById('authSection').style.display = 'none';
-            }
-        }
+    function closeMenuFunc() {
+    sideMenu.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = 'auto';
+    }
 
-        // Page Toggle Functionality
-        const uploadToggle = document.getElementById('uploadToggle');
-        const viewToggle = document.getElementById('viewToggle');
-        const uploadPage = document.getElementById('uploadPage');
-        const viewPage = document.getElementById('viewPage');
+    menuToggle.addEventListener('click', openMenu);
+    closeMenu.addEventListener('click', closeMenuFunc);
+    overlay.addEventListener('click', closeMenuFunc);
 
-        uploadToggle.addEventListener('click', () => {
-            uploadToggle.classList.add('active');
-            viewToggle.classList.remove('active');
-            uploadPage.classList.remove('slide-left');
-            viewPage.classList.remove('slide-in');
-        });
+    // Close menu when pressing Escape key
+    document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+    closeMenuFunc();
+    }
+    });
 
-        viewToggle.addEventListener('click', () => {
-            viewToggle.classList.add('active');
-            uploadToggle.classList.remove('active');
-            uploadPage.classList.add('slide-left');
-            viewPage.classList.add('slide-in');
-        });
+    // Backend API URL - Update this with your Render URL after deployment
+    const API_BASE_URL = 'https://file-uploader-je1o.onrender.com';
+    const VALID_AUTH_CODES = ['9661', '79033', '8399'];
 
-        // Content data
-        let animeData = [];
+    // Page Toggle Functionality
+    const uploadToggle = document.getElementById('uploadToggle');
+    const deleteToggle = document.getElementById('deleteToggle');
+    const uploadPage = document.getElementById('uploadPage');
+    const deletePage = document.getElementById('deletePage');
 
-        // Load content data
-        function loadContentData() {
-            // Try to get from backend first
-            fetch(`${API_BASE_URL}/content`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.content_ids) {
-                        animeData = data.content_ids.map(id => ({
-                            id: id,
-                            title: id,
-                            image: ''
-                        }));
-                    } else {
-                        // Fallback data
-                        animeData = [
-                            { id: 'maha-narsimha', title: 'Maha Narsimha', image: '' },
-                            { id: 'solo-leveling', title: 'Solo Leveling', image: '' },
-                            { id: 'jujutsu-kaisen', title: 'Jujutsu Kaisen', image: '' }
-                        ];
-                    }
-                    populateContentOptions();
-                    populateViewContentOptions();
-                })
-                .catch(error => {
-                    console.error('Error loading content:', error);
-                    animeData = [
-                        { id: 'maha-narsimha', title: 'Maha Narsimha', image: '' },
-                        { id: 'solo-leveling', title: 'Solo Leveling', image: '' },
-                        { id: 'jujutsu-kaisen', title: 'Jujutsu Kaisen', image: '' }
-                    ];
-                    populateContentOptions();
-                    populateViewContentOptions();
-                });
-        }
+    uploadToggle.addEventListener('click', () => {
+    uploadToggle.classList.add('active');
+    deleteToggle.classList.remove('active');
+    uploadPage.classList.remove('slide-left');
+    deletePage.classList.remove('slide-in');
+    // Update button text for view mode
+    deleteToggle.textContent = '𝚅𝚒𝚎𝚠 𝙵𝚒𝚕𝚎𝚜';
+    });
 
-        function populateContentOptions() {
-            const optionsContainer = document.getElementById('contentOptions');
-            optionsContainer.innerHTML = '';
+    deleteToggle.addEventListener('click', () => {
+    deleteToggle.classList.add('active');
+    uploadToggle.classList.remove('active');
+    uploadPage.classList.add('slide-left');
+    deletePage.classList.add('slide-in');
+    // Update button text for view mode
+    deleteToggle.textContent = '𝚅𝚒𝚎𝚠 𝙵𝚒𝚕𝚎𝚜';
+    });
 
-            animeData.forEach(item => {
-                const option = document.createElement('div');
-                option.className = 'option-item';
-                option.innerHTML = `
-                    <div class="option-content">
-                        <div class="option-id">${item.id}</div>
-                        <div class="option-title">${item.title}</div>
-                    </div>
-                `;
-                option.addEventListener('click', () => {
-                    document.getElementById('contentSearch').value = item.id;
-                    document.getElementById('contentId').value = item.id;
-                    optionsContainer.style.display = 'none';
-                    updateFilenamePreview();
-                });
-                optionsContainer.appendChild(option);
-            });
-        }
+    // Token-based authentication check
+    function checkTokenAuth() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
 
-        function populateViewContentOptions() {
-            const optionsContainer = document.getElementById('viewContentOptions');
-            optionsContainer.innerHTML = '';
+    if (token && VALID_AUTH_CODES.includes(token)) {
+    // Hide authentication sections
+    document.querySelectorAll('.auth-section').forEach(section => {
+    section.style.display = 'none';
+    });
 
-            animeData.forEach(item => {
-                const option = document.createElement('div');
-                option.className = 'option-item';
-                option.innerHTML = `
-                    <div class="option-content">
-                        <div class="option-id">${item.id}</div>
-                        <div class="option-title">${item.title}</div>
-                    </div>
-                `;
-                option.addEventListener('click', () => {
-                    document.getElementById('viewContentSearch').value = item.id;
-                    document.getElementById('viewContentId').value = item.id;
-                    optionsContainer.style.display = 'none';
-                });
-                optionsContainer.appendChild(option);
-            });
-        }
+    // Remove required attribute from auth inputs
+    const authCode = document.getElementById('authCode');
+    if (authCode) authCode.removeAttribute('required');
 
-        // Search functionality
-        document.getElementById('contentSearch').addEventListener('input', function (e) {
-            const searchTerm = e.target.value.toLowerCase();
-            const optionsContainer = document.getElementById('contentOptions');
-            const options = optionsContainer.getElementsByClassName('option-item');
+    return true;
+    }
+    return false;
+    }
 
-            let hasVisibleOptions = false;
+    // Check token auth on page load
+    checkTokenAuth();
 
-            for (let option of options) {
-                const id = option.querySelector('.option-id').textContent.toLowerCase();
-                const title = option.querySelector('.option-title').textContent.toLowerCase();
+    // Content IDs and images from external data source
+    let animeData = [];
 
-                if (id.includes(searchTerm) || title.includes(searchTerm)) {
-                    option.style.display = 'flex';
-                    hasVisibleOptions = true;
-                } else {
-                    option.style.display = 'none';
-                }
-            }
+    // Fetch content data from data.js
+    fetch('https://animesaga.pages.dev/dxh2jf6f8shlldyq6lpo4exgdq/d2hs6ea0ct0of8shlanv6lpo4eygdq.js')
+    .then(response => response.text())
+    .then(data => {
+    // Extract animeData array from the data.js file
+    const animeDataMatch = data.match(/const animeData\s*=\s*(\[.*?\]);/s);
+    if (animeDataMatch) {
+    try {
+    // Extract the array content and parse it
+    const arrayContent = animeDataMatch[1];
+    animeData = eval(arrayContent);
 
-            optionsContainer.style.display = hasVisibleOptions ? 'block' : 'none';
-        });
+    // Process the data
+    animeData = animeData.map(item => ({
+    id: item.id.toLowerCase(),
+    title: item.title || item.id,
+    image: item.img || ''
+    }));
 
-        document.getElementById('viewContentSearch').addEventListener('input', function (e) {
-            const searchTerm = e.target.value.toLowerCase();
-            const optionsContainer = document.getElementById('viewContentOptions');
-            const options = optionsContainer.getElementsByClassName('option-item');
+    populateContentOptions();
+    populateViewContentOptions();
+    } catch (e) {
+    console.error('Error parsing animeData:', e);
+    loadFallbackData();
+    }
+    } else {
+    loadFallbackData();
+    }
+    })
+    .catch(error => {
+    console.error('Error fetching content data:', error);
+    loadFallbackData();
+    });
 
-            let hasVisibleOptions = false;
+    function loadFallbackData() {
+    // Try to get content from backend API
+    fetch(`${API_BASE_URL}/content`)
+    .then(response => response.json())
+    .then(data => {
+    if (data.content_ids) {
+    animeData = data.content_ids.map(id => ({
+    id: id,
+    title: id,
+    image: ''
+    }));
+    } else {
+    // Fallback data
+    animeData = [
+    { id: 'maha-narsimha', title: 'Maha Narsimha', image: '' },
+    { id: 'solo-leveling', title: 'Solo Leveling', image: '' },
+    { id: 'jujutsu-kaisen', title: 'Jujutsu Kaisen', image: '' },
+    { id: 'soul-land', title: 'Soul Land', image: '' },
+    { id: 'your-name', title: 'Your Name', image: '' }
+    ];
+    }
+    populateContentOptions();
+    populateViewContentOptions();
+    })
+    .catch(error => {
+    console.error('Error fetching content from backend:', error);
+    animeData = [
+    { id: 'maha-narsimha', title: 'Maha Narsimha', image: '' },
+    { id: 'solo-leveling', title: 'Solo Leveling', image: '' },
+    { id: 'jujutsu-kaisen', title: 'Jujutsu Kaisen', image: '' },
+    { id: 'soul-land', title: 'Soul Land', image: '' },
+    { id: 'your-name', title: 'Your Name', image: '' }
+    ];
+    populateContentOptions();
+    populateViewContentOptions();
+    });
+    }
 
-            for (let option of options) {
-                const id = option.querySelector('.option-id').textContent.toLowerCase();
-                const title = option.querySelector('.option-title').textContent.toLowerCase();
+    function populateContentOptions() {
+    const optionsContainer = document.getElementById('contentOptions');
+    if (!optionsContainer) return;
 
-                if (id.includes(searchTerm) || title.includes(searchTerm)) {
-                    option.style.display = 'flex';
-                    hasVisibleOptions = true;
-                } else {
-                    option.style.display = 'none';
-                }
-            }
+    optionsContainer.innerHTML = '';
 
-            optionsContainer.style.display = hasVisibleOptions ? 'block' : 'none';
-        });
+    animeData.forEach(item => {
+    const option = document.createElement('div');
+    option.className = 'option-item';
+    option.innerHTML = `
+    ${item.image ? `<img src="${item.image}" alt="${item.id}" class="option-image" onerror="this.style.display='none'">`
+    : ''}
+    <div class="option-content">
+        <div class="option-id">${item.id}</div>
+        ${item.title !== item.id ? `<div class="option-title">${item.title}</div>` : ''}
+    </div>
+    `;
+    option.addEventListener('click', () => {
+    document.getElementById('contentSearch').value = item.id;
+    document.getElementById('contentId').value = item.id;
+    optionsContainer.style.display = 'none';
+    updateFilenamePreview();
+    });
+    optionsContainer.appendChild(option);
+    });
+    }
 
-        // File type selection
-        const typeOptions = document.querySelectorAll('.type-option');
-        typeOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                typeOptions.forEach(opt => opt.classList.remove('selected'));
-                option.classList.add('selected');
-                document.getElementById('fileType').value = option.dataset.type;
-                updateFilenamePreview();
-            });
-        });
+    function populateViewContentOptions() {
+    const optionsContainer = document.getElementById('viewContentOptions');
+    if (!optionsContainer) return;
 
-        // Custom text input
-        document.getElementById('customText').addEventListener('input', updateFilenamePreview);
+    optionsContainer.innerHTML = '';
 
-        // File input change handler
-        document.getElementById('file').addEventListener('change', function (e) {
-            const file = e.target.files[0];
-            const preview = document.getElementById('filePreview');
-            const previewContent = document.getElementById('previewContent');
+    animeData.forEach(item => {
+    const option = document.createElement('div');
+    option.className = 'option-item';
+    option.innerHTML = `
+    ${item.image ? `<img src="${item.image}" alt="${item.id}" class="option-image" onerror="this.style.display='none'">`
+    : ''}
+    <div class="option-content">
+        <div class="option-id">${item.id}</div>
+        ${item.title !== item.id ? `<div class="option-title">${item.title}</div>` : ''}
+    </div>
+    `;
+    option.addEventListener('click', () => {
+    document.getElementById('viewContentSearch').value = item.id;
+    document.getElementById('viewContentId').value = item.id;
+    optionsContainer.style.display = 'none';
+    loadFilesForView(item.id);
+    });
+    optionsContainer.appendChild(option);
+    });
+    }
 
-            if (file) {
-                preview.style.display = 'block';
+    // Search functionality for content IDs (Upload page)
+    document.getElementById('contentSearch').addEventListener('input', function (e) {
+    const searchTerm = e.target.value.toLowerCase();
+    const optionsContainer = document.getElementById('contentOptions');
+    if (!optionsContainer) return;
 
-                if (file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        previewContent.innerHTML = `<img src="${e.target.result}" alt="Preview" style="max-width: 100%; max-height: 200px; border-radius: 8px;">`;
-                    };
-                    reader.readAsDataURL(file);
-                } else {
-                    previewContent.innerHTML = `<p><strong>File Name:</strong> ${file.name}</p>
-                                          <p><strong>File Type:</strong> ${file.type || 'Unknown'}</p>
-                                          <p><strong>File Size:</strong> ${formatFileSize(file.size)}</p>`;
-                }
+    const options = optionsContainer.getElementsByClassName('option-item');
 
-                updateFilenamePreview();
-            } else {
-                preview.style.display = 'none';
-            }
-        });
+    let hasVisibleOptions = false;
 
-        // Update filename preview with auto-rename
-        async function updateFilenamePreview() {
-            const contentId = document.getElementById('contentId').value;
-            const fileType = document.getElementById('fileType').value;
-            const customText = document.getElementById('customText').value;
-            const fileInput = document.getElementById('file');
-            const file = fileInput.files[0];
-            const preview = document.getElementById('filenamePreview');
+    for (let option of options) {
+    const id = option.querySelector('.option-id').textContent.toLowerCase();
+    const title = option.querySelector('.option-title') ?
+    option.querySelector('.option-title').textContent.toLowerCase() : '';
 
-            let filename = '';
+    if (id.includes(searchTerm) || title.includes(searchTerm)) {
+    option.style.display = 'flex';
+    hasVisibleOptions = true;
+    } else {
+    option.style.display = 'none';
+    }
+    }
 
-            if (contentId && fileType) {
-                filename = contentId + '-' + fileType;
-                if (customText) {
-                    filename += '-' + cleanFilename(customText);
-                }
+    optionsContainer.style.display = hasVisibleOptions ? 'block' : 'none';
+    });
 
-                if (file) {
-                    const extension = getFileExtension(file.name);
-                    filename += '.' + extension;
-                    
-                    // Check if file exists
-                    try {
-                        const response = await fetch(`${API_BASE_URL}/all-files`);
-                        const data = await response.json();
-                        const existingFiles = data.files || [];
-                        
-                        if (existingFiles.includes(filename)) {
-                            const uniqueName = generateUniqueFilename(filename, existingFiles);
-                            preview.innerHTML = `
-                                <span class="filename-warning">${filename} (already exists!)</span>
-                                <span class="filename-suggestion">Will be saved as: ${uniqueName}</span>
-                            `;
-                        } else {
-                            preview.textContent = filename;
-                        }
-                    } catch (error) {
-                        console.error('Error checking file existence:', error);
-                        preview.textContent = filename;
-                    }
-                } else {
-                    preview.textContent = filename || '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...';
-                }
-            } else {
-                preview.textContent = '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...';
-            }
-        }
+    // Search functionality for content IDs (View page)
+    document.getElementById('viewContentSearch').addEventListener('input', function (e) {
+    const searchTerm = e.target.value.toLowerCase();
+    const optionsContainer = document.getElementById('viewContentOptions');
+    if (!optionsContainer) return;
 
-        function generateUniqueFilename(baseFilename, existingFiles) {
-            const name = baseFilename.replace(/\.[^/.]+$/, "");
-            const ext = baseFilename.split('.').pop();
-            let counter = 1;
-            let newFilename = baseFilename;
-            
-            while (existingFiles.includes(newFilename)) {
-                newFilename = `${name}-${counter}.${ext}`;
-                counter++;
-            }
-            
-            return newFilename;
-        }
+    const options = optionsContainer.getElementsByClassName('option-item');
 
-        // View files functionality
-        document.getElementById('viewBtn').addEventListener('click', function() {
-            const contentId = document.getElementById('viewContentId').value;
-            
-            if (!contentId) {
-                showViewStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳', 'error');
-                return;
-            }
-            
-            viewFiles(contentId);
-        });
+    let hasVisibleOptions = false;
 
-        function viewFiles(contentId) {
-            const viewBtn = document.getElementById('viewBtn');
-            const filesGrid = document.getElementById('filesGrid');
+    for (let option of options) {
+    const id = option.querySelector('.option-id').textContent.toLowerCase();
+    const title = option.querySelector('.option-title') ?
+    option.querySelector('.option-title').textContent.toLowerCase() : '';
 
-            viewBtn.disabled = true;
-            viewBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 𝙻𝚘𝚊𝚍𝚒𝚗𝚐...';
-            filesGrid.innerHTML = '';
+    if (id.includes(searchTerm) || title.includes(searchTerm)) {
+    option.style.display = 'flex';
+    hasVisibleOptions = true;
+    } else {
+    option.style.display = 'none';
+    }
+    }
 
-            fetch(`${API_BASE_URL}/view/${contentId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.error) {
-                        showViewStatus(data.error, 'error');
-                    } else {
-                        showViewStatus(`𝙵𝚘𝚞𝚗𝚍 ${data.files.length} 𝚏𝚒𝚕𝚎𝚜 𝚏𝚘𝚛 ${data.content_id}`, 'success');
-                        displayFilesGrid(data.files);
-                    }
-                })
-                .catch(error => {
-                    console.error('View files error:', error);
-                    showViewStatus('𝙵𝚊𝚒𝚕𝚎𝚍 𝚝𝚘 𝚕𝚘𝚊𝚍 𝚏𝚒𝚕𝚎𝚜', 'error');
-                })
-                .finally(() => {
-                    viewBtn.disabled = false;
-                    viewBtn.innerHTML = '<i class="fas fa-eye"></i> 𝚅𝚒𝚎𝚠 𝙵𝚒𝚕𝚎𝚜';
-                });
-        }
+    optionsContainer.style.display = hasVisibleOptions ? 'block' : 'none';
+    });
 
-        function displayFilesGrid(files) {
-            const filesGrid = document.getElementById('filesGrid');
-            
-            if (files.length === 0) {
-                filesGrid.innerHTML = '<div class="no-files">𝙽𝚘 𝚏𝚒𝚕𝚎𝚜 𝚏𝚘𝚞𝚗𝚍 𝚏𝚘𝚛 𝚝𝚑𝚒𝚜 𝚌𝚘𝚗𝚝𝚎𝚗𝚝</div>';
-                return;
-            }
-            
-            let html = '';
-            files.forEach(file => {
-                if (file.is_image) {
-                    html += `
-                        <div class="file-item">
-                            <div class="file-preview-container">
-                                <img src="${file.url}" alt="${file.filename}" loading="lazy">
-                            </div>
-                            <div class="file-info">
-                                <div class="file-name">${file.filename}</div>
-                                <a href="${file.url}" target="_blank" class="file-link">
-                                    <i class="fas fa-external-link-alt"></i> 𝙾𝚙𝚎𝚗
-                                </a>
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    html += `
-                        <div class="file-item">
-                            <div class="file-preview-container non-image">
-                                <i class="fas fa-file"></i>
-                            </div>
-                            <div class="file-info">
-                                <div class="file-name">${file.filename}</div>
-                                <a href="${file.url}" target="_blank" class="file-link">
-                                    <i class="fas fa-download"></i> 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍
-                                </a>
-                            </div>
-                        </div>
-                    `;
-                }
-            });
-            
-            filesGrid.innerHTML = html;
-        }
+    // File type selection
+    const typeOptions = document.querySelectorAll('.type-option');
+    typeOptions.forEach(option => {
+    option.addEventListener('click', () => {
+    typeOptions.forEach(opt => opt.classList.remove('selected'));
+    option.classList.add('selected');
+    document.getElementById('fileType').value = option.dataset.type;
+    updateFilenamePreview();
+    });
+    });
 
-        // Upload form submission
-        document.getElementById('uploadForm').addEventListener('submit', function (e) {
-            e.preventDefault();
+    // Custom text input
+    document.getElementById('customText').addEventListener('input', updateFilenamePreview);
 
-            const contentId = document.getElementById('contentId').value;
-            const fileType = document.getElementById('fileType').value;
-            const authCode = document.getElementById('authCode').value;
-            const fileInput = document.getElementById('file');
-            const file = fileInput.files[0];
+    // File input change handler
+    document.getElementById('file').addEventListener('change', function (e) {
+    const file = e.target.files[0];
+    const preview = document.getElementById('filePreview');
+    const previewContent = document.getElementById('previewContent');
 
-            // Check authentication
-            if (!hasValidToken() && !authCode) {
-                showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚎𝚗𝚝𝚎𝚛 𝚊𝚞𝚝𝚑𝚎𝚗𝚝𝚒𝚌𝚊𝚝𝚒𝚘𝚗 𝚌𝚘𝚍𝚎', 'error');
-                return;
-            }
+    if (file) {
+    // Show preview
+    preview.style.display = 'block';
 
-            if (!hasValidToken() && authCode && !VALID_AUTH_CODES.includes(authCode)) {
-                showStatus('𝙸𝚗𝚟𝚊𝚕𝚒𝚍 𝚊𝚞𝚝𝚑𝚎𝚗𝚝𝚒𝚌𝚊𝚝𝚒𝚘𝚗 𝚌𝚘𝚍𝚎', 'error');
-                return;
-            }
+    // Check if file is an image
+    if (file.type.startsWith('image/')) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+    previewContent.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+    };
+    reader.readAsDataURL(file);
+    } else {
+    previewContent.innerHTML = `<p><strong>File Name:</strong> ${file.name}</p>
+    <p><strong>File Type:</strong> ${file.type || 'Unknown'}</p>
+    <p><strong>File Size:</strong> ${formatFileSize(file.size)}</p>`;
+    }
 
-            if (!contentId) {
-                showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳', 'error');
-                return;
-            }
+    updateFilenamePreview();
+    } else {
+    preview.style.display = 'none';
+    }
+    });
 
-            if (!fileType) {
-                showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚏𝚒𝚕𝚎 𝚝𝚢𝚙𝚎', 'error');
-                return;
-            }
+    // Auto-rename functionality in filename preview
+    function updateFilenamePreview() {
+    const contentId = document.getElementById('contentId').value;
+    const fileType = document.getElementById('fileType').value;
+    const customText = document.getElementById('customText').value;
+    const fileInput = document.getElementById('file');
+    const file = fileInput.files[0];
 
-            if (!file) {
-                showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚏𝚒𝚕𝚎', 'error');
-                return;
-            }
+    let filename = '';
 
-            // Create FormData
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('content_id', contentId);
-            formData.append('file_type', fileType);
-            
-            // Add auth_code only if not using token
-            if (!hasValidToken()) {
-                formData.append('auth_code', authCode);
-            }
+    if (contentId && fileType) {
+    filename = contentId + '-' + fileType;
+    if (customText) {
+    filename += '-' + cleanFilename(customText);
+    }
 
-            const customText = document.getElementById('customText').value;
-            if (customText) {
-                formData.append('custom_text', customText);
-            }
+    if (file) {
+    const extension = getFileExtension(file.name);
+    filename += '.' + extension;
 
-            uploadFile(formData);
-        });
+    // Check if filename would be unique
+    checkFilenameUniqueness(filename).then(uniqueFilename => {
+    const previewElement = document.getElementById('filenamePreview');
+    if (uniqueFilename !== filename) {
+    previewElement.innerHTML =
+    `${filename} <br><small style="color: var(--primary-color);">(will be saved as: ${uniqueFilename})</small>`;
+    } else {
+    previewElement.textContent = filename;
+    }
+    });
+    } else {
+    document.getElementById('filenamePreview').textContent = filename || '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛
+    𝚑𝚎𝚛𝚎...';
+    }
+    } else {
+    document.getElementById('filenamePreview').textContent = '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...';
+    }
+    }
 
-        function uploadFile(formData) {
-            const progressContainer = document.getElementById('progressContainer');
-            const uploadBtn = document.getElementById('uploadBtn');
+    // Check if filename is unique and suggest alternative
+    async function checkFilenameUniqueness(filename) {
+    try {
+    // Get all existing files
+    const response = await fetch(`${API_BASE_URL}/files`);
+    const data = await response.json();
 
-            progressContainer.style.display = 'block';
-            uploadBtn.disabled = true;
-            uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 𝚄𝚙𝚕𝚘𝚊𝚍𝚒𝚗𝚐...';
+    let existingFiles = [];
+    if (response.ok && data.all_files) {
+    existingFiles = data.all_files;
+    }
 
-            fetch(`${API_BASE_URL}/upload`, {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.error) {
-                        showStatus(data.error, 'error');
-                    } else {
-                        showStatus(`𝙵𝚒𝚕𝚎 "${data.filename}" 𝚞𝚙𝚕𝚘𝚊𝚍𝚎𝚍 𝚜𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢! 𝙰𝚌𝚌𝚎𝚜𝚜 𝚊𝚝: ${data.url}`, 'success');
-                        document.getElementById('uploadForm').reset();
-                        document.getElementById('filePreview').style.display = 'none';
-                        document.getElementById('filenamePreview').textContent = '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...';
-                        document.getElementById('contentId').value = '';
-                        document.getElementById('fileType').value = '';
-                        typeOptions.forEach(opt => opt.classList.remove('selected'));
-                    }
-                })
-                .catch(error => {
-                    console.error('Upload error:', error);
-                    showStatus('𝙵𝚊𝚒𝚕𝚎𝚍 𝚝𝚘 𝚞𝚙𝚕𝚘𝚊𝚍 𝚏𝚒𝚕𝚎', 'error');
-                })
-                .finally(() => {
-                    progressContainer.style.display = 'none';
-                    uploadBtn.disabled = false;
-                    uploadBtn.innerHTML = '<i class="fas fa-upload"></i> 𝚄𝚙𝚕𝚘𝚊𝚍 𝙵𝚒𝚕𝚎';
-                });
-        }
+    // Simple uniqueness check
+    if (!existingFiles.includes(filename)) {
+    return filename;
+    }
 
-        // Utility functions
-        function cleanFilename(text) {
-            return text.replace(/[^a-zA-Z0-9\-_]/g, '-').toLowerCase();
-        }
+    // Generate unique name
+    const nameWithoutExt = filename.substring(0, filename.lastIndexOf('.'));
+    const ext = filename.substring(filename.lastIndexOf('.'));
+    let counter = 1;
+    let newFilename = filename;
 
-        function getFileExtension(filename) {
-            return filename.slice((filename.lastIndexOf(".") + 1));
-        }
+    while (existingFiles.includes(newFilename)) {
+    newFilename = `${nameWithoutExt}-${counter}${ext}`;
+    counter++;
+    }
 
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
+    return newFilename;
+    } catch (error) {
+    console.error('Error checking filename uniqueness:', error);
+    return filename;
+    }
+    }
 
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', function (e) {
-            if (!e.target.closest('.searchable-select')) {
-                document.querySelectorAll('.options-container').forEach(container => {
-                    container.style.display = 'none';
-                });
-            }
-        });
+    // Load files for viewing
+    function loadFilesForView(contentId) {
+    const filesGrid = document.getElementById('filesGrid');
+    const filesList = document.getElementById('filesList');
+    const noFiles = document.getElementById('noFiles');
 
-        // Show dropdowns when clicking on search inputs
-        document.querySelectorAll('.search-input').forEach(input => {
-            input.addEventListener('click', function (e) {
-                const container = this.nextElementSibling;
-                if (container && container.classList.contains('options-container')) {
-                    container.style.display = 'block';
-                }
-            });
-        });
+    filesList.innerHTML = '';
+    filesGrid.style.display = 'none';
+    noFiles.style.display = 'none';
 
-        // Status message functions
-        function showStatus(message, type) {
-            const statusMessage = document.getElementById('statusMessage');
-            statusMessage.textContent = message;
-            statusMessage.className = 'status-message';
-            statusMessage.classList.add(`status-${type}`);
-            statusMessage.style.display = 'block';
+    fetch(`${API_BASE_URL}/files/${contentId}`)
+    .then(response => response.json())
+    .then(data => {
+    if (data.files && data.files.length > 0) {
+    filesGrid.style.display = 'block';
 
-            setTimeout(() => {
-                statusMessage.style.display = 'none';
-            }, 5000);
-        }
+    data.files.forEach(fileInfo => {
+    const fileItem = document.createElement('div');
+    fileItem.className = 'file-item';
 
-        function showViewStatus(message, type) {
-            const statusMessage = document.getElementById('viewStatusMessage');
-            statusMessage.textContent = message;
-            statusMessage.className = 'status-message';
-            statusMessage.classList.add(`status-${type}`);
-            statusMessage.style.display = 'block';
+    const isImage = fileInfo.is_image;
+    const previewUrl = `${API_BASE_URL}/preview/${encodeURIComponent(fileInfo.filename)}`;
 
-            setTimeout(() => {
-                statusMessage.style.display = 'none';
-            }, 5000);
-        }
+    fileItem.innerHTML = `
+    ${isImage ?
+    `<img src="${previewUrl}" alt="${fileInfo.filename}" class="file-preview-img" loading="lazy"
+        onerror="this.onerror=null; this.src='/icons/icon.png';">` :
+    `<div class="file-icon"><i class="fas fa-file"></i></div>`
+    }
+    <div class="file-name">${fileInfo.filename}</div>
+    <div class="file-type">${isImage ? 'Image' : 'File'}</div>
+    `;
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            initTokenAuth();
-            loadContentData();
-        });
+    fileItem.addEventListener('click', () => {
+    window.open(previewUrl, '_blank');
+    });
+
+    filesList.appendChild(fileItem);
+    });
+    } else {
+    noFiles.style.display = 'block';
+    }
+    })
+    .catch(error => {
+    console.error('Error loading files for view:', error);
+    noFiles.style.display = 'block';
+    noFiles.innerHTML = '<p>𝙴𝚛𝚛𝚘𝚛 𝚕𝚘𝚊𝚍𝚒𝚗𝚐 𝚏𝚒𝚕𝚎𝚜</p>';
+    });
+    }
+
+    // Utility functions
+    function cleanFilename(text) {
+    return text.replace(/[^a-zA-Z0-9\-_]/g, '-').toLowerCase();
+    }
+
+    function getFileExtension(filename) {
+    return filename.slice((filename.lastIndexOf(".") + 1));
+    }
+
+    function formatFileSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function (e) {
+    if (!e.target.closest('.searchable-select')) {
+    document.querySelectorAll('.options-container, .file-options-container').forEach(container => {
+    container.style.display = 'none';
+    });
+    }
+    });
+
+    // Show dropdowns when clicking on search inputs
+    document.querySelectorAll('.search-input').forEach(input => {
+    input.addEventListener('click', function (e) {
+    const container = this.nextElementSibling;
+    if (container && container.classList.contains('options-container')) {
+    container.style.display = 'block';
+    }
+    });
+    });
+
+    // Form submission handlers
+    document.getElementById('uploadForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const contentId = document.getElementById('contentId').value;
+    const fileType = document.getElementById('fileType').value;
+    const authCode = document.getElementById('authCode').value;
+    const fileInput = document.getElementById('file');
+    const file = fileInput.files[0];
+
+    if (!contentId) {
+    showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳', 'error');
+    return;
+    }
+
+    if (!fileType) {
+    showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚏𝚒𝚕𝚎 𝚝𝚢𝚙𝚎', 'error');
+    return;
+    }
+
+    if (!file) {
+    showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚏𝚒𝚕𝚎', 'error');
+    return;
+    }
+
+    // Check if authentication is required but not provided
+    if (!checkTokenAuth() && !authCode) {
+    showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚎𝚗𝚝𝚎𝚛 𝚜𝚎𝚌𝚛𝚎𝚝 𝚌𝚘𝚍𝚎', 'error');
+    return;
+    }
+
+    // Create FormData for file upload
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('content_id', contentId);
+    formData.append('file_type', fileType);
+
+    // Only add auth_code if not using token auth
+    if (!checkTokenAuth()) {
+    formData.append('auth_code', authCode);
+    }
+
+    const customText = document.getElementById('customText').value;
+    if (customText) {
+    formData.append('custom_text', customText);
+    }
+
+    // Upload file
+    uploadFile(formData);
+    });
+
+    // Upload file to backend
+    function uploadFile(formData) {
+    const progressContainer = document.getElementById('progressContainer');
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+    const uploadBtn = document.getElementById('uploadBtn');
+
+    // Show progress bar
+    progressContainer.style.display = 'block';
+    uploadBtn.disabled = true;
+    uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 𝚄𝚙𝚕𝚘𝚊𝚍𝚒𝚗𝚐...';
+
+    // Simulate progress for better UX
+    let progress = 0;
+    const progressInterval = setInterval(() => {
+    progress += Math.random() * 10;
+    if (progress > 90) progress = 90;
+    progressFill.style.width = progress + '%';
+    progressText.textContent = `𝚄𝚙𝚕𝚘𝚊𝚍𝚒𝚗𝚐... ${Math.round(progress)}%`;
+    }, 200);
+
+    fetch(`${API_BASE_URL}/upload`, {
+    method: 'POST',
+    body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+    clearInterval(progressInterval);
+    progressFill.style.width = '100%';
+    progressText.textContent = '𝙲𝚘𝚖𝚙𝚕𝚎𝚝𝚎!';
+
+    if (data.error) {
+    showStatus(data.error, 'error');
+    } else {
+    let successMessage = `𝙵𝚒𝚕𝚎 "${data.filename}" 𝚞𝚙𝚕𝚘𝚊𝚍𝚎𝚍 𝚜𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢!`;
+    if (data.was_renamed) {
+    successMessage += ` (𝚊𝚞𝚝𝚘-𝚛𝚎𝚗𝚊𝚖𝚎𝚍 𝚝𝚘 𝚊𝚟𝚘𝚒𝚍 𝚍𝚞𝚙𝚕𝚒𝚌𝚊𝚝𝚎)`;
+    }
+    showStatus(successMessage, 'success');
+
+    // Reset form
+    document.getElementById('uploadForm').reset();
+    document.getElementById('filePreview').style.display = 'none';
+    document.getElementById('filenamePreview').textContent = '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...';
+    document.getElementById('contentId').value = '';
+    document.getElementById('fileType').value = '';
+    typeOptions.forEach(opt => opt.classList.remove('selected'));
+    }
+    })
+    .catch(error => {
+    clearInterval(progressInterval);
+    console.error('Upload error:', error);
+    showStatus('𝙵𝚊𝚒𝚕𝚎𝚍 𝚝𝚘 𝚞𝚙𝚕𝚘𝚊𝚍 𝚏𝚒𝚕𝚎', 'error');
+    })
+    .finally(() => {
+    setTimeout(() => {
+    progressContainer.style.display = 'none';
+    uploadBtn.disabled = false;
+    uploadBtn.innerHTML = '<i class="fas fa-upload"></i> 𝚄𝚙𝚕𝚘𝚊𝚍 𝙵𝚒𝚕𝚎';
+    }, 1000);
+    });
+    }
+
+    // Status message functions
+    function showStatus(message, type) {
+    const statusMessage = document.getElementById('statusMessage');
+    statusMessage.textContent = message;
+    statusMessage.className = 'status-message';
+    statusMessage.classList.add(`status-${type}`);
+    statusMessage.style.display = 'block';
+
+    setTimeout(() => {
+    statusMessage.style.display = 'none';
+    }, 5000);
+    }
+
+    function showDeleteStatus(message, type) {
+    const statusMessage = document.getElementById('deleteStatusMessage');
+    statusMessage.textContent = message;
+    statusMessage.className = 'status-message';
+    statusMessage.classList.add(`status-${type}`);
+    statusMessage.style.display = 'block';
+
+    setTimeout(() => {
+    statusMessage.style.display = 'none';
+    }, 5000);
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function () {
+    // Check token authentication
+    checkTokenAuth();
+
+    // Initialize all functionality
+    populateContentOptions();
+    populateViewContentOptions();
+
+    console.log('𝙰𝙼𝚅 𝚅𝙴𝚁𝚂𝙴 𝙵𝚒𝚕𝚎 𝙼𝚊𝚗𝚊𝚐𝚎𝚛 𝚕𝚘𝚊𝚍𝚎𝚍 𝚜𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢!');
+    });
     </script>
 </body>
 
