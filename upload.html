@@ -369,7 +369,7 @@
         }
 
         .upload-page,
-        .delete-page {
+        .view-page {
             transition: transform 0.4s ease-in-out;
             width: 100%;
         }
@@ -378,7 +378,7 @@
             transform: translateX(0%);
         }
 
-        .delete-page {
+        .view-page {
             position: absolute;
             top: 0;
             left: 0;
@@ -389,7 +389,7 @@
             transform: translateX(-100%);
         }
 
-        .delete-page.slide-in {
+        .view-page.slide-in {
             transform: translateX(0%);
         }
 
@@ -421,7 +421,7 @@
         }
 
         .upload-container,
-        .delete-container {
+        .view-container {
             max-width: 600px;
             margin: 0 auto;
             padding: 2rem;
@@ -431,7 +431,7 @@
         }
 
         .upload-form,
-        .delete-form {
+        .view-form {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
@@ -623,7 +623,7 @@
         }
 
         .upload-btn,
-        .delete-btn {
+        .view-btn {
             background: var(--primary-color);
             color: white;
             border: none;
@@ -636,12 +636,12 @@
         }
 
         .upload-btn:hover,
-        .delete-btn:hover {
+        .view-btn:hover {
             background: #c40811;
         }
 
         .upload-btn:disabled,
-        .delete-btn:disabled {
+        .view-btn:disabled {
             background: #666;
             cursor: not-allowed;
         }
@@ -732,11 +732,124 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
+        /* Multiple files styling */
+        .multiple-files-option {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            margin: 1rem 0;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(26px);
+        }
+
+        /* View files styling */
+        .files-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .file-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .file-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .file-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .file-info {
+            padding: 0.8rem;
+        }
+
+        .file-name {
+            font-size: 0.8rem;
+            word-break: break-all;
+            margin-bottom: 0.5rem;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .file-action-btn {
+            flex: 1;
+            padding: 0.3rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.7rem;
+        }
+
+        .no-files {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-color-secondary);
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
 
             .upload-container,
-            .delete-container {
+            .view-container {
                 padding: 1rem;
             }
 
@@ -755,6 +868,10 @@
             .toggle-btn:last-child {
                 margin-bottom: 0;
             }
+
+            .files-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
         }
 
         @media (max-width: 480px) {
@@ -765,63 +882,10 @@
             .auth-section {
                 padding: 1rem;
             }
-        }
 
-        .files-grid {
-            margin-top: 1.5rem;
-        }
-
-        .files-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .file-item {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: var(--border-radius);
-            padding: 1rem;
-            text-align: center;
-            transition: transform 0.3s, background-color 0.3s;
-            cursor: pointer;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .file-item:hover {
-            transform: translateY(-2px);
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .file-preview-img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            border-radius: var(--border-radius);
-            margin-bottom: 0.5rem;
-            background: var(--background-color);
-        }
-
-        .file-icon {
-            font-size: 3rem;
-            color: var(--text-color-secondary);
-            margin-bottom: 0.5rem;
-        }
-
-        .file-name {
-            font-size: 0.8rem;
-            word-break: break-all;
-            color: var(--text-color);
-        }
-
-        .file-type {
-            font-size: 0.7rem;
-            color: var(--text-color-secondary);
-            margin-top: 0.25rem;
-        }
-
-        .no-files {
-            color: var(--text-color-secondary);
+            .files-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
         }
     </style>
 </head>
@@ -864,7 +928,7 @@
 
             <div class="page-toggle">
                 <button class="toggle-btn active" id="uploadToggle">𝚄𝚙𝚕𝚘𝚊𝚍 𝙵𝚒𝚕𝚎</button>
-                <button class="toggle-btn" id="deleteToggle">𝙳𝚎𝚕𝚎𝚝𝚎 𝙵𝚒𝚕𝚎</button>
+                <button class="toggle-btn" id="viewToggle">𝚅𝚒𝚎𝚠 𝙵𝚒𝚕𝚎𝚜</button>
             </div>
 
             <div class="main-container">
@@ -873,8 +937,18 @@
                     <div class="upload-container">
                         <form class="upload-form" id="uploadForm" method="POST" enctype="multipart/form-data">
                             <div class="form-group">
-                                <label for="file">𝙲𝚑𝚘𝚘𝚜𝚎 𝙵𝚒𝚕𝚎 𝚝𝚘 𝚄𝚙𝚕𝚘𝚊𝚍:</label>
-                                <input type="file" id="file" name="file" accept="*" required>
+                                <label for="files">𝙲𝚑𝚘𝚘𝚜𝚎 𝙵𝚒𝚕𝚎(𝚜) 𝚝𝚘 𝚄𝚙𝚕𝚘𝚊𝚍:</label>
+                                <input type="file" id="files" name="files" accept="*" multiple required>
+                                <small>𝚂𝚎𝚕𝚎𝚌𝚝 𝚖𝚞𝚕𝚝𝚒𝚙𝚕𝚎 𝚏𝚒𝚕𝚎𝚜 𝚏𝚘𝚛 𝚋𝚞𝚕𝚔 𝚞𝚙𝚕𝚘𝚊𝚍</small>
+                            </div>
+
+                            <!-- Multiple Files Option -->
+                            <div class="multiple-files-option">
+                                <label class="switch">
+                                    <input type="checkbox" id="multipleFilesToggle">
+                                    <span class="slider"></span>
+                                </label>
+                                <span>𝙰𝚞𝚝𝚘 𝚊𝚍𝚍 𝚜𝚎𝚚𝚞𝚎𝚗𝚌𝚎 𝚗𝚞𝚖𝚋𝚎𝚛𝚜 (-1, -2, -3...)</span>
                             </div>
 
                             <!-- Filename Builder -->
@@ -918,20 +992,22 @@
                                     </div>
                                     <input type="text" id="customText" name="custom_text"
                                         placeholder="𝚎.𝚐., 𝟷, 𝟸, 𝚜𝚙𝚎𝚌𝚒𝚊𝚕..." class="search-input">
+                                    <small>𝙸𝚏 𝚗𝚞𝚖𝚋𝚎𝚛, 𝚜𝚎𝚚𝚞𝚎𝚗𝚌𝚎 𝚠𝚒𝚕𝚕 𝚜𝚝𝚊𝚛𝚝 𝚏𝚛𝚘𝚖 𝚝𝚑𝚒𝚜 +
+                                        𝟷</small>
                                 </div>
 
                                 <!-- Filename Preview -->
                                 <div class="filename-preview" id="filenamePreview">
-                                    𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...
+                                    𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎(𝚜) 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...
                                 </div>
                             </div>
 
-                            <!-- Authentication -->
-                            <div class="auth-section">
+                            <!-- Authentication - Hidden if token in URL -->
+                            <div class="auth-section" id="authSection">
                                 <div class="form-group">
                                     <label for="authCode">𝚂𝚎𝚌𝚛𝚎𝚝 𝙲𝚘𝚍𝚎:</label>
                                     <input type="password" id="authCode" name="auth_code"
-                                        placeholder="𝙴𝚗𝚝𝚎𝚛 𝚜𝚎𝚌𝚛𝚎𝚝 𝚌𝚘𝚍𝚎" required>
+                                        placeholder="𝙴𝚗𝚝𝚎𝚛 𝚜𝚎𝚌𝚛𝚎𝚝 𝚌𝚘𝚍𝚎">
                                 </div>
                             </div>
 
@@ -949,7 +1025,7 @@
                             </div>
 
                             <button type="submit" class="upload-btn" id="uploadBtn">
-                                <i class="fas fa-upload"></i> 𝚄𝚙𝚕𝚘𝚊𝚍 𝙵𝚒𝚕𝚎
+                                <i class="fas fa-upload"></i> 𝚄𝚙𝚕𝚘𝚊𝚍 𝙵𝚒𝚕𝚎(𝚜)
                             </button>
                         </form>
 
@@ -960,14 +1036,10 @@
                     </div>
                 </div>
 
-                <!-- File Viewer Page -->
-                <div class="delete-page" id="deletePage">
-                    <div class="delete-container">
-                        <div class="file-viewer">
-                            <h3 style="margin-bottom: 1.5rem; text-align: center;">
-                                <i class="fas fa-eye"></i> 𝚅𝚒𝚎𝚠 𝙵𝚒𝚕𝚎𝚜
-                            </h3>
-
+                <!-- View Page -->
+                <div class="view-page" id="viewPage">
+                    <div class="view-container">
+                        <form class="view-form" id="viewForm">
                             <div class="form-group">
                                 <label for="viewContentSearch">𝚂𝚎𝚕𝚎𝚌𝚝 𝙲𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳:</label>
                                 <div class="searchable-select">
@@ -975,21 +1047,22 @@
                                         placeholder="𝚂𝚎𝚊𝚛𝚌𝚑 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳...">
                                     <div class="options-container" id="viewContentOptions"></div>
                                 </div>
-                                <input type="hidden" id="viewContentId" name="content_id">
+                                <input type="hidden" id="viewContentId">
                             </div>
 
-                            <div class="files-grid" id="filesGrid" style="display: none;">
-                                <h4 style="margin: 1rem 0;">𝙰𝚟𝚊𝚒𝚕𝚊𝚋𝚕𝚎 𝙵𝚒𝚕𝚎𝚜:</h4>
-                                <div class="files-list" id="filesList"></div>
-                            </div>
+                            <button type="button" class="view-btn" id="viewBtn">
+                                <i class="fas fa-eye"></i> 𝚅𝚒𝚎𝚠 𝙵𝚒𝚕𝚎𝚜
+                            </button>
+                        </form>
 
-                            <div class="no-files" id="noFiles"
-                                style="display: none; text-align: center; padding: 2rem;">
-                                <i class="fas fa-folder-open"
-                                    style="font-size: 3rem; color: var(--text-color-secondary); margin-bottom: 1rem;"></i>
-                                <p>𝙽𝚘 𝚏𝚒𝚕𝚎𝚜 𝚏𝚘𝚞𝚗𝚍 𝚏𝚘𝚛 𝚝𝚑𝚒𝚜 𝚌𝚘𝚗𝚝𝚎𝚗𝚝</p>
+                        <div id="filesResults">
+                            <div class="no-files" id="noFilesMessage">
+                                𝚂𝚎𝚕𝚎𝚌𝚝 𝚊 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳 𝚝𝚘 𝚟𝚒𝚎𝚠 𝚏𝚒𝚕𝚎𝚜
                             </div>
+                            <div class="files-grid" id="filesGrid" style="display: none;"></div>
                         </div>
+
+                        <div class="status-message" id="viewStatusMessage"></div>
 
                         <a href="/" class="back-link">
                             <i class="fas fa-arrow-left"></i> 𝙱𝚊𝚌𝚔 𝚝𝚘 𝙷𝚘𝚖𝚎
@@ -1032,54 +1105,34 @@
 
         // Backend API URL - Update this with your Render URL after deployment
         const API_BASE_URL = 'https://file-uploader-je1o.onrender.com';
-        const VALID_AUTH_CODES = ['9661', '79033', '8399'];
+
+        // Check for token in URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+        if (token) {
+            // Hide authentication section if valid token is provided
+            document.getElementById('authSection').style.display = 'none';
+        }
 
         // Page Toggle Functionality
         const uploadToggle = document.getElementById('uploadToggle');
-        const deleteToggle = document.getElementById('deleteToggle');
+        const viewToggle = document.getElementById('viewToggle');
         const uploadPage = document.getElementById('uploadPage');
-        const deletePage = document.getElementById('deletePage');
+        const viewPage = document.getElementById('viewPage');
 
         uploadToggle.addEventListener('click', () => {
             uploadToggle.classList.add('active');
-            deleteToggle.classList.remove('active');
+            viewToggle.classList.remove('active');
             uploadPage.classList.remove('slide-left');
-            deletePage.classList.remove('slide-in');
-            // Update button text for view mode
-            deleteToggle.textContent = '𝚅𝚒𝚎𝚠 𝙵𝚒𝚕𝚎𝚜';
+            viewPage.classList.remove('slide-in');
         });
 
-        deleteToggle.addEventListener('click', () => {
-            deleteToggle.classList.add('active');
+        viewToggle.addEventListener('click', () => {
+            viewToggle.classList.add('active');
             uploadToggle.classList.remove('active');
             uploadPage.classList.add('slide-left');
-            deletePage.classList.add('slide-in');
-            // Update button text for view mode
-            deleteToggle.textContent = '𝚅𝚒𝚎𝚠 𝙵𝚒𝚕𝚎𝚜';
+            viewPage.classList.add('slide-in');
         });
-
-        // Token-based authentication check
-        function checkTokenAuth() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const token = urlParams.get('token');
-
-            if (token && VALID_AUTH_CODES.includes(token)) {
-                // Hide authentication sections
-                document.querySelectorAll('.auth-section').forEach(section => {
-                    section.style.display = 'none';
-                });
-
-                // Remove required attribute from auth inputs
-                const authCode = document.getElementById('authCode');
-                if (authCode) authCode.removeAttribute('required');
-
-                return true;
-            }
-            return false;
-        }
-
-        // Check token auth on page load
-        checkTokenAuth();
 
         // Content IDs and images from external data source
         let animeData = [];
@@ -1158,21 +1211,18 @@
 
         function populateContentOptions() {
             const optionsContainer = document.getElementById('contentOptions');
-            if (!optionsContainer) return;
-
             optionsContainer.innerHTML = '';
 
             animeData.forEach(item => {
                 const option = document.createElement('div');
                 option.className = 'option-item';
                 option.innerHTML = `
-    ${item.image ? `<img src="${item.image}" alt="${item.id}" class="option-image" onerror="this.style.display='none'">`
-                        : ''}
-    <div class="option-content">
-        <div class="option-id">${item.id}</div>
-        ${item.title !== item.id ? `<div class="option-title">${item.title}</div>` : ''}
-    </div>
-    `;
+                ${item.image ? `<img src="${item.image}" alt="${item.id}" class="option-image" onerror="this.style.display='none'">` : ''}
+                <div class="option-content">
+                    <div class="option-id">${item.id}</div>
+                    ${item.title !== item.id ? `<div class="option-title">${item.title}</div>` : ''}
+                </div>
+            `;
                 option.addEventListener('click', () => {
                     document.getElementById('contentSearch').value = item.id;
                     document.getElementById('contentId').value = item.id;
@@ -1185,26 +1235,22 @@
 
         function populateViewContentOptions() {
             const optionsContainer = document.getElementById('viewContentOptions');
-            if (!optionsContainer) return;
-
             optionsContainer.innerHTML = '';
 
             animeData.forEach(item => {
                 const option = document.createElement('div');
                 option.className = 'option-item';
                 option.innerHTML = `
-    ${item.image ? `<img src="${item.image}" alt="${item.id}" class="option-image" onerror="this.style.display='none'">`
-                        : ''}
-    <div class="option-content">
-        <div class="option-id">${item.id}</div>
-        ${item.title !== item.id ? `<div class="option-title">${item.title}</div>` : ''}
-    </div>
-    `;
+                ${item.image ? `<img src="${item.image}" alt="${item.id}" class="option-image" onerror="this.style.display='none'">` : ''}
+                <div class="option-content">
+                    <div class="option-id">${item.id}</div>
+                    ${item.title !== item.id ? `<div class="option-title">${item.title}</div>` : ''}
+                </div>
+            `;
                 option.addEventListener('click', () => {
                     document.getElementById('viewContentSearch').value = item.id;
                     document.getElementById('viewContentId').value = item.id;
                     optionsContainer.style.display = 'none';
-                    loadFilesForView(item.id);
                 });
                 optionsContainer.appendChild(option);
             });
@@ -1214,16 +1260,13 @@
         document.getElementById('contentSearch').addEventListener('input', function (e) {
             const searchTerm = e.target.value.toLowerCase();
             const optionsContainer = document.getElementById('contentOptions');
-            if (!optionsContainer) return;
-
             const options = optionsContainer.getElementsByClassName('option-item');
 
             let hasVisibleOptions = false;
 
             for (let option of options) {
                 const id = option.querySelector('.option-id').textContent.toLowerCase();
-                const title = option.querySelector('.option-title') ?
-                    option.querySelector('.option-title').textContent.toLowerCase() : '';
+                const title = option.querySelector('.option-title') ? option.querySelector('.option-title').textContent.toLowerCase() : '';
 
                 if (id.includes(searchTerm) || title.includes(searchTerm)) {
                     option.style.display = 'flex';
@@ -1240,16 +1283,13 @@
         document.getElementById('viewContentSearch').addEventListener('input', function (e) {
             const searchTerm = e.target.value.toLowerCase();
             const optionsContainer = document.getElementById('viewContentOptions');
-            if (!optionsContainer) return;
-
             const options = optionsContainer.getElementsByClassName('option-item');
 
             let hasVisibleOptions = false;
 
             for (let option of options) {
                 const id = option.querySelector('.option-id').textContent.toLowerCase();
-                const title = option.querySelector('.option-title') ?
-                    option.querySelector('.option-title').textContent.toLowerCase() : '';
+                const title = option.querySelector('.option-title') ? option.querySelector('.option-title').textContent.toLowerCase() : '';
 
                 if (id.includes(searchTerm) || title.includes(searchTerm)) {
                     option.style.display = 'flex';
@@ -1276,27 +1316,44 @@
         // Custom text input
         document.getElementById('customText').addEventListener('input', updateFilenamePreview);
 
+        // Multiple files toggle
+        document.getElementById('multipleFilesToggle').addEventListener('change', updateFilenamePreview);
+
         // File input change handler
-        document.getElementById('file').addEventListener('change', function (e) {
-            const file = e.target.files[0];
+        document.getElementById('files').addEventListener('change', function (e) {
+            const files = e.target.files;
             const preview = document.getElementById('filePreview');
             const previewContent = document.getElementById('previewContent');
 
-            if (file) {
+            if (files.length > 0) {
                 // Show preview
                 preview.style.display = 'block';
+                previewContent.innerHTML = '';
 
-                // Check if file is an image
-                if (file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        previewContent.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
-                    };
-                    reader.readAsDataURL(file);
-                } else {
-                    previewContent.innerHTML = `<p><strong>File Name:</strong> ${file.name}</p>
-    <p><strong>File Type:</strong> ${file.type || 'Unknown'}</p>
-    <p><strong>File Size:</strong> ${formatFileSize(file.size)}</p>`;
+                // Show file count
+                previewContent.innerHTML += `<p><strong>Selected Files:</strong> ${files.length} file(s)</p>`;
+
+                // Show preview for first image file
+                for (let i = 0; i < Math.min(files.length, 3); i++) {
+                    const file = files[i];
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            previewContent.innerHTML += `
+                                <div style="margin-bottom: 1rem;">
+                                    <p><strong>File ${i + 1}:</strong> ${file.name}</p>
+                                    <img src="${e.target.result}" alt="Preview ${i + 1}" style="max-width: 100px; max-height: 100px; border-radius: 8px; margin-right: 10px;">
+                                </div>
+                            `;
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        previewContent.innerHTML += `<p><strong>File ${i + 1}:</strong> ${file.name} (${file.type || 'Unknown'}) - ${formatFileSize(file.size)}</p>`;
+                    }
+                }
+
+                if (files.length > 3) {
+                    previewContent.innerHTML += `<p>... and ${files.length - 3} more file(s)</p>`;
                 }
 
                 updateFilenamePreview();
@@ -1305,127 +1362,125 @@
             }
         });
 
-        // Auto-rename functionality in filename preview
+        // Update filename preview
         function updateFilenamePreview() {
             const contentId = document.getElementById('contentId').value;
             const fileType = document.getElementById('fileType').value;
             const customText = document.getElementById('customText').value;
-            const fileInput = document.getElementById('file');
-            const file = fileInput.files[0];
+            const multipleFiles = document.getElementById('multipleFilesToggle').checked;
+            const fileInput = document.getElementById('files');
+            const files = fileInput.files;
 
-            let filename = '';
+            let previewText = '';
 
             if (contentId && fileType) {
-                filename = contentId + '-' + fileType;
-                if (customText) {
-                    filename += '-' + cleanFilename(customText);
-                }
+                const baseName = contentId + '-' + fileType + (customText ? '-' + cleanFilename(customText) : '');
 
-                if (file) {
-                    const extension = getFileExtension(file.name);
-                    filename += '.' + extension;
-
-                    // Check if filename would be unique
-                    checkFilenameUniqueness(filename).then(uniqueFilename => {
-                        const previewElement = document.getElementById('filenamePreview');
-                        if (uniqueFilename !== filename) {
-                            previewElement.innerHTML =
-                                `${filename} <br><small style="color: var(--primary-color);">(will be saved as: ${uniqueFilename})</small>`;
-                        } else {
-                            previewElement.textContent = filename;
+                if (files.length > 0) {
+                    if (multipleFiles && files.length > 1) {
+                        previewText = `Multiple files with sequence:\n`;
+                        for (let i = 0; i < files.length; i++) {
+                            const sequenceNum = customText && customText.isDigit() ? parseInt(customText) + i + 1 : i + 1;
+                            const extension = getFileExtension(files[i].name);
+                            previewText += `${baseName}-${sequenceNum}.${extension}\n`;
                         }
-                    });
+                    } else {
+                        const file = files[0];
+                        const extension = getFileExtension(file.name);
+                        previewText = `${baseName}.${extension}`;
+                        if (files.length > 1) {
+                            previewText += `\n(and ${files.length - 1} more files - enable sequence numbering)`;
+                        }
+                    }
                 } else {
-                    document.getElementById('filenamePreview').textContent = filename || '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...';
+                    previewText = `${baseName}.ext`;
                 }
-            } else {
-                document.getElementById('filenamePreview').textContent = '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...';
             }
+
+            document.getElementById('filenamePreview').textContent = previewText || '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎(𝚜) 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...';
         }
 
-        // Check if filename is unique and suggest alternative
-        async function checkFilenameUniqueness(filename) {
-            try {
-                // Get all existing files
-                const response = await fetch(`${API_BASE_URL}/files`);
-                const data = await response.json();
+        // View files functionality
+        document.getElementById('viewBtn').addEventListener('click', function () {
+            const contentId = document.getElementById('viewContentId').value;
 
-                let existingFiles = [];
-                if (response.ok && data.all_files) {
-                    existingFiles = data.all_files;
-                }
-
-                // Simple uniqueness check
-                if (!existingFiles.includes(filename)) {
-                    return filename;
-                }
-
-                // Generate unique name
-                const nameWithoutExt = filename.substring(0, filename.lastIndexOf('.'));
-                const ext = filename.substring(filename.lastIndexOf('.'));
-                let counter = 1;
-                let newFilename = filename;
-
-                while (existingFiles.includes(newFilename)) {
-                    newFilename = `${nameWithoutExt}-${counter}${ext}`;
-                    counter++;
-                }
-
-                return newFilename;
-            } catch (error) {
-                console.error('Error checking filename uniqueness:', error);
-                return filename;
+            if (!contentId) {
+                showViewStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳', 'error');
+                return;
             }
-        }
 
-        // Load files for viewing
-        function loadFilesForView(contentId) {
-            const filesGrid = document.getElementById('filesGrid');
-            const filesList = document.getElementById('filesList');
-            const noFiles = document.getElementById('noFiles');
+            viewFiles(contentId);
+        });
 
-            filesList.innerHTML = '';
-            filesGrid.style.display = 'none';
-            noFiles.style.display = 'none';
+        function viewFiles(contentId) {
+            let url = `${API_BASE_URL}/view-files?content_id=${encodeURIComponent(contentId)}`;
 
-            fetch(`${API_BASE_URL}/files/${contentId}`)
+            // Add token to URL if available
+            if (token) {
+                url += `&token=${encodeURIComponent(token)}`;
+            }
+
+            fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                    if (data.files && data.files.length > 0) {
-                        filesGrid.style.display = 'block';
-
-                        data.files.forEach(fileInfo => {
-                            const fileItem = document.createElement('div');
-                            fileItem.className = 'file-item';
-
-                            const isImage = fileInfo.is_image;
-                            const previewUrl = `${API_BASE_URL}/preview/${encodeURIComponent(fileInfo.filename)}`;
-
-                            fileItem.innerHTML = `
-    ${isImage ?
-                                    `<img src="${previewUrl}" alt="${fileInfo.filename}" class="file-preview-img" loading="lazy"
-        onerror="this.onerror=null; this.src='/icons/icon.png';">` :
-                                    `<div class="file-icon"><i class="fas fa-file"></i></div>`
-                                }
-    <div class="file-name">${fileInfo.filename}</div>
-    <div class="file-type">${isImage ? 'Image' : 'File'}</div>
-    `;
-
-                            fileItem.addEventListener('click', () => {
-                                window.open(previewUrl, '_blank');
-                            });
-
-                            filesList.appendChild(fileItem);
-                        });
+                    if (data.error) {
+                        showViewStatus(data.error, 'error');
                     } else {
-                        noFiles.style.display = 'block';
+                        displayFiles(data.files, contentId);
                     }
                 })
                 .catch(error => {
-                    console.error('Error loading files for view:', error);
-                    noFiles.style.display = 'block';
-                    noFiles.innerHTML = '<p>𝙴𝚛𝚛𝚘𝚛 𝚕𝚘𝚊𝚍𝚒𝚗𝚐 𝚏𝚒𝚕𝚎𝚜</p>';
+                    console.error('View files error:', error);
+                    showViewStatus('𝙵𝚊𝚒𝚕𝚎𝚍 𝚝𝚘 𝚕𝚘𝚊𝚍 𝚏𝚒𝚕𝚎𝚜', 'error');
                 });
+        }
+
+        function displayFiles(files, contentId) {
+            const filesGrid = document.getElementById('filesGrid');
+            const noFilesMessage = document.getElementById('noFilesMessage');
+
+            filesGrid.innerHTML = '';
+
+            if (files && files.length > 0) {
+                noFilesMessage.style.display = 'none';
+                filesGrid.style.display = 'grid';
+
+                files.forEach(file => {
+                    const fileCard = document.createElement('div');
+                    fileCard.className = 'file-card';
+
+                    const isImage = file.filename.toLowerCase().match(/\.(jpg|jpeg|png|gif|webp|bmp)$/);
+
+                    fileCard.innerHTML = `
+                        ${isImage ?
+                            `<img src="${file.preview_url}" alt="${file.filename}" class="file-image" onerror="this.src='/icons/icon.png'">` :
+                            `<div class="file-image" style="display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.1);">
+                                <i class="fas fa-file" style="font-size: 2rem;"></i>
+                            </div>`
+                        }
+                        <div class="file-info">
+                            <div class="file-name">${file.filename}</div>
+                            <div class="file-actions">
+                                <button class="file-action-btn" onclick="copyUrl('${file.url}')">
+                                    <i class="fas fa-copy"></i> URL
+                                </button>
+                                <button class="file-action-btn" onclick="viewFile('${file.url}')">
+                                    <i class="fas fa-external-link-alt"></i> View
+                                </button>
+                            </div>
+                        </div>
+                    `;
+
+                    filesGrid.appendChild(fileCard);
+                });
+
+                showViewStatus(`𝙵𝚘𝚞𝚗𝚍 ${files.length} 𝚏𝚒𝚕𝚎(𝚜) 𝚏𝚘𝚛 ${contentId}`, 'success');
+            } else {
+                noFilesMessage.textContent = `𝙽𝚘 𝚏𝚒𝚕𝚎𝚜 𝚏𝚘𝚞𝚗𝚍 𝚏𝚘𝚛 ${contentId}`;
+                noFilesMessage.style.display = 'block';
+                filesGrid.style.display = 'none';
+                showViewStatus(`𝙽𝚘 𝚏𝚒𝚕𝚎𝚜 𝚏𝚘𝚞𝚗𝚍 𝚏𝚘𝚛 ${contentId}`, 'error');
+            }
         }
 
         // Utility functions
@@ -1444,6 +1499,17 @@
             const i = Math.floor(Math.log(bytes) / Math.log(k));
             return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         }
+
+        // Global functions for file actions
+        window.copyUrl = function (url) {
+            navigator.clipboard.writeText(url).then(() => {
+                showViewStatus('𝙵𝚒𝚕𝚎 𝚄𝚁𝙻 𝚌𝚘𝚙𝚒𝚎𝚍 𝚝𝚘 𝚌𝚕𝚒𝚙𝚋𝚘𝚊𝚛𝚍', 'success');
+            });
+        };
+
+        window.viewFile = function (url) {
+            window.open(url, '_blank');
+        };
 
         // Close dropdowns when clicking outside
         document.addEventListener('click', function (e) {
@@ -1471,8 +1537,9 @@
             const contentId = document.getElementById('contentId').value;
             const fileType = document.getElementById('fileType').value;
             const authCode = document.getElementById('authCode').value;
-            const fileInput = document.getElementById('file');
-            const file = fileInput.files[0];
+            const multipleFiles = document.getElementById('multipleFilesToggle').checked;
+            const fileInput = document.getElementById('files');
+            const files = fileInput.files;
 
             if (!contentId) {
                 showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳', 'error');
@@ -1484,25 +1551,28 @@
                 return;
             }
 
-            if (!file) {
-                showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚏𝚒𝚕𝚎', 'error');
+            if (!files || files.length === 0) {
+                showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊𝚝 𝚕𝚎𝚊𝚜𝚝 𝚘𝚗𝚎 𝚏𝚒𝚕𝚎', 'error');
                 return;
             }
 
-            // Check if authentication is required but not provided
-            if (!checkTokenAuth() && !authCode) {
+            // Check authentication if no token in URL
+            if (!token && !authCode) {
                 showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚎𝚗𝚝𝚎𝚛 𝚜𝚎𝚌𝚛𝚎𝚝 𝚌𝚘𝚍𝚎', 'error');
                 return;
             }
 
             // Create FormData for file upload
             const formData = new FormData();
-            formData.append('file', file);
+            for (let i = 0; i < files.length; i++) {
+                formData.append('files', files[i]);
+            }
             formData.append('content_id', contentId);
             formData.append('file_type', fileType);
+            formData.append('multiple_files', multipleFiles.toString());
 
-            // Only add auth_code if not using token auth
-            if (!checkTokenAuth()) {
+            // Add auth_code only if no token in URL
+            if (!token && authCode) {
                 formData.append('auth_code', authCode);
             }
 
@@ -1511,12 +1581,12 @@
                 formData.append('custom_text', customText);
             }
 
-            // Upload file
-            uploadFile(formData);
+            // Upload files
+            uploadFiles(formData);
         });
 
-        // Upload file to backend
-        function uploadFile(formData) {
+        // Upload files to backend
+        function uploadFiles(formData) {
             const progressContainer = document.getElementById('progressContainer');
             const progressFill = document.getElementById('progressFill');
             const progressText = document.getElementById('progressText');
@@ -1527,54 +1597,41 @@
             uploadBtn.disabled = true;
             uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 𝚄𝚙𝚕𝚘𝚊𝚍𝚒𝚗𝚐...';
 
-            // Simulate progress for better UX
-            let progress = 0;
-            const progressInterval = setInterval(() => {
-                progress += Math.random() * 10;
-                if (progress > 90) progress = 90;
-                progressFill.style.width = progress + '%';
-                progressText.textContent = `𝚄𝚙𝚕𝚘𝚊𝚍𝚒𝚗𝚐... ${Math.round(progress)}%`;
-            }, 200);
+            // Add token to URL if available
+            let url = `${API_BASE_URL}/upload`;
+            if (token) {
+                url += `?token=${encodeURIComponent(token)}`;
+            }
 
-            fetch(`${API_BASE_URL}/upload`, {
+            fetch(url, {
                 method: 'POST',
                 body: formData
             })
                 .then(response => response.json())
                 .then(data => {
-                    clearInterval(progressInterval);
-                    progressFill.style.width = '100%';
-                    progressText.textContent = '𝙲𝚘𝚖𝚙𝚕𝚎𝚝𝚎!';
-
                     if (data.error) {
                         showStatus(data.error, 'error');
                     } else {
-                        let successMessage = `𝙵𝚒𝚕𝚎 "${data.filename}" 𝚞𝚙𝚕𝚘𝚊𝚍𝚎𝚍 𝚜𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢!`;
-                        if (data.was_renamed) {
-                            successMessage += ` (𝚊𝚞𝚝𝚘-𝚛𝚎𝚗𝚊𝚖𝚎𝚍 𝚝𝚘 𝚊𝚟𝚘𝚒𝚍 𝚍𝚞𝚙𝚕𝚒𝚌𝚊𝚝𝚎)`;
-                        }
-                        showStatus(successMessage, 'success');
+                        showStatus(`𝚂𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢 𝚞𝚙𝚕𝚘𝚊𝚍𝚎𝚍 ${data.filenames.length} 𝚏𝚒𝚕𝚎(𝚜)!`, 'success');
 
                         // Reset form
                         document.getElementById('uploadForm').reset();
                         document.getElementById('filePreview').style.display = 'none';
-                        document.getElementById('filenamePreview').textContent = '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...';
+                        document.getElementById('filenamePreview').textContent = '𝙵𝚒𝚕𝚎𝚗𝚊𝚖𝚎(𝚜) 𝚠𝚒𝚕𝚕 𝚊𝚙𝚙𝚎𝚊𝚛 𝚑𝚎𝚛𝚎...';
                         document.getElementById('contentId').value = '';
                         document.getElementById('fileType').value = '';
                         typeOptions.forEach(opt => opt.classList.remove('selected'));
+                        document.getElementById('multipleFilesToggle').checked = false;
                     }
                 })
                 .catch(error => {
-                    clearInterval(progressInterval);
                     console.error('Upload error:', error);
-                    showStatus('𝙵𝚊𝚒𝚕𝚎𝚍 𝚝𝚘 𝚞𝚙𝚕𝚘𝚊𝚍 𝚏𝚒𝚕𝚎', 'error');
+                    showStatus('𝙵𝚊𝚒𝚕𝚎𝚍 𝚝𝚘 𝚞𝚙𝚕𝚘𝚊𝚍 𝚏𝚒𝚕𝚎𝚜', 'error');
                 })
                 .finally(() => {
-                    setTimeout(() => {
-                        progressContainer.style.display = 'none';
-                        uploadBtn.disabled = false;
-                        uploadBtn.innerHTML = '<i class="fas fa-upload"></i> 𝚄𝚙𝚕𝚘𝚊𝚍 𝙵𝚒𝚕𝚎';
-                    }, 1000);
+                    progressContainer.style.display = 'none';
+                    uploadBtn.disabled = false;
+                    uploadBtn.innerHTML = '<i class="fas fa-upload"></i> 𝚄𝚙𝚕𝚘𝚊𝚍 𝙵𝚒𝚕𝚎(𝚜)';
                 });
         }
 
@@ -1591,8 +1648,8 @@
             }, 5000);
         }
 
-        function showDeleteStatus(message, type) {
-            const statusMessage = document.getElementById('deleteStatusMessage');
+        function showViewStatus(message, type) {
+            const statusMessage = document.getElementById('viewStatusMessage');
             statusMessage.textContent = message;
             statusMessage.className = 'status-message';
             statusMessage.classList.add(`status-${type}`);
@@ -1603,17 +1660,10 @@
             }, 5000);
         }
 
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', function () {
-            // Check token authentication
-            checkTokenAuth();
-
-            // Initialize all functionality
-            populateContentOptions();
-            populateViewContentOptions();
-
-            console.log('𝙰𝙼𝚅 𝚅𝙴𝚁𝚂𝙴 𝙵𝚒𝚕𝚎 𝙼𝚊𝚗𝚊𝚐𝚎𝚛 𝚕𝚘𝚊𝚍𝚎𝚍 𝚜𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢!');
-        });
+        // Add isDigit method to String prototype
+        String.prototype.isDigit = function () {
+            return /^\d+$/.test(this);
+        };
     </script>
 </body>
 
