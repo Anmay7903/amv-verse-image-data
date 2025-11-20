@@ -236,5 +236,6 @@ const images = [
   "alya-sometimes-hides-her-feelings-in-russian-screenshot-3.jpg",
   "alya-sometimes-hides-her-feelings-in-russian-screenshot-4.jpg",
   "alya-sometimes-hides-her-feelings-in-russian-screenshot-5.jpg",
-  "alya-sometimes-hides-her-feelings-in-russian-screenshot-6-6.jpg"
+  "alya-sometimes-hides-her-feelings-in-russian-screenshot-6-6.jpg",
+  "jujutsu-kaisen-0-character-yuta-okkotsu-yuta-okkotsu.jpg"
 ];
