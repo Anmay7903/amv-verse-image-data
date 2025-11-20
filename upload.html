@@ -713,45 +713,78 @@
             color: var(--text-color-secondary);
         }
 
-        .file-count-selector {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin: 1rem 0;
-        }
-
-        .file-count-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid transparent;
-            border-radius: var(--border-radius);
-            padding: 0.5rem 1rem;
-            color: var(--text-color);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .file-count-btn.selected {
-            border-color: var(--primary-color);
-            background: rgba(229, 9, 20, 0.1);
-        }
-
         .file-input-container {
-            display: grid;
+            display: flex;
+            flex-direction: column;
             gap: 1rem;
             margin: 1rem 0;
         }
 
-        .file-input-item {
+        .file-input-wrapper {
+            position: relative;
             display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: var(--border-radius);
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
-        .file-input-item input {
-            flex: 1;
+        .file-input-label {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .file-input-main {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--background-color);
+            color: var(--text-color);
+            font-family: var(--font-family);
+            cursor: pointer;
+        }
+
+        .file-input-main:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .add-file-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            color: var(--text-color-secondary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+            margin-top: 0.5rem;
+        }
+
+        .add-file-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary-color);
+            color: var(--text-color);
+        }
+
+        .remove-file-btn {
+            position: absolute;
+            right: 0.5rem;
+            top: 2.2rem;
+            background: rgba(244, 67, 54, 0.2);
+            border: none;
+            color: #F44336;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .remove-file-btn:hover {
+            background: rgba(244, 67, 54, 0.4);
         }
 
         .file-preview-grid {
@@ -881,10 +914,6 @@
             .files-grid {
                 grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             }
-
-            .file-count-selector {
-                flex-wrap: wrap;
-            }
         }
 
         @media (max-width: 480px) {
@@ -953,24 +982,17 @@
                 <div class="upload-page" id="uploadPage">
                     <div class="upload-container">
                         <form class="upload-form" id="uploadForm" method="POST" enctype="multipart/form-data">
-                            <!-- File Count Selector -->
+                            <!-- Single File Input Container -->
                             <div class="form-group">
-                                <label>𝙽𝚞𝚖𝚋𝚎𝚛 𝚘𝚏 𝙵𝚒𝚕𝚎𝚜:</label>
-                                <div class="file-count-selector">
-                                    <div class="file-count-btn selected" data-count="1">𝟷 𝙵𝚒𝚕𝚎</div>
-                                    <div class="file-count-btn" data-count="2">𝟸 𝙵𝚒𝚕𝚎𝚜</div>
-                                    <div class="file-count-btn" data-count="3">𝟹 𝙵𝚒𝚕𝚎𝚜</div>
-                                    <div class="file-count-btn" data-count="5">𝟻 𝙵𝚒𝚕𝚎𝚜</div>
-                                    <div class="file-count-btn" data-count="10">𝟷𝟶 𝙵𝚒𝚕𝚎𝚜</div>
+                                <label>𝚂𝚎𝚕𝚎𝚌𝚝 𝙵𝚒𝚕𝚎𝚜:</label>
+                                <div class="file-input-container" id="fileInputsContainer">
+                                    <div class="file-input-wrapper">
+                                        <label class="file-input-label">𝙵𝚒𝚕𝚎 𝟷:</label>
+                                        <input type="file" class="file-input-main" name="files[]" accept="*" required>
+                                    </div>
                                 </div>
-                                <input type="hidden" id="fileCount" name="file_count" value="1">
-                            </div>
-
-                            <!-- Dynamic File Inputs -->
-                            <div class="file-input-container" id="fileInputsContainer">
-                                <div class="form-group">
-                                    <label for="file1">𝙵𝚒𝚕𝚎 𝟷:</label>
-                                    <input type="file" id="file1" name="files[]" accept="*" required>
+                                <div class="add-file-btn" id="addFileBtn">
+                                    <i class="fas fa-plus"></i> 𝙰𝚍𝚍 𝙰𝚗𝚘𝚝𝚑𝚎𝚛 𝙵𝚒𝚕𝚎
                                 </div>
                             </div>
 
@@ -1155,39 +1177,82 @@
         loadAllFiles();
     });
 
-    // File Count Selector
-    const fileCountBtns = document.querySelectorAll('.file-count-btn');
-    const fileCountInput = document.getElementById('fileCount');
+    // File Input Management
     const fileInputsContainer = document.getElementById('fileInputsContainer');
+    const addFileBtn = document.getElementById('addFileBtn');
+    let fileCount = 1;
 
-    fileCountBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            fileCountBtns.forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
-            const count = parseInt(btn.dataset.count);
-            fileCountInput.value = count;
-            updateFileInputs(count);
-        });
+    // Add file input
+    addFileBtn.addEventListener('click', () => {
+        if (fileCount < 10) {
+            fileCount++;
+            addFileInput(fileCount);
+            updateFilenamePreview();
+        } else {
+            showStatus('𝙼𝚊𝚡𝚒𝚖𝚞𝚖 𝟷𝟶 𝚏𝚒𝚕𝚎𝚜 𝚊𝚕𝚕𝚘𝚠𝚎𝚍', 'error');
+        }
     });
 
-    function updateFileInputs(count) {
-        fileInputsContainer.innerHTML = '';
-        for (let i = 1; i <= count; i++) {
-            const fileInput = document.createElement('div');
-            fileInput.className = 'form-group';
-            fileInput.innerHTML = `
-                <label for="file${i}">𝙵𝚒𝚕𝚎 ${i}:</label>
-                <input type="file" id="file${i}" name="files[]" accept="*" ${i === 1 ? 'required' : ''}>
-            `;
-            fileInputsContainer.appendChild(fileInput);
-        }
+    function addFileInput(index) {
+        const fileInputWrapper = document.createElement('div');
+        fileInputWrapper.className = 'file-input-wrapper';
+        fileInputWrapper.innerHTML = `
+            <label class="file-input-label">𝙵𝚒𝚕𝚎 ${index}:</label>
+            <input type="file" class="file-input-main" name="files[]" accept="*">
+            <button type="button" class="remove-file-btn" data-index="${index}">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+        fileInputsContainer.appendChild(fileInputWrapper);
 
-        // Add event listeners to new file inputs
-        document.querySelectorAll('input[type="file"]').forEach(input => {
-            input.addEventListener('change', handleFileInputChange);
+        // Add event listener to new file input
+        const fileInput = fileInputWrapper.querySelector('.file-input-main');
+        fileInput.addEventListener('change', handleFileInputChange);
+
+        // Add event listener to remove button
+        const removeBtn = fileInputWrapper.querySelector('.remove-file-btn');
+        removeBtn.addEventListener('click', function() {
+            const indexToRemove = parseInt(this.getAttribute('data-index'));
+            removeFileInput(indexToRemove);
         });
+    }
 
-        updateFilenamePreview();
+    function removeFileInput(index) {
+        if (fileCount > 1) {
+            const inputs = fileInputsContainer.querySelectorAll('.file-input-wrapper');
+            inputs.forEach((wrapper, i) => {
+                const wrapperIndex = parseInt(wrapper.querySelector('.remove-file-btn').getAttribute('data-index'));
+                if (wrapperIndex === index) {
+                    wrapper.remove();
+                    fileCount--;
+                    
+                    // Renumber remaining inputs
+                    renumberFileInputs();
+                    updateFilenamePreview();
+                    return;
+                }
+            });
+        }
+    }
+
+    function renumberFileInputs() {
+        const inputs = fileInputsContainer.querySelectorAll('.file-input-wrapper');
+        inputs.forEach((wrapper, index) => {
+            const newIndex = index + 1;
+            const label = wrapper.querySelector('.file-input-label');
+            const removeBtn = wrapper.querySelector('.remove-file-btn');
+            
+            label.textContent = `𝙵𝚒𝚕𝚎 ${newIndex}:`;
+            removeBtn.setAttribute('data-index', newIndex);
+            
+            // Make first input required
+            const fileInput = wrapper.querySelector('.file-input-main');
+            if (newIndex === 1) {
+                fileInput.required = true;
+            } else {
+                fileInput.required = false;
+            }
+        });
     }
 
     // Content IDs and images from external data source
@@ -1395,11 +1460,16 @@
 
     // File input change handler
     function handleFileInputChange(e) {
-        const files = document.querySelectorAll('input[type="file"]');
+        updateFilePreview();
+        updateFilenamePreview();
+    }
+
+    function updateFilePreview() {
+        const fileInputs = document.querySelectorAll('.file-input-main');
         const preview = document.getElementById('filePreview');
         const previewContent = document.getElementById('previewContent');
 
-        const validFiles = Array.from(files).filter(input => input.files.length > 0);
+        const validFiles = Array.from(fileInputs).filter(input => input.files.length > 0);
 
         if (validFiles.length > 0) {
             // Show preview
@@ -1431,18 +1501,14 @@
 
                 previewContent.appendChild(previewItem);
             });
-
-            updateFilenamePreview();
         } else {
             preview.style.display = 'none';
         }
     }
 
-    // Add event listeners to file inputs
+    // Add event listeners to initial file input
     document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('input[type="file"]').forEach(input => {
-            input.addEventListener('change', handleFileInputChange);
-        });
+        document.querySelector('.file-input-main').addEventListener('change', handleFileInputChange);
     });
 
     // Update filename preview with new numbering logic
@@ -1450,8 +1516,7 @@
         const contentId = document.getElementById('contentId').value;
         const fileType = document.getElementById('fileType').value;
         const customText = document.getElementById('customText').value;
-        const fileCount = parseInt(document.getElementById('fileCount').value);
-        const fileInputs = document.querySelectorAll('input[type="file"]');
+        const fileInputs = document.querySelectorAll('.file-input-main');
 
         let baseFilename = '';
 
@@ -1652,9 +1717,8 @@
         const contentId = document.getElementById('contentId').value;
         const fileType = document.getElementById('fileType').value;
         const authCode = document.getElementById('authCode').value;
-        const fileCount = parseInt(document.getElementById('fileCount').value);
-        const fileInputs = document.querySelectorAll('input[type="file"]');
         const customText = document.getElementById('customText').value;
+        const fileInputs = document.querySelectorAll('.file-input-main');
 
         if (!contentId) {
             showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊 𝚌𝚘𝚗𝚝𝚎𝚗𝚝 𝙸𝙳', 'error');
@@ -1666,10 +1730,10 @@
             return;
         }
 
-        // Check if correct number of files are selected
+        // Check if at least one file is selected
         const selectedFiles = Array.from(fileInputs).filter(input => input.files.length > 0);
-        if (selectedFiles.length !== fileCount) {
-            showStatus(`𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚎𝚡𝚊𝚌𝚝𝚕𝚢 ${fileCount} 𝚏𝚒𝚕𝚎(s)`, 'error');
+        if (selectedFiles.length === 0) {
+            showStatus('𝙿𝚕𝚎𝚊𝚜𝚎 𝚜𝚎𝚕𝚎𝚌𝚝 𝚊𝚝 𝚕𝚎𝚊𝚜𝚝 𝚘𝚗𝚎 𝚏𝚒𝚕𝚎', 'error');
             return;
         }
 
@@ -1680,7 +1744,7 @@
         });
         formData.append('content_id', contentId);
         formData.append('file_type', fileType);
-        formData.append('file_count', fileCount);
+        formData.append('file_count', selectedFiles.length.toString());
 
         // Parse custom text for starting number
         let startNumber = 1;
@@ -1742,7 +1806,18 @@
                     document.getElementById('contentId').value = '';
                     document.getElementById('fileType').value = '';
                     typeOptions.forEach(opt => opt.classList.remove('selected'));
-                    fileCountBtns[0].click(); // Reset to 1 file
+                    
+                    // Reset file inputs to just one
+                    fileInputsContainer.innerHTML = `
+                        <div class="file-input-wrapper">
+                            <label class="file-input-label">𝙵𝚒𝚕𝚎 𝟷:</label>
+                            <input type="file" class="file-input-main" name="files[]" accept="*" required>
+                        </div>
+                    `;
+                    fileCount = 1;
+                    
+                    // Re-add event listener
+                    document.querySelector('.file-input-main').addEventListener('change', handleFileInputChange);
                 }
             })
             .catch(error => {
