@@ -230,5 +230,10 @@ const images = [
   "a-couple-of-cuckoos-season-2-screenshot-7.jpg",
   "a-couple-of-cuckoos-season-2-screenshot-8.jpg",
   "a-couple-of-cuckoos-season-2-screenshot-9.jpg",
-  "a-couple-of-cuckoos-season-2-screenshot-10.jpg"
+  "a-couple-of-cuckoos-season-2-screenshot-10.jpg",
+  "alya-sometimes-hides-her-feelings-in-russian-screenshot-1.jpg",
+  "alya-sometimes-hides-her-feelings-in-russian-screenshot-2.jpg",
+  "alya-sometimes-hides-her-feelings-in-russian-screenshot-3.jpg",
+  "alya-sometimes-hides-her-feelings-in-russian-screenshot-4.jpg",
+  "alya-sometimes-hides-her-feelings-in-russian-screenshot-5.jpg"
 ];
