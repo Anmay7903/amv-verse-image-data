@@ -235,5 +235,6 @@ const images = [
   "alya-sometimes-hides-her-feelings-in-russian-screenshot-2.jpg",
   "alya-sometimes-hides-her-feelings-in-russian-screenshot-3.jpg",
   "alya-sometimes-hides-her-feelings-in-russian-screenshot-4.jpg",
-  "alya-sometimes-hides-her-feelings-in-russian-screenshot-5.jpg"
+  "alya-sometimes-hides-her-feelings-in-russian-screenshot-5.jpg",
+  "alya-sometimes-hides-her-feelings-in-russian-screenshot-6-6.jpg"
 ];
