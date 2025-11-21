@@ -1,7 +1,7 @@
-name = "cdn-amvverse"
+name = "cdn"
 main = "src/worker.js"
 compatibility_date = "2025-11-20"
 
 [assets]
-directory = "./PUBLIC"
+directory = "./images"
 binding = "ASSETS"
