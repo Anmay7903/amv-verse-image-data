@@ -236,8 +236,8 @@ const images = [
   "alya-sometimes-hides-her-feelings-in-russian-screenshot-3.jpg",
   "alya-sometimes-hides-her-feelings-in-russian-screenshot-4.jpg",
   "alya-sometimes-hides-her-feelings-in-russian-screenshot-5.jpg",
-  "alya-sometimes-hides-her-feelings-in-russian-screenshot-6-6.jpg",
-  "jujutsu-kaisen-0-character-yuta-okkotsu-yuta-okkotsu.jpg",
-  "jujutsu-kaisen-0-character-rika-orimoto-rika-orimoto.jpg",
-  "jujutsu-kaisen-0-character-maki-zenin-maki-zenin.jpg"
+  "alya-sometimes-hides-her-feelings-in-russian-screenshot-6.jpg",
+  "jujutsu-kaisen-0-character-yuta-okkotsu.jpg",
+  "jujutsu-kaisen-0-character-rika-orimoto.jpg",
+  "jujutsu-kaisen-0-character-maki-zenin.jpg"
 ];
