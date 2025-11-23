@@ -275,5 +275,6 @@ const images = [
   "alya-sometimes-hides-her-feelings-in-russian-screenshot-6.jpg",
   "jujutsu-kaisen-0-character-yuta-okkotsu.jpg",
   "jujutsu-kaisen-0-character-rika-orimoto.jpg",
-  "jujutsu-kaisen-0-character-maki-zenin.jpg"
+  "jujutsu-kaisen-0-character-maki-zenin.jpg",
+  "vtuber-legend-how-i-went-viral-character-Hareru.webp"
 ];
