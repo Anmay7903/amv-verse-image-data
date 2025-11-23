@@ -234,6 +234,8 @@ const images = [
   "jujutsu-kaisen-screenshot-6.jpg",
   "jujutsu-kaisen-screenshot-7.jpg",
   "jujutsu-kaisen-screenshot-8.jpg",
+  "jujutsu-kaisen-screenshot-9.jpg",
+  "jujutsu-kaisen-screenshot-10.jpg",
   "fragrant-flower-blooms-with-dignity-screenshot-1.jpg",
   "fragrant-flower-blooms-with-dignity-screenshot-2.jpg",
   "fragrant-flower-blooms-with-dignity-screenshot-3.jpg",
