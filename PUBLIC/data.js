@@ -278,5 +278,6 @@ const images = [
   "jujutsu-kaisen-0-character-maki-zenin.jpg",
   "vtuber-legend-how-i-went-viral-character-Hareru.webp",
   "vtuber-legend-how-i-went-viral-character-Nekoma.webp",
-  "vtuber-legend-how-i-went-viral-character-Mashiro.webp"
+  "vtuber-legend-how-i-went-viral-character-Mashiro.webp",
+  "vtuber-legend-how-i-went-viral-character-Shion.webp"
 ];
