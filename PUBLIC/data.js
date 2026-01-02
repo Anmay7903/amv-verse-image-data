@@ -741,5 +741,6 @@ const images = [
   "your-name-screenshot-8.jpg",
   "your-name-screenshot-9.jpg",
   "your-name-screenshot-10.jpg",
-  "medaka-kuroiwa-is-impervious-to-my-charms-poster.jpg"
+  "medaka-kuroiwa-is-impervious-to-my-charms-poster.jpg",
+  "medaka-kuroiwa-is-impervious-to-my-charms-card.jpg"
 ];
