@@ -744,5 +744,6 @@ const images = [
   "medaka-kuroiwa-is-impervious-to-my-charms-poster.jpg",
   "medaka-kuroiwa-is-impervious-to-my-charms-card.jpg",
   "more-than-a-married-couple-but-not-lovers-card.jpg",
-  "more-than-a-married-couple-but-not-lovers-poster.jpg"
+  "more-than-a-married-couple-but-not-lovers-poster.jpg",
+  "shikimori-is-not-just-a-cutie-card.jpg"
 ];
