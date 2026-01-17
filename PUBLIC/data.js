@@ -743,5 +743,6 @@ const images = [
   "your-name-screenshot-10.jpg",
   "medaka-kuroiwa-is-impervious-to-my-charms-poster.jpg",
   "medaka-kuroiwa-is-impervious-to-my-charms-card.jpg",
-  "more-than-a-married-couple-but-not-lovers-card.jpg"
+  "more-than-a-married-couple-but-not-lovers-card.jpg",
+  "more-than-a-married-couple-but-not-lovers-poster.jpg"
 ];
