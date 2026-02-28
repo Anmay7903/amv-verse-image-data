@@ -748,5 +748,6 @@ const images = [
   "shikimori-is-not-just-a-cutie-card.jpg",
   "shikimori-is-not-just-a-cutie-poster.jpg",
   "jujutsu-kaisen-3-card.jpg",
-  "jujutsu-kaisen-3-poster.jpg"
+  "jujutsu-kaisen-3-poster.jpg",
+  "kunon-the-sorcerer-can-see-card.jpg"
 ];
