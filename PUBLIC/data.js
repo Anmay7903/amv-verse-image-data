@@ -746,5 +746,6 @@ const images = [
   "more-than-a-married-couple-but-not-lovers-card.jpg",
   "more-than-a-married-couple-but-not-lovers-poster.jpg",
   "shikimori-is-not-just-a-cutie-card.jpg",
-  "shikimori-is-not-just-a-cutie-poster.jpg"
+  "shikimori-is-not-just-a-cutie-poster.jpg",
+  "jujutsu-kaisen-3-card.jpg"
 ];
