@@ -751,5 +751,6 @@ const images = [
   "jujutsu-kaisen-3-poster.jpg",
   "kunon-the-sorcerer-can-see-card.jpg",
   "kunon-the-sorcerer-can-see-poster.jpg",
-  "kunon-the-sorcerer-can-see-screenshot-1.jpg"
+  "kunon-the-sorcerer-can-see-screenshot-1.jpg",
+  "kunon-the-sorcerer-can-see-screenshot-2.jpg"
 ];
