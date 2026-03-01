@@ -760,5 +760,6 @@ const images = [
   "kunon-the-sorcerer-can-see-screenshot-7.jpg",
   "kunon-the-sorcerer-can-see-screenshot-8.jpg",
   "kunon-the-sorcerer-can-see-screenshot-9.jpg",
-  "kunon-the-sorcerer-can-see-screenshot-10.jpg"
+  "kunon-the-sorcerer-can-see-screenshot-10.jpg",
+  "horimiya-the-missing-piece-season-2-screenshot.jpg"
 ];
