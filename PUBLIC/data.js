@@ -757,5 +757,6 @@ const images = [
   "kunon-the-sorcerer-can-see-screenshot-4.jpg",
   "kunon-the-sorcerer-can-see-screenshot-5.jpg",
   "kunon-the-sorcerer-can-see-screenshot-6.jpg",
-  "kunon-the-sorcerer-can-see-screenshot-7.jpg"
+  "kunon-the-sorcerer-can-see-screenshot-7.jpg",
+  "kunon-the-sorcerer-can-see-screenshot-8.jpg"
 ];
